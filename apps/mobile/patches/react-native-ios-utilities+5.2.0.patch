@@ -1,0 +1,32 @@
+diff --git a/node_modules/react-native-ios-utilities/ios/Sources/Extensions+Helpers/RCTView+Helpers.swift b/node_modules/react-native-ios-utilities/ios/Sources/Extensions+Helpers/RCTView+Helpers.swift
+index 09be306..8af47a1 100644
+--- a/node_modules/react-native-ios-utilities/ios/Sources/Extensions+Helpers/RCTView+Helpers.swift
++++ b/node_modules/react-native-ios-utilities/ios/Sources/Extensions+Helpers/RCTView+Helpers.swift
+@@ -25,17 +25,6 @@ public extension RCTView {
+     return rootView.recursivelyFindSubview(whereType: targetType);
+   };
+   
+-  var closestParentReactContentView: RCTRootContentView? {
+-    let targetType = RCTRootContentView.self;
+-  
+-    if let match = self.recursivelyFindParentView(whereType: targetType) {
+-      return match;
+-    };
+-    
+-    guard let rootView = self.rootViewForCurrentWindow else { return nil };
+-    return rootView.recursivelyFindSubview(whereType: targetType);
+-  };
+-  
+   var reactTouchHandlers: [RCTTouchHandler]? {
+     self.gestureRecognizers?.compactMap {
+       $0 as? RCTTouchHandler
+@@ -58,6 +47,8 @@ public extension RCTView {
+       currentView = superview;
+     };
+     
+-    return closestParentReactContentView?.reactTouchHandlers?.first;
++    // RCTRootContentView was removed with the legacy architecture (RN 0.82+);
++    // under Fabric there is no root content view touch handler to fall back to.
++    return nil;
+   };
+ };

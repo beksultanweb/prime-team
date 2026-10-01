@@ -12,7 +12,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd frontend && yarn dev",
     "build": "cd frontend && yarn build",
-    "postinstall": "yarn install-web && yarn install-desk",
+    "postinstall": "patch-package --patch-dir apps/mobile/patches && yarn install-web && yarn install-desk",
     "install-desk": "cd raven && yarn install",
     "install-web": "cd frontend && yarn install"
   },
@@ -20,6 +20,7 @@
   "author": "",
   "license": "AGPL-3.0-only",
   "devDependencies": {
+    "patch-package": "^8",
     "turbo": "^2.3.3"
   },
   "dependencies": {}

@@ -85,6 +85,7 @@ module.exports = {
             'expo-sharing',
             'expo-status-bar',
             'expo-web-browser',
+            './plugins/withReleaseSigning',
         ],
         extra: {
             router: {
