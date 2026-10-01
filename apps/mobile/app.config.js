@@ -81,10 +81,6 @@ module.exports = {
                 },
             ],
             'expo-video',
-            'expo-image',
-            'expo-sharing',
-            'expo-status-bar',
-            'expo-web-browser',
             './plugins/withReleaseSigning',
         ],
         extra: {

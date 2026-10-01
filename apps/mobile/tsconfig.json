@@ -6,8 +6,6 @@
     "composite": true,
     "moduleResolution": "bundler",
     "baseUrl": ".",
-    // baseUrl is deprecated in TypeScript 6; imports like "types/..." rely on it
-    "ignoreDeprecations": "6.0",
     // Shared types in packages/types are global declarations (no exports)
     "moduleDetection": "auto",
     "paths": {
