@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { ImageMessage } from "@raven/types/common/Message";
 import { UserFields } from "@raven/types/common/UserFields";
 import { View } from "react-native";
@@ -15,16 +16,15 @@ interface ImageMessageProps {
 }
 
 export const ImageMessageRenderer = ({ message, doubleTapGesture }: ImageMessageProps) => {
+    const chatPath = useChatPath()
 
 
     const { source, ...otherAttributes } = useGetImageAttributes(message)
 
     const handleImagePress = useCallback(() => {
         router.push({
-            pathname: './file-viewer',
+            pathname: chatPath('file-viewer'),
             params: { uri: source?.uri },
-        }, {
-            relativeToDirectory: true
         })
     }, [source?.uri])
 

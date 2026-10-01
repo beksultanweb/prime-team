@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { Divider } from '@components/layout/Divider';
 import { ChannelListItem } from '@raven/types/common/ChannelListItem';
 import { useMemo, useState } from 'react';
@@ -27,6 +28,7 @@ const ChannelsList = ({ channels }: { channels: ChannelListItem[] }) => {
 }
 
 export const ChannelListUI = ({ channels }: { channels: ChannelListItem[] }) => {
+    const sitePath = useSitePath()
 
     const [isExpanded, setIsExpanded] = useState(true)
     const { colors } = useColorScheme()
@@ -43,7 +45,7 @@ export const ChannelListUI = ({ channels }: { channels: ChannelListItem[] }) => 
                     <Pressable
                         hitSlop={10}
                         className='active:bg-card-background px-1.5 py-1 rounded-lg'
-                        onPress={() => router.push('../home/create-channel', { relativeToDirectory: true })}>
+                        onPress={() => router.push(sitePath('home/create-channel'))}>
                         <PlusIcon fill={colors.icon} height={20} width={20} />
                     </Pressable>
                     {isExpanded ? <ChevronDownIcon fill={colors.icon} /> : <ChevronRightIcon fill={colors.icon} />}
@@ -52,7 +54,7 @@ export const ChannelListUI = ({ channels }: { channels: ChannelListItem[] }) => 
             {isExpanded && <>
                 {channels.map((channel) => <ChannelListRow key={channel.name} channel={channel} />)}
                 <Pressable style={styles.addChannelButton} className='ios:active:bg-linkColor'
-                    onPress={() => router.push('../home/create-channel', { relativeToDirectory: true })}>
+                    onPress={() => router.push(sitePath('home/create-channel'))}>
                     <PlusIcon fill={colors.icon} height={18} width={18} />
                     <Text style={styles.addChannelText}>Создать канал</Text>
                 </Pressable>

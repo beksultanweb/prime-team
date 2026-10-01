@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { Text } from '@components/nativewindui/Text'
 import useFileURL from '@hooks/useFileURL'
 import { getFileName } from '@raven/lib/utils/operations'
@@ -17,6 +18,7 @@ type Props = {
 }
 
 const FileMessageRenderer = ({ message, doubleTapGesture }: Props) => {
+    const chatPath = useChatPath()
 
     const source = useFileURL((message as FileMessage).file ?? "");
 
@@ -25,10 +27,8 @@ const FileMessageRenderer = ({ message, doubleTapGesture }: Props) => {
     const handleFilePress = useCallback(() => {
         if (Platform.OS === 'ios') {
             router.push({
-                pathname: './file-viewer',
+                pathname: chatPath('file-viewer'),
                 params: { uri: source?.uri },
-            }, {
-                relativeToDirectory: true
             })
         }
         else {

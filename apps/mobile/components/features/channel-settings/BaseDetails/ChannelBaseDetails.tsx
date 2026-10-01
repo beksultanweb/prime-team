@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { ChannelListItem } from '@raven/types/common/ChannelListItem'
 import { FrappeDoc } from 'frappe-react-sdk'
 import { View } from 'react-native'
@@ -8,6 +9,7 @@ import { Button } from '@components/nativewindui/Button'
 import { router } from 'expo-router'
 
 const ChannelBaseDetails = ({ channelData }: { channelData: FrappeDoc<ChannelListItem> | undefined }) => {
+    const chatPath = useChatPath()
 
     const { colors } = useColorScheme()
 
@@ -19,7 +21,7 @@ const ChannelBaseDetails = ({ channelData }: { channelData: FrappeDoc<ChannelLis
                     <Text className='text-[20px] font-semibold'>{channelData?.channel_name}</Text>
                 </View>
                 <Button variant="plain" size="none"
-                    onPress={() => { router.push(`../edit-channel-details`, { relativeToDirectory: true }) }}>
+                    onPress={() => { router.push(chatPath('edit-channel-details')) }}>
                     <Text className='text-[15px] font-medium text-primary dark:text-secondary mr-1'>Изменить</Text>
                 </Button>
             </View>

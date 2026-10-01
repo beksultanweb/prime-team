@@ -1,4 +1,5 @@
-import { Link, router, Stack } from 'expo-router';
+import { useSitePath } from '@hooks/useSitePath'
+import { router, Stack } from 'expo-router';
 import { Button } from '@components/nativewindui/Button';
 import CrossIcon from '@assets/icons/CrossIcon.svg';
 import { useColorScheme } from '@hooks/useColorScheme';
@@ -20,12 +21,13 @@ import { Text } from '@components/nativewindui/Text';
 import { LegendList } from '@legendapp/list/react-native';
 
 export default function QuickSearch() {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
 
     const openMenuItemSheet = (url: string) => {
         router.back()
-        router.push(url, { relativeToDirectory: false })
+        router.push(sitePath(url))
     }
 
     const [searchQuery, setSearchQuery] = useState('')
@@ -33,7 +35,7 @@ export default function QuickSearch() {
 
     const onChannelPress = (channel: ChannelListItem | DMChannelListItem) => {
         router.back()
-        router.push(`../../chat/${channel.name}`)
+        router.push(sitePath(`chat/${channel.name}`))
     }
 
     return <>
@@ -41,11 +43,9 @@ export default function QuickSearch() {
             title: 'Быстрый поиск',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
-                    <Link asChild href="../" relativeToDirectory>
-                        <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                    <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                             <CrossIcon color={colors.icon} height={24} width={24} />
                         </Button>
-                    </Link>
                 )
             } : undefined,
         }} />
@@ -59,19 +59,19 @@ export default function QuickSearch() {
             </View>
             <View className='flex flex-row justify-center gap-2'>
                 <ActionButtonLarge
-                    onPress={() => openMenuItemSheet('../home/browse-channels')}
+                    onPress={() => openMenuItemSheet('home/browse-channels')}
                     icon={<HashIcon fill={colors.grey} height={20} width={20} />}
                     text="Все каналы"
                     textProps={{ className: 'text-sm text-muted-foreground' }}
                 />
                 <ActionButtonLarge
-                    onPress={() => openMenuItemSheet('../home/create-dm')}
+                    onPress={() => openMenuItemSheet('home/create-dm')}
                     icon={<UserIcon fill={colors.grey} height={20} width={20} />}
                     text="Новое личное сообщение"
                     textProps={{ className: 'text-sm text-muted-foreground' }}
                 />
                 <ActionButtonLarge
-                    onPress={() => openMenuItemSheet('../home/create-channel')}
+                    onPress={() => openMenuItemSheet('home/create-channel')}
                     icon={<PlusIcon fill={colors.grey} height={20} width={20} />}
                     text="Новый канал"
                     textProps={{ className: 'text-sm text-muted-foreground' }}

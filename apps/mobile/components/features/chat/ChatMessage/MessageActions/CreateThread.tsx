@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { Message } from '@raven/types/common/Message'
 import { useColorScheme } from '@hooks/useColorScheme'
 import { useFrappePostCall } from "frappe-react-sdk"
@@ -12,6 +13,7 @@ interface CreateThreadProps {
 }
 
 const CreateThread = ({ message, onClose }: CreateThreadProps) => {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
     const { createThread } = useCreateThread(message)
@@ -21,7 +23,7 @@ const CreateThread = ({ message, onClose }: CreateThreadProps) => {
             .then((thread) => {
                 onClose()
                 if (thread) {
-                    router.push(`../thread/${thread.thread_id}`)
+                    router.push(sitePath(`thread/${thread.thread_id}`))
                 }
             })
     }

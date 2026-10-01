@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { Pressable, View } from 'react-native'
 import { Text } from '@components/nativewindui/Text'
 import SettingsIcon from '@assets/icons/SettingsIcon.svg'
@@ -6,13 +7,12 @@ import ChevronRightIconThin from '@assets/icons/ChevronRightIconThin.svg'
 import { router } from 'expo-router'
 
 const Preferences = () => {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
 
     const handleGoToCustomStatus = () => {
-        router.push('./preferences', {
-            relativeToDirectory: true
-        })
+        router.push(sitePath('profile/preferences'))
     }
 
     return (

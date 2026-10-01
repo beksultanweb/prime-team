@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { Pressable, View } from 'react-native';
 import Animated, { LayoutAnimationConfig, ZoomInRotate } from 'react-native-reanimated';
 import { cn } from '@lib/cn';
@@ -8,6 +9,7 @@ import { router } from 'expo-router';
 import { useFrappeEventListener, useFrappeGetCall } from 'frappe-react-sdk';
 
 export function ViewMentionsButton() {
+    const sitePath = useSitePath()
 
     const { data: mentionsCount, mutate } = useFrappeGetCall<{ message: number }>('raven.api.mentions.get_unread_mention_count', undefined, undefined, {
         revalidateOnFocus: true,
@@ -20,7 +22,7 @@ export function ViewMentionsButton() {
 
     const onViewMentions = () => {
         mutate({ message: 0 }, { revalidate: false })
-        router.push('../home/mentions', { relativeToDirectory: true })
+        router.push(sitePath('home/mentions'))
     }
 
     return (

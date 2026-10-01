@@ -17,4 +17,15 @@ const FIREBASE_PACKAGES = [
     '@react-native-firebase/perf',
 ]
 
+// The native Firebase modules are kept out of the build by
+// "expo.autolinking.exclude" in package.json; that list has to be emptied
+// once the Firebase config files are added.
+const autolinkingExclude = require('./package.json').expo?.autolinking?.exclude ?? []
+if (firebaseEnabled && FIREBASE_PACKAGES.some(name => autolinkingExclude.includes(name))) {
+    throw new Error(
+        'Firebase config files found in ./firebase, but the Firebase packages are still in ' +
+        '"expo.autolinking.exclude" in package.json. Remove them from that list to enable push notifications.'
+    )
+}
+
 module.exports = { IOS_FIREBASE_FILE, ANDROID_FIREBASE_FILE, firebaseEnabled, FIREBASE_PACKAGES }

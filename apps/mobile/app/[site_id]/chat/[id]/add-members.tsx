@@ -1,4 +1,4 @@
-import { Link, router, Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import CrossIcon from '@assets/icons/CrossIcon.svg';
 import { useColorScheme } from '@hooks/useColorScheme';
 import { useCallback, useMemo, useState } from 'react';
@@ -105,11 +105,9 @@ export default function AddNewChannelMembers() {
             <Stack.Screen options={{
                 headerLeft() {
                     return (
-                        <Link asChild href="../" relativeToDirectory>
-                            <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                        <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                                 <CrossIcon color={colors.icon} height={24} width={24} />
                             </Button>
-                        </Link>
                     )
                 },
                 headerTitle: () => <Text className='ml-2 text-base font-semibold'>Добавить участников</Text>,

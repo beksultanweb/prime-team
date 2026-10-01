@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import UserAvatar from "@components/layout/UserAvatar"
 import { useColorScheme } from "@hooks/useColorScheme"
 import { useIsUserActive } from "@hooks/useIsUserActive"
@@ -21,6 +22,7 @@ dayjs.extend(advancedFormat)
 dayjs.extend(relativeTime)
 
 const DMRow = ({ dm }: { dm: DMChannelWithUnreadCount }) => {
+    const sitePath = useSitePath()
 
     const { myProfile } = useCurrentRavenUser()
     const user = useGetUser(dm.peer_user_id)
@@ -46,7 +48,7 @@ const DMRow = ({ dm }: { dm: DMChannelWithUnreadCount }) => {
     const isUnread = dm.unread_count > 0
 
     return (
-        <Link href={`../chat/${dm.name}`} asChild>
+        <Link href={sitePath(`chat/${dm.name}`)} asChild>
             <Pressable
                 className='flex flex-row relative items-center gap-3 py-3 px-4 ios:active:bg-linkColor'
                 android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>

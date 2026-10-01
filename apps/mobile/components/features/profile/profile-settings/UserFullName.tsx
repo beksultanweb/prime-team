@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { TouchableOpacity, View } from 'react-native'
 import { Text } from '@components/nativewindui/Text'
 import useCurrentRavenUser from '@raven/lib/hooks/useCurrentRavenUser'
@@ -6,13 +7,12 @@ import UserIcon from '@assets/icons/UserIcon.svg'
 import { router } from 'expo-router'
 
 const UserFullName = () => {
+    const sitePath = useSitePath()
     const { myProfile } = useCurrentRavenUser()
     const { colors } = useColorScheme()
 
     const handleGoToFullNameUpdate = () => {
-        router.push('./fullname', {
-            relativeToDirectory: true
-        })
+        router.push(sitePath('profile/fullname'))
     }
 
     return (

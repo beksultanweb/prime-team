@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { Pressable, View } from "react-native"
 import { Text } from "@components/nativewindui/Text"
 import { router } from "expo-router"
@@ -8,6 +9,7 @@ import { useFrappePrefetchCall } from "frappe-react-sdk"
 import UnreadCountBadge from "@components/common/Badge/UnreadCountBadge"
 
 const ChannelItemElement = ({ channel }: { channel: ChannelWithUnreadCount }) => {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
 
@@ -18,7 +20,7 @@ const ChannelItemElement = ({ channel }: { channel: ChannelWithUnreadCount }) =>
 
     const handlePress = () => {
         prefetchChannel()
-        router.push(`../chat/${channel.name}`)
+        router.push(sitePath(`chat/${channel.name}`))
     }
     return (
         <Pressable

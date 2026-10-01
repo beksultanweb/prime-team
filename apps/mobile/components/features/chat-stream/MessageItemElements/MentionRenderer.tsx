@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { useCallback, useContext } from 'react';
 import { CustomTextualRenderer, CustomRendererProps, TText, TPhrasing } from 'react-native-render-html';
 import { router } from 'expo-router'
@@ -32,17 +33,19 @@ const UserMentionRenderer = ({
     ...props
 }: CustomRendererProps<TText | TPhrasing> & { userID: string }) => {
 
+    const sitePath = useSitePath()
+
     const { call } = useContext(FrappeContext) as FrappeConfig
 
     const handleMentionPress = useCallback(() => {
         call.post('raven.api.raven_channel.create_direct_message_channel', {
             user_id: userID
         }).then((res) => {
-            router.push(`../${res?.message}`, { relativeToDirectory: true })
+            router.push(sitePath(`chat/${res?.message}`))
         }).catch(err => {
             toast.error('Не удалось открыть личный чат')
         })
-    }, [userID])
+    }, [userID, sitePath])
 
     return (
         // @ts-ignore
@@ -56,9 +59,11 @@ const ChannelMentionRenderer = ({
     ...props
 }: CustomRendererProps<TText | TPhrasing> & { channelID: string }) => {
 
+    const sitePath = useSitePath()
+
     const handleMentionPress = useCallback(() => {
-        router.push(`../${channelID}`, { relativeToDirectory: true })
-    }, [channelID])
+        router.push(sitePath(`chat/${channelID}`))
+    }, [channelID, sitePath])
 
     // @ts-ignore
     return <TDefaultRenderer {...props} onPress={handleMentionPress} />

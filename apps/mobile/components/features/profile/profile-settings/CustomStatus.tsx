@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { TouchableOpacity, View } from 'react-native'
 import { Text } from '@components/nativewindui/Text'
 import SmileIcon from '@assets/icons/SmileIcon.svg'
@@ -6,14 +7,13 @@ import useCurrentRavenUser from '@raven/lib/hooks/useCurrentRavenUser'
 import { router } from 'expo-router'
 
 const CustomStatus = () => {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
     const { myProfile } = useCurrentRavenUser()
 
     const handleGoToCustomStatus = () => {
-        router.push('./custom-status', {
-            relativeToDirectory: true
-        })
+        router.push(sitePath('profile/custom-status'))
     }
 
     return (

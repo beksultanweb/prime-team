@@ -1,4 +1,5 @@
-import { Link, router, Stack } from 'expo-router';
+import { useSitePath } from '@hooks/useSitePath'
+import { router, Stack } from 'expo-router';
 import { Button } from '@components/nativewindui/Button';
 import CrossIcon from '@assets/icons/CrossIcon.svg';
 import { useColorScheme } from '@hooks/useColorScheme';
@@ -17,6 +18,7 @@ import { LegendList } from '@legendapp/list/react-native';
 import { ChannelListItem } from '@raven/types/common/ChannelListItem';
 
 export default function BrowseChannels() {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
     const { channels } = useGetChannels({ showArchived: true })
@@ -36,7 +38,7 @@ export default function BrowseChannels() {
 
     const handleChannelPress = (channel: ChannelListItem) => {
         router.back()
-        router.push(`../../chat/${channel.name}`)
+        router.push(sitePath(`chat/${channel.name}`))
     }
 
     return <>
@@ -44,11 +46,9 @@ export default function BrowseChannels() {
             title: 'Все каналы',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
-                    <Link asChild href="../" relativeToDirectory>
-                        <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                    <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                             <CrossIcon color={colors.icon} height={24} width={24} />
                         </Button>
-                    </Link>
                 )
             } : undefined,
         }} />

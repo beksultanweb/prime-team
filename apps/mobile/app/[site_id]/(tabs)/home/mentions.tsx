@@ -1,4 +1,4 @@
-import { Link, Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { Button } from '@components/nativewindui/Button';
 import { useColorScheme } from '@hooks/useColorScheme';
 import { Platform, Pressable, View } from 'react-native';
@@ -54,11 +54,9 @@ export default function Mentions() {
             headerStyle: { backgroundColor: colors.background },
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
-                    <Link asChild href="../" relativeToDirectory>
-                        <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                    <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                             <ChevronLeftIcon color={colors.icon} />
                         </Button>
-                    </Link>
                 )
             } : undefined,
         }} />

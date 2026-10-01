@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import * as ContextMenu from 'zeego/context-menu';
 import { Alert, Pressable } from 'react-native';
 import * as Clipboard from 'expo-clipboard';
@@ -15,6 +16,7 @@ import { RavenUser } from '@raven/types/Raven/RavenUser';
 import useSiteContext from '@hooks/useSiteContext';
 
 export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
 
@@ -60,7 +62,7 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
     return (
         <ContextMenu.Root>
             <ContextMenu.Trigger>
-                <Link href={`../chat/${channel.name}`} asChild>
+                <Link href={sitePath(`chat/${channel.name}`)} asChild>
                     <Pressable
                         // long press -> this is a workaround to prevent a press to register on long press (esp on Android)
                         // Ref: https://github.com/nandorojo/zeego/issues/145

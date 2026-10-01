@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { router } from "expo-router"
 import { useColorScheme } from "@hooks/useColorScheme"
 import { Text } from '@components/nativewindui/Text'
@@ -9,10 +10,11 @@ interface CreatePollButtonProps {
 }
 
 const CreatePollButton = ({ onSheetClose }: CreatePollButtonProps) => {
+    const chatPath = useChatPath()
 
     const { colors } = useColorScheme()
     const navigateToCreatePoll = () => {
-        router.push("./create-poll", { relativeToDirectory: true })
+        router.push(chatPath('create-poll'))
         onSheetClose()
     }
 

@@ -1218,10 +1218,10 @@
   dependencies:
     chalk "^4.1.2"
 
-"@expo/dom-webview@~57.0.1":
-  version "57.0.1"
-  resolved "https://registry.yarnpkg.com/@expo/dom-webview/-/dom-webview-57.0.1.tgz#e41e9ab9b691046c944ef2d0cd874cf316894097"
-  integrity sha512-lAKsME4SAq+8sf56oN0DX5TBYyruupoRxbWbD2xf9RnKY8y6x8eb9LCE5pxSN0qyWdqnp+0wmyWzDkKboThKAw==
+"@expo/dom-webview@~0.2.8":
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/@expo/dom-webview/-/dom-webview-0.2.8.tgz#99ebff4f3f24a462440e941ba09fa32d181a1e64"
+  integrity sha512-suZUfr/IRa/zBJH6ysfKSS+fGoeXzit762G83tV51zxOuZiMcefvkr+7apMUsC3Ft4ZgLjUm4ymgYeJpfREZ1A==
 
 "@expo/env@~2.0.12":
   version "2.0.12"
@@ -5309,21 +5309,21 @@ fraction.js@^4.3.7:
   resolved "https://registry.yarnpkg.com/fraction.js/-/fraction.js-4.3.7.tgz#06ca0085157e42fda7f9e726e79fefc4068840f7"
   integrity sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==
 
-frappe-js-sdk@^1.14.1:
+frappe-js-sdk@^1.11.0:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/frappe-js-sdk/-/frappe-js-sdk-1.14.1.tgz#b6737e64e6019ee072a667be6f56ebad3b3dd81a"
   integrity sha512-HxY1KygYs/05ykjKo1YB0hQlUOiA3odEg+TWKIWRgNH0bURlXxSPiNKtBmQVOm92EhDGyqQQjQe5I1QdKSImbw==
   dependencies:
     axios "^1.18.1"
 
-frappe-react-sdk@^1.17.1:
-  version "1.17.1"
-  resolved "https://registry.yarnpkg.com/frappe-react-sdk/-/frappe-react-sdk-1.17.1.tgz#7bd0bc87065e41acae5474d27096a18a59d56780"
-  integrity sha512-9FxtG8kb1kUHx67P0AsdFeEnI39HyPP2SXDquy7IkYWRX4XCA/gdrP75u/idH+SiDoy3jWJLbewSdqHq9oq5gw==
+frappe-react-sdk@1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/frappe-react-sdk/-/frappe-react-sdk-1.13.0.tgz#6001078770f2177a79be667cefd14ba2e1baf8d3"
+  integrity sha512-ldMmOaL0Dpu840lVktVuo6zfL9gIFYrBFFnFICqbdeNcmoZoUlOIe1w0SzaICXALGvNmVI3lfRNGOE0SG2+jsw==
   dependencies:
-    frappe-js-sdk "^1.14.1"
+    frappe-js-sdk "^1.11.0"
     socket.io-client "4.7.1"
-    swr "^2.4.2"
+    swr "^2.3.6"
 
 freeport-async@^2.0.0:
   version "2.0.0"
@@ -8888,7 +8888,7 @@ svgo@^3.0.2:
     csso "^5.0.5"
     picocolors "^1.0.0"
 
-swr@^2.4.2:
+swr@^2.3.6:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/swr/-/swr-2.5.1.tgz#3d1801fafe06d13b149bc52c62323dcd43ca570c"
   integrity sha512-BRw55e8r0B7SpDN20CAzoQAHl7y1yP7/Zt7oqUjMv0vSt2u2Xnkm88Ws+VypbV9BXHQVuSuyVq7zMjO16wSExw==

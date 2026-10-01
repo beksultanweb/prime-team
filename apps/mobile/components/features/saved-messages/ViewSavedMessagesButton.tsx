@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { Pressable, View } from 'react-native';
 import Animated, { LayoutAnimationConfig, ZoomInRotate } from 'react-native-reanimated';
 import { cn } from '@lib/cn';
@@ -6,6 +7,7 @@ import BookmarkIcon from '@assets/icons/BookmarkIcon.svg';
 import { router } from 'expo-router';
 
 export function ViewSavedMessagesButton() {
+    const sitePath = useSitePath()
     return (
         <LayoutAnimationConfig skipEntering>
             <Animated.View
@@ -15,7 +17,7 @@ export function ViewSavedMessagesButton() {
                 <Pressable
                     hitSlop={10}
                     onPress={() => {
-                        router.push('../home/saved-messages', { relativeToDirectory: true })
+                        router.push(sitePath('home/saved-messages'))
                     }}
                     className="opacity-80">
                     {({ pressed }) => (

@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { repliesRu } from '@lib/ru'
 import { Text } from '@components/nativewindui/Text'
 import { Message } from '@raven/types/common/Message'
@@ -10,7 +11,8 @@ type Props = {
 }
 
 const ViewThreadButton = ({ message }: Props) => {
-    return <Link href={`../../thread/${message.name}`} relativeToDirectory asChild>
+    const sitePath = useSitePath()
+    return <Link href={sitePath(`thread/${message.name}`)} asChild>
         <Pressable hitSlop={10} className='flex flex-row items-center gap-3 border border-border bg-background rounded-lg px-3 py-2 active:bg-card-background/40'>
             <ThreadReplyCount message={message} />
             <Text className='text-sm text-muted-foreground/80'>Открыть тред</Text>

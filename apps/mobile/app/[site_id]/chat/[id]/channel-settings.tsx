@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { View, Platform } from "react-native";
 import { Text } from "@components/nativewindui/Text";
 import { router, useLocalSearchParams } from "expo-router";
@@ -20,6 +21,7 @@ import { ChangeChannelType } from "@components/features/channel-settings/ChangeC
 import CommonErrorBoundary from "@components/common/CommonErrorBoundary";
 
 const ChannelSettings = () => {
+    const chatPath = useChatPath()
 
     const { id } = useLocalSearchParams()
     const { colors, isDarkColorScheme } = useColorScheme()
@@ -44,7 +46,7 @@ const ChannelSettings = () => {
                 <View className="flex-col gap-5">
                     <ChannelBaseDetails channelData={channelData} />
                     <Divider className='mx-0' prominent />
-                    <MembersTray onViewAll={() => router.push(`../channel-members`, { relativeToDirectory: true })} />
+                    <MembersTray onViewAll={() => router.push(chatPath('channel-members'))} />
                     <Divider className='mx-0' prominent />
                     {isAllowed ?
                         <View className='flex flex-col gap-4 px-3'>

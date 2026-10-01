@@ -1,4 +1,5 @@
-import { Link, router, Stack } from 'expo-router';
+import { useSitePath } from '@hooks/useSitePath'
+import { router, Stack } from 'expo-router';
 import { Button } from '@components/nativewindui/Button';
 import CrossIcon from '@assets/icons/CrossIcon.svg';
 import { useColorScheme } from '@hooks/useColorScheme';
@@ -33,11 +34,9 @@ export default function CreateDM() {
             title: 'Новое личное сообщение',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
-                    <Link asChild href="../" relativeToDirectory>
-                        <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                    <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                             <CrossIcon color={colors.icon} height={24} width={24} />
                         </Button>
-                    </Link>
                 )
             } : undefined,
         }} />
@@ -61,6 +60,7 @@ export default function CreateDM() {
 }
 
 const UserWithoutDMItem = ({ userID }: { userID: string }) => {
+    const sitePath = useSitePath()
 
     const user = useGetUser(userID)
     const { call, error } = useFrappePostCall<{ message: string }>('raven.api.raven_channel.create_direct_message_channel')
@@ -70,7 +70,7 @@ const UserWithoutDMItem = ({ userID }: { userID: string }) => {
             user_id: userID
         }).then((res) => {
             router.back()
-            router.push(`../../chat/${res?.message}`)
+            router.push(sitePath(`chat/${res?.message}`))
         }).catch(err => {
             toast.error('Не удалось открыть личный чат')
         })

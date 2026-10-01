@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { useCallback, useContext } from 'react';
 import { FrappeConfig, FrappeContext, useSWRInfinite } from 'frappe-react-sdk';
 import { Dimensions, Platform, Pressable, View } from 'react-native'
@@ -105,6 +106,7 @@ const ImageGrid = ({ searchQuery, gap = 6, columns = 3 }: { searchQuery: string,
 export default ImageGrid
 
 const ImageListItem = ({ file }: { file: MediaInChannel }) => {
+    const chatPath = useChatPath()
 
     const { openFile: openFileOnAndroid } = useOpenFileOnAndroid()
 
@@ -114,7 +116,7 @@ const ImageListItem = ({ file }: { file: MediaInChannel }) => {
         if (file.file_type === "File") {
             if (Platform.OS === 'ios') {
                 router.push({
-                    pathname: './file-viewer',
+                    pathname: chatPath('file-viewer'),
                     params: { uri: source?.uri },
                 })
             }
@@ -123,7 +125,7 @@ const ImageListItem = ({ file }: { file: MediaInChannel }) => {
             }
         } else {
             router.push({
-                pathname: './file-viewer',
+                pathname: chatPath('file-viewer'),
                 params: { uri: source?.uri },
             })
         }

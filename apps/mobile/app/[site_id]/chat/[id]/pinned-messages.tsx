@@ -1,7 +1,7 @@
 import { Button } from "@components/nativewindui/Button";
 import { Text } from "@components/nativewindui/Text";
 import { useColorScheme } from "@hooks/useColorScheme";
-import { Link, Stack } from "expo-router";
+import { Stack, router } from "expo-router";
 import CrossIcon from '@assets/icons/CrossIcon.svg';
 import { Platform, View } from "react-native";
 import PinnedMessageList from "@components/features/pinned-messages/PinnedMessageList";
@@ -18,11 +18,9 @@ const PinnedMessages = () => {
                     headerStyle: { backgroundColor: colors.background },
                     headerLeft: Platform.OS === 'ios' ? () => {
                         return (
-                            <Link asChild href="../" relativeToDirectory>
-                                <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                            <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                                     <CrossIcon color={colors.icon} height={24} width={24} />
                                 </Button>
-                            </Link>
                         )
                     } : undefined,
                     headerTitle: () => (

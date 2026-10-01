@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { useColorScheme } from '@hooks/useColorScheme'
 import { Message } from '@raven/types/common/Message'
 import { router } from 'expo-router'
@@ -10,12 +11,13 @@ interface ForwardMessageProps {
 }
 
 const ForwardMessage = ({ message, onClose }: ForwardMessageProps) => {
+    const chatPath = useChatPath()
 
     const forwardMessage = () => {
         router.push({
-            pathname: "./forward-message",
+            pathname: chatPath('forward-message'),
             params: { ...message } as any
-        }, { relativeToDirectory: true })
+        })
         onClose()
     }
 

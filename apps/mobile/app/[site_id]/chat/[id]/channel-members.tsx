@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { useMemo, useState } from 'react';
 import { View, Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller';
@@ -17,6 +18,7 @@ import CommonErrorBoundary from '@components/common/CommonErrorBoundary';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const ChannelMembers = () => {
+    const chatPath = useChatPath()
 
     const { colors } = useColorScheme()
     const insets = useSafeAreaInsets()
@@ -53,7 +55,7 @@ const ChannelMembers = () => {
                 ),
                 headerTitle: () => <Text className='ml-2 text-base text-foreground font-semibold'>Участники</Text>,
                 headerRight: () => (
-                    <TouchableOpacity onPress={() => router.push(`./add-members`)} hitSlop={10}>
+                    <TouchableOpacity onPress={() => router.push(chatPath('add-members'))} hitSlop={10}>
                         <Text className='text-base font-semibold text-primary dark:text-secondary'>Добавить</Text>
                     </TouchableOpacity>
                 )

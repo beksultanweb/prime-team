@@ -3,7 +3,7 @@ import { Button } from '@components/nativewindui/Button'
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator';
 import { useColorScheme } from '@hooks/useColorScheme';
 import { Text } from '@components/nativewindui/Text';
-import { Link, useRouter } from 'expo-router';
+import { useRouter, router } from 'expo-router';
 import CrossIcon from '@assets/icons/CrossIcon.svg';
 import { toast } from 'sonner-native';
 import { RavenPoll } from '@raven/types/RavenMessaging/RavenPoll';
@@ -35,11 +35,9 @@ export const CloseCreatePollButton = () => {
 
     const { colors } = useColorScheme()
 
-    return <Link asChild href="../" relativeToDirectory>
-        <Button variant="plain" className="ios:px-0" hitSlop={10}>
+    return <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
             <CrossIcon color={colors.icon} height={24} width={24} />
         </Button>
-    </Link>
 }
 
 export const useCreatePoll = (channelID: string) => {

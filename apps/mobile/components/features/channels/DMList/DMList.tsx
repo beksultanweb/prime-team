@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { DMChannelListItem } from '@raven/types/common/ChannelListItem';
 import { useState } from 'react';
 import { View, Pressable, StyleSheet, TouchableOpacity } from 'react-native';
@@ -37,12 +38,13 @@ const DMListUI = ({ dms }: { dms: DMChannelListItem[] }) => {
 }
 
 export const DMListRow = ({ dm }: { dm: DMChannelListItem }) => {
+    const sitePath = useSitePath()
     const user = useGetUser(dm.peer_user_id)
 
     const isActive = useIsUserActive(dm.peer_user_id)
 
     return (
-        <Link href={`../chat/${dm.name}`} asChild>
+        <Link href={sitePath(`chat/${dm.name}`)} asChild>
             <Pressable
                 // Use tailwind classes for layout and ios:active state
                 className='flex-row items-center px-3 py-1.5 rounded-lg ios:active:bg-linkColor'

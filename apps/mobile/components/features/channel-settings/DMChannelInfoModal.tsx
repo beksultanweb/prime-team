@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { TouchableOpacity, View, StyleSheet, Modal, Pressable, Platform } from 'react-native';
 import { router } from 'expo-router';
 import { Text } from '@components/nativewindui/Text';
@@ -22,6 +23,7 @@ type DMChannelInfoModalProps = {
 }
 
 const DMChannelInfoModal = ({ channel, isModalVisible, setModalVisible }: DMChannelInfoModalProps) => {
+    const chatPath = useChatPath()
 
     // Animation values
     const modalHeight = useSharedValue(0)
@@ -36,16 +38,12 @@ const DMChannelInfoModal = ({ channel, isModalVisible, setModalVisible }: DMChan
 
     const handleGoToSharedMedia = () => {
         setModalVisible(false)
-        router.push('./view-media', {
-            relativeToDirectory: true
-        })
+        router.push(chatPath('view-media'))
     }
 
     const handleGoToPins = () => {
         setModalVisible(false)
-        router.push('./pinned-messages', {
-            relativeToDirectory: true
-        })
+        router.push(chatPath('pinned-messages'))
     }
 
     // Animated styles for the modal

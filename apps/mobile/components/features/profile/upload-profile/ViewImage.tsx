@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { router } from 'expo-router'
 import { Text } from '@components/nativewindui/Text'
 import { useColorScheme } from '@hooks/useColorScheme'
@@ -10,14 +11,15 @@ interface ViewImageProps {
 }
 
 const ViewImage = ({ uri, onSheetClose }: ViewImageProps) => {
+    const sitePath = useSitePath()
 
     const { colors } = useColorScheme()
 
     const openViewer = () => {
         router.push({
-            pathname: `./../../chat/[id]/file-viewer`,
-            params: { uri }
-        }, { relativeToDirectory: true })
+            pathname: sitePath('chat/[id]/file-viewer'),
+            params: { uri, id: 'profile' }
+        })
         onSheetClose(false)
     }
 

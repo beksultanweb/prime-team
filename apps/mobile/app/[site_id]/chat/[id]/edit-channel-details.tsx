@@ -1,4 +1,4 @@
-import { Link, router, Stack, useLocalSearchParams } from 'expo-router';
+import { router, Stack, useLocalSearchParams } from 'expo-router';
 import { Button } from '@components/nativewindui/Button';
 import { Text } from '@components/nativewindui/Text';
 import CrossIcon from '@assets/icons/CrossIcon.svg';
@@ -51,11 +51,9 @@ export default function EditChannelDetails() {
             headerStyle: { backgroundColor: colors.background },
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
-                    <Link asChild href="../" relativeToDirectory>
-                        <Button variant="plain" className="ios:px-0" hitSlop={10}>
+                    <Button onPress={() => router.back()} variant="plain" className="ios:px-0" hitSlop={10}>
                             <CrossIcon color={colors.foreground} height={24} width={24} />
                         </Button>
-                    </Link>
                 )
             } : undefined,
             headerRight() {

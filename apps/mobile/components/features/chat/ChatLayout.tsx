@@ -101,13 +101,19 @@ const ChatLayout = ({ channelID, isThread = false, pinnedMessagesString }: Props
         }
     }, [])
 
+    // Dismissing a sheet that was never presented leaves @gorhom/bottom-sheet
+    // 5.2 stuck in "dismissing", and later present() calls show nothing
+    const isActionsSheetPresented = useRef(false)
+
     useEffect(() => {
         if (selectedMessage) {
             // If the keyboard is open, we need to close it before opening the bottom sheet
             Keyboard.dismiss()
             messageActionsSheetRef.current?.present()
-        } else {
+            isActionsSheetPresented.current = true
+        } else if (isActionsSheetPresented.current) {
             messageActionsSheetRef.current?.dismiss()
+            isActionsSheetPresented.current = false
         }
     }, [selectedMessage])
     return (

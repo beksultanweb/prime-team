@@ -1,3 +1,4 @@
+import { useChatPath } from '@hooks/useSitePath'
 import { Platform, Pressable, View } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router';
 import { FrappeConfig, FrappeContext, useSWRInfinite } from 'frappe-react-sdk';
@@ -105,6 +106,7 @@ const FileGrid = ({ searchQuery }: { searchQuery: string }) => {
 export default FileGrid
 
 const FileListItem = ({ file }: { file: MediaInChannel }) => {
+    const chatPath = useChatPath()
 
     const { colors } = useColorScheme()
 
@@ -116,7 +118,7 @@ const FileListItem = ({ file }: { file: MediaInChannel }) => {
         if (file.file_type === "File") {
             if (Platform.OS === 'ios') {
                 router.push({
-                    pathname: './file-viewer',
+                    pathname: chatPath('file-viewer'),
                     params: { uri: source?.uri },
                 })
             }
@@ -125,7 +127,7 @@ const FileListItem = ({ file }: { file: MediaInChannel }) => {
             }
         } else {
             router.push({
-                pathname: './file-viewer',
+                pathname: chatPath('file-viewer'),
                 params: { uri: source?.uri },
             })
         }

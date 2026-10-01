@@ -1,3 +1,4 @@
+import { useSitePath } from '@hooks/useSitePath'
 import { useGetUser } from "@raven/lib/hooks/useGetUser"
 import { View, Pressable, StyleSheet } from 'react-native';
 import { Text } from '@components/nativewindui/Text';
@@ -8,6 +9,7 @@ import { useFrappePrefetchCall } from "frappe-react-sdk";
 import UnreadCountBadge from "@components/common/Badge/UnreadCountBadge";
 
 const DirectMessageItemElement = ({ dm }: { dm: DMChannelWithUnreadCount }) => {
+    const sitePath = useSitePath()
     const user = useGetUser(dm.peer_user_id)
 
     const prefetchChannel = useFrappePrefetchCall('raven.api.chat_stream.get_messages', {
@@ -17,7 +19,7 @@ const DirectMessageItemElement = ({ dm }: { dm: DMChannelWithUnreadCount }) => {
 
     const handlePress = () => {
         prefetchChannel()
-        router.push(`../chat/${dm.name}`)
+        router.push(sitePath(`chat/${dm.name}`))
     }
     return (
         <Pressable
