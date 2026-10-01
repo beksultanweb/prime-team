@@ -50,7 +50,7 @@ const DMRow = ({ dm }: { dm: DMChannelWithUnreadCount }) => {
             <Pressable
                 className='flex flex-row relative items-center gap-3 py-3 px-4 ios:active:bg-linkColor'
                 android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
-                {({ pressed, hovered }) => <>
+                {({ pressed }) => <>
                     <View
                         style={{
                             width: 7,

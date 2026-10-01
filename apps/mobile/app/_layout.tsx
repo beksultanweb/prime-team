@@ -14,7 +14,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Toaster } from 'sonner-native';
 import { LogBox, Platform } from 'react-native';
-import { messaging } from '@lib/push';
+import { push } from '@lib/push';
 import { setDefaultSite } from '@lib/auth';
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
@@ -80,7 +80,7 @@ export default function RootLayout() {
             try {
                 // Get the defualt site from the async storage
                 // Also check if the app was started by a notification
-                const initialNotification = await messaging?.getInitialNotification();
+                const initialNotification = await push?.getInitialNotification();
 
                 if (initialNotification) {
                     if (initialNotification.data?.channel_id && initialNotification.data?.sitename) {
@@ -117,7 +117,7 @@ export default function RootLayout() {
         }
 
         // Handle notification open when app is in background
-        const unsubscribeOnNotificationOpen = messaging?.onNotificationOpenedApp(async (remoteMessage) => {
+        const unsubscribeOnNotificationOpen = push?.onNotificationOpenedApp(async (remoteMessage) => {
             // console.log('Notification opened app from background state:', remoteMessage);
             if (remoteMessage.data?.channel_id && remoteMessage.data?.sitename) {
                 setDefaultSite(remoteMessage.data.sitename as string)

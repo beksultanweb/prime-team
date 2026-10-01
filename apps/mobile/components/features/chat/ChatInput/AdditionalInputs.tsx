@@ -41,7 +41,7 @@ const AdditionalInputs = ({ channelID, onMessageContentSend }: { channelID: stri
 
 export default AdditionalInputs
 
-const AdditionalInputsSheetContent = ({ bottomSheetRef, channelID, onMessageContentSend }: { bottomSheetRef: React.RefObject<BottomSheetModal>, channelID: string, onMessageContentSend: (content: string) => void }) => {
+const AdditionalInputsSheetContent = ({ bottomSheetRef, channelID, onMessageContentSend }: { bottomSheetRef: React.RefObject<BottomSheetModal | null>, channelID: string, onMessageContentSend: (content: string) => void }) => {
 
     const siteInfo = useSiteContext()
     const siteID = siteInfo?.sitename ?? ''

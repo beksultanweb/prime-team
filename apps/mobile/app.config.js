@@ -78,14 +78,13 @@ module.exports = {
                     ios: {
                         useFrameworks: 'static',
                     },
-                    android: {
-                        targetSdkVersion: 35,
-                        buildToolsVersion: '35.0.0',
-                        compileSdkVersion: 35,
-                    },
                 },
             ],
             'expo-video',
+            'expo-image',
+            'expo-sharing',
+            'expo-status-bar',
+            'expo-web-browser',
         ],
         extra: {
             router: {

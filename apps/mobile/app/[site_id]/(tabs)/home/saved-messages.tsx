@@ -9,7 +9,7 @@ import { Message } from '@raven/types/common/Message';
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator';
 import SavedMessageItem from '@components/features/saved-messages/SavedMessageItem';
 import ChevronLeftIcon from '@assets/icons/ChevronLeftIcon.svg';
-import { LegendList } from '@legendapp/list';
+import { LegendList } from '@legendapp/list/react-native';
 import ErrorBanner from '@components/common/ErrorBanner';
 
 export default function SavedMessages() {

@@ -17,7 +17,7 @@ const { width } = Dimensions.get('window');
 
 interface ReactionAnalyticsProps {
     reactions: ReactionObject[]
-    reactionsSheetRef: React.RefObject<BottomSheetModal>;
+    reactionsSheetRef: React.RefObject<BottomSheetModal | null>;
 }
 const ReactionAnalytics = ({ reactions, reactionsSheetRef }: ReactionAnalyticsProps) => {
 

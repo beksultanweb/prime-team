@@ -1,6 +1,6 @@
 import { useContext, useEffect, useRef } from 'react'
 import * as Device from 'expo-device';
-import { AuthorizationStatus, messaging } from '@lib/push';
+import { AuthorizationStatus, push } from '@lib/push';
 import useSiteContext from './useSiteContext';
 import { FrappeConfig, FrappeContext } from 'frappe-react-sdk';
 
@@ -18,11 +18,11 @@ const useFirebasePushTokenListener = () => {
         callMade.current = true
 
         // When the site is switched, fetch the token and store it in the database
-        const pushMessaging = messaging
-        if (siteInfo && pushMessaging) {
-            pushMessaging.requestPermission().then(async (authorizationStatus) => {
+        const pushApi = push
+        if (siteInfo && pushApi) {
+            pushApi.requestPermission().then(async (authorizationStatus) => {
                 if (authorizationStatus === AuthorizationStatus.AUTHORIZED) {
-                    const token = await pushMessaging.getToken()
+                    const token = await pushApi.getToken()
                     call.post('raven.api.notification.subscribe', {
                         fcm_token: token,
                         environment: 'Mobile',

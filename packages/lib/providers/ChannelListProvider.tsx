@@ -41,7 +41,7 @@ export const useChannelListProvider = (swrConfig?: SWRConfiguration): ChannelLis
     const [newUpdatesAvailable, setNewUpdatesAvailable] = useState(0)
 
     useEffect(() => {
-        let timeout: NodeJS.Timeout | undefined
+        let timeout: ReturnType<typeof setTimeout> | undefined
         if (newUpdatesAvailable) {
             timeout = setTimeout(() => {
                 mutate()

@@ -1,5 +1,5 @@
 import { useColorScheme } from "@hooks/useColorScheme"
-import { LegendList } from "@legendapp/list"
+import { LegendList } from "@legendapp/list/react-native"
 import { Message } from "@raven/types/common/Message"
 import { useLocalSearchParams } from "expo-router"
 import { useFrappeGetCall } from "frappe-react-sdk"

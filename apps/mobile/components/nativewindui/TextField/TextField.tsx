@@ -7,8 +7,7 @@ import {
   View,
   ViewProps,
   ViewStyle,
-  type NativeSyntheticEvent,
-  type TextInputFocusEventData,
+  type TextInputProps,
 } from 'react-native';
 import Animated, {
   FadeIn,
@@ -71,12 +70,12 @@ const TextField = React.forwardRef<TextFieldRef, TextFieldProps>(
       onChangeText('');
     }
 
-    function onFocus(e: NativeSyntheticEvent<TextInputFocusEventData>) {
+    function onFocus(e: Parameters<NonNullable<TextInputProps['onFocus']>>[0]) {
       setIsFocused(true);
       onFocusProp?.(e);
     }
 
-    function onBlur(e: NativeSyntheticEvent<TextInputFocusEventData>) {
+    function onBlur(e: Parameters<NonNullable<TextInputProps['onBlur']>>[0]) {
       setIsFocused(false);
       onBlurProp?.(e);
     }

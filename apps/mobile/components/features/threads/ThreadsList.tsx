@@ -6,7 +6,7 @@ import { ThreadMessage } from './ThreadTabs'
 import ThreadsOutlineIcon from '@assets/icons/ThreadsOutlineIcon.svg'
 import { useGetCurrentWorkspace } from '@hooks/useGetCurrentWorkspace'
 import useUnreadThreadsCount from '@hooks/useUnreadThreadsCount'
-import { LegendList } from '@legendapp/list'
+import { LegendList } from '@legendapp/list/react-native'
 import { useColorScheme } from "@hooks/useColorScheme"
 import ThreadPreviewBox from './ThreadPreviewBox'
 

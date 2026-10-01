@@ -182,7 +182,7 @@ export function AdaptiveSearchHeader(props: AdaptiveSearchHeaderProps) {
                       onFocus={props.searchBar?.onFocus}
                       value={searchValue}
                       onChangeText={onChangeText}
-                      autoCapitalize={props.searchBar?.autoCapitalize}
+                      autoCapitalize={props.searchBar?.autoCapitalize === 'systemDefault' ? undefined : props.searchBar?.autoCapitalize}
                       keyboardType={searchBarInputTypeToKeyboardType(props.searchBar?.inputType)}
                       returnKeyType="search"
                       blurOnSubmit={props.searchBar?.materialBlurOnSubmit}

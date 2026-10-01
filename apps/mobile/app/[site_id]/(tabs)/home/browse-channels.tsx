@@ -13,7 +13,7 @@ import HashIcon from '@assets/icons/HashIcon.svg';
 import GlobeIcon from '@assets/icons/GlobeIcon.svg';
 import LockIcon from '@assets/icons/LockIcon.svg';
 import FilterIcon from '@assets/icons/FilterIcon.svg';
-import { LegendList } from '@legendapp/list';
+import { LegendList } from '@legendapp/list/react-native';
 import { ChannelListItem } from '@raven/types/common/ChannelListItem';
 
 export default function BrowseChannels() {

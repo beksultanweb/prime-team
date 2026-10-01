@@ -1,7 +1,7 @@
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
 import { useKeyboardHandler } from 'react-native-keyboard-controller';
 import { useCallback, useEffect, useRef } from 'react';
-import { LegendListRef } from '@legendapp/list';
+import { LegendListRef } from '@legendapp/list/react-native';
 import MessageActionsBottomSheet from '@components/features/chat/ChatMessage/MessageActions/MessageActionsBottomSheet';
 import { useSheetRef } from '@components/nativewindui/Sheet';
 import { useAtom } from 'jotai';

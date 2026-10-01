@@ -22,7 +22,6 @@ import { useAtomValue, useSetAtom } from 'jotai';
 import { doubleTapMessageEmojiAtom } from '@lib/preferences';
 import { messageActionsSelectedMessageAtom } from '@lib/ChatInputUtils';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import { runOnJS } from 'react-native-reanimated';
 import ViewThreadButton from './MessageItemElements/ViewThreadButton';
 import { useColorScheme } from '@hooks/useColorScheme';
 type Props = {
@@ -56,8 +55,10 @@ const MessageItem = memo(({ message }: Props) => {
         return Gesture.Tap()
             .numberOfTaps(2)
             .hitSlop(10)
+            // Callbacks run on the JS thread: they only call React state setters
+            .runOnJS(true)
             .onStart(() => {
-                runOnJS(reactToMessage)(doubleTapMessageEmoji ?? '👍')
+                reactToMessage(doubleTapMessageEmoji ?? '👍')
             }).requireExternalGestureToFail()
     }, [doubleTapMessageEmoji, reactToMessage])
 
@@ -65,7 +66,6 @@ const MessageItem = memo(({ message }: Props) => {
     const setSelectedMessage = useSetAtom(messageActionsSelectedMessageAtom(message.isOpenInThread ? 'thread' : 'channel'))
 
     const longPressToSelectMessage = useCallback(() => {
-        impactAsync(ImpactFeedbackStyle.Medium)
         setSelectedMessage(message)
     }, [message, setSelectedMessage])
 
@@ -73,8 +73,14 @@ const MessageItem = memo(({ message }: Props) => {
         return Gesture.LongPress()
             .minDuration(400)
             .hitSlop(10)
+            .runOnJS(true)
             .onStart(() => {
-                runOnJS(longPressToSelectMessage)()
+                impactAsync(ImpactFeedbackStyle.Medium)
+            })
+            // Open the sheet once the finger is lifted: lifting it over the
+            // sheet's backdrop would otherwise close the sheet right away
+            .onEnd((_event, success) => {
+                if (success) longPressToSelectMessage()
             })
     }, [longPressToSelectMessage])
 

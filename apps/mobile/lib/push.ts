@@ -1,5 +1,5 @@
 import Constants from 'expo-constants'
-import type { FirebaseMessagingTypes } from '@react-native-firebase/messaging'
+import type { Messaging, RemoteMessage } from '@react-native-firebase/messaging'
 
 /**
  * Firebase is optional: app.config.js enables it only when the Firebase
@@ -21,16 +21,31 @@ export const AuthorizationStatus = {
     EPHEMERAL: 3,
 } as const
 
-const initMessaging = (): FirebaseMessagingTypes.Module | null => {
+type MessagingModule = typeof import('@react-native-firebase/messaging')
+
+// Loaded lazily: the package throws on import without its native module
+const loadMessaging = (): { api: MessagingModule, instance: Messaging } | null => {
     if (!isPushEnabled) return null
     try {
-        // Loaded lazily: the package throws on import without its native module
-        const { getMessaging } = require('@react-native-firebase/messaging') as typeof import('@react-native-firebase/messaging')
-        return getMessaging()
+        const api = require('@react-native-firebase/messaging') as MessagingModule
+        return { api, instance: api.getMessaging() }
     } catch (error) {
         console.warn('Firebase messaging is not available:', error)
         return null
     }
 }
 
-export const messaging = initMessaging()
+const firebase = loadMessaging()
+
+/**
+ * Push notification calls; each one is a no-op (resolves to null) when
+ * Firebase is not configured for this build.
+ */
+export const push = firebase ? {
+    hasPermission: () => firebase.api.hasPermission(firebase.instance) as Promise<number>,
+    requestPermission: () => firebase.api.requestPermission(firebase.instance) as Promise<number>,
+    getToken: () => firebase.api.getToken(firebase.instance),
+    getInitialNotification: () => firebase.api.getInitialNotification(firebase.instance),
+    onNotificationOpenedApp: (listener: (message: RemoteMessage) => void) =>
+        firebase.api.onNotificationOpenedApp(firebase.instance, listener),
+} : null

@@ -15,7 +15,6 @@ import { impactAsync } from 'expo-haptics'
 import useReactToMessage from '@raven/lib/hooks/useReactToMessage'
 import { Message } from '@raven/types/common/Message'
 import { Gesture, GestureDetector, LongPressGesture } from 'react-native-gesture-handler'
-import { runOnJS } from 'react-native-reanimated'
 import { Emoji } from '@components/common/EmojiPicker/Picker'
 
 export interface ReactionObject {
@@ -111,8 +110,10 @@ const ReactionButton = ({ reaction, currentUser, saveReaction, onLongPress, long
         return Gesture.LongPress()
             .hitSlop(10)
             .minDuration(250)
-            .onStart(() => {
-                runOnJS(onLongPress)()
+            .runOnJS(true)
+            // Open the sheet once the finger is lifted, not over its backdrop
+            .onEnd((_event, success) => {
+                if (success) onLongPress()
             }).blocksExternalGesture(longPressGesture)
     }, [onLongPress, longPressGesture])
 
@@ -122,7 +123,7 @@ const ReactionButton = ({ reaction, currentUser, saveReaction, onLongPress, long
                 onPress={onReact}
                 activeOpacity={0.7}
                 className={clsx(`flex-row rounded-xl py-1 px-2 gap-2 border`,
-                    currentUserReacted ? "bg-blue-50/80 border-blue-600 dark:border-muted-foreground/40 dark:bg-muted" : "bg-card dark:bg-muted/50 border-muted/50")}
+                    currentUserReacted ? "bg-primary/10 border-primary dark:border-muted-foreground/40 dark:bg-muted" : "bg-card dark:bg-muted/50 border-muted/50")}
             >
                 {reaction.is_custom ? (
                     <CustomEmojiView emoji_src={reaction.reaction} />

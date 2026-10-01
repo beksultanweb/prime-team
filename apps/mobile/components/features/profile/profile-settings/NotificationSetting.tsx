@@ -4,7 +4,7 @@ import { useColorScheme } from '@hooks/useColorScheme'
 import { Text } from '@components/nativewindui/Text'
 import { Toggle } from '@components/nativewindui/Toggle'
 import { useCallback, useContext, useEffect, useState } from 'react'
-import { AuthorizationStatus, messaging } from '@lib/push';
+import { AuthorizationStatus, push } from '@lib/push';
 import { FrappeConfig, FrappeContext } from 'frappe-react-sdk'
 import { toast } from 'sonner-native'
 import * as Device from 'expo-device';
@@ -17,21 +17,21 @@ const NotificationSetting = () => {
     const { call } = useContext(FrappeContext) as FrappeConfig
 
     useEffect(() => {
-        messaging?.hasPermission().then((hasPermission) => {
+        push?.hasPermission().then((hasPermission) => {
             setEnabled(hasPermission === AuthorizationStatus.AUTHORIZED)
         })
     }, [])
 
     const onToggle = useCallback((enabled: boolean) => {
-        const pushMessaging = messaging
-        if (!pushMessaging) return
+        const pushApi = push
+        if (!pushApi) return
         if (enabled) {
-            pushMessaging.requestPermission().then((authorizationStatus) => {
+            pushApi.requestPermission().then((authorizationStatus) => {
                 if (authorizationStatus !== AuthorizationStatus.AUTHORIZED && authorizationStatus !== AuthorizationStatus.EPHEMERAL) {
                     throw new Error('User has not granted permission to receive notifications.')
                 }
             }).then(() => {
-                pushMessaging.getToken().then((token) => {
+                pushApi.getToken().then((token) => {
                     if (token) {
                         call.post('raven.api.notification.subscribe', {
                             fcm_token: token,
@@ -49,7 +49,7 @@ const NotificationSetting = () => {
                 })
             })
         } else {
-            pushMessaging.getToken().then((token) => {
+            pushApi.getToken().then((token) => {
                 if (token) {
                     call.post('raven.api.notification.unsubscribe', {
                         fcm_token: token
@@ -62,7 +62,7 @@ const NotificationSetting = () => {
     }, [])
 
     // No Firebase config in this build - push notifications are unavailable
-    if (!messaging) return null
+    if (!push) return null
 
     return (
         <View>

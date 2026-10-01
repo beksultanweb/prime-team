@@ -1,4 +1,4 @@
-import RenderHtml, { TRenderEngineConfig } from 'react-native-render-html';
+import RenderHtml, { defaultFallbackFonts, defaultSystemFonts, TRenderEngineConfig } from 'react-native-render-html';
 import { useWindowDimensions, View } from 'react-native';
 import { useMemo } from 'react';
 import { useColorScheme } from '@hooks/useColorScheme';
@@ -6,6 +6,24 @@ import { CustomMentionRenderer } from './MentionRenderer';
 type Props = {
     text: string
 }
+
+/**
+ * React 19 ignores defaultProps on function components, and
+ * react-native-render-html sets its engine defaults that way. Without them
+ * user agent styles (bold, italic, headings) and HTML entity decoding are off,
+ * so the library's defaults are passed explicitly.
+ */
+const ENGINE_DEFAULTS = {
+    htmlParserOptions: { decodeEntities: true },
+    emSize: 14,
+    ignoredDomTags: [],
+    ignoredStyles: [],
+    enableUserAgentStyles: true,
+    enableCSSInlineProcessing: true,
+    customHTMLElementModels: {},
+    fallbackFonts: defaultFallbackFonts,
+    systemFonts: defaultSystemFonts,
+} satisfies Partial<TRenderEngineConfig>
 
 const TAG_BASE_STYLES: TRenderEngineConfig['tagsStyles'] = {
     'blockquote': {
@@ -172,6 +190,7 @@ const MessageTextRenderer = ({ text }: Props) => {
     return (
         <View className='flex-1 pt-0.5'>
             <RenderHtml
+                {...ENGINE_DEFAULTS}
                 baseStyle={baseStyles}
                 contentWidth={paddingWidth}
                 source={source}

@@ -7,7 +7,7 @@ import { useAtomValue } from "jotai";
 import { quickReactionEmojisAtom } from "@lib/preferences";
 
 interface MessageActionsBottomSheetProps {
-    messageActionsSheetRef: React.RefObject<BottomSheetModal>
+    messageActionsSheetRef: React.RefObject<BottomSheetModal | null>
     message: Message | null
     handleClose: () => void,
     isThread?: boolean

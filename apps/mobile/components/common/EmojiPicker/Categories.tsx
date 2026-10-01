@@ -25,7 +25,7 @@ export const CATEGORIES = [
     { category: 'custom', categoryIcon: CustomIcon, title: "Свои" }
 ] as {
     category: CategoryType
-    categoryIcon: (props: SVGProps<SVGSVGElement>) => JSX.Element;
+    categoryIcon: (props: SVGProps<SVGSVGElement>) => React.JSX.Element;
     title: string
 }[]
 

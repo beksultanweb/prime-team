@@ -10,7 +10,7 @@ import ChatOutlineIcon from '@assets/icons/ChatOutlineIcon.svg';
 import ThreadsIcon from '@assets/icons/ThreadsIcon.svg';
 import ThreadsOutlineIcon from '@assets/icons/ThreadsOutlineIcon.svg';
 import { useColorScheme } from '@hooks/useColorScheme'
-import { Platform } from 'react-native';
+import { ColorValue, Platform } from 'react-native';
 import useUnreadThreadsCount from '@hooks/useUnreadThreadsCount';
 import useUnreadMessageCount from '@hooks/useUnreadMessageCount';
 
@@ -70,7 +70,7 @@ export default function TabLayout() {
 
     const getTabBarIcon =
         (FilledIcon: React.FC<SvgProps>, OutlineIcon: React.FC<SvgProps>) =>
-            ({ color, focused }: { color: string; focused: boolean }) =>
+            ({ color, focused }: { color: ColorValue; focused: boolean }) =>
                 focused ? (
                     <FilledIcon
                         fill={color}

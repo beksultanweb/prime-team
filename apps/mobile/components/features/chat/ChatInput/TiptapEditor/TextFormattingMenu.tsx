@@ -1,6 +1,6 @@
 "use dom";
 
-import { Editor } from '@tiptap/react'
+import type { Editor } from '@tiptap/core'
 
 import { cn } from "@lib/cn";
 

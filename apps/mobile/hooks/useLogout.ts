@@ -7,7 +7,7 @@ import { toast } from 'sonner-native';
 import { useSetAtom } from 'jotai';
 import { selectedWorkspaceFamily } from './useGetCurrentWorkspace';
 import useSiteContext from './useSiteContext';
-import { messaging } from '@lib/push';
+import { push } from '@lib/push';
 
 
 export const useLogout = () => {
@@ -21,7 +21,7 @@ export const useLogout = () => {
         // Revoke the token
         // Redirect to the landing page
         try {
-            messaging?.getToken().then((token) => {
+            push?.getToken().then((token) => {
                 if (token) {
                     call.post('raven.api.notification.unsubscribe', {
                         fcm_token: token

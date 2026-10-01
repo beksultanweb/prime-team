@@ -33,7 +33,7 @@ export const DeleteChannel = ({ channelData }: { channelData: FrappeDoc<ChannelL
 }
 
 interface DeleteChannelModalProps {
-    deleteSheetRef: React.RefObject<BottomSheetModal>
+    deleteSheetRef: React.RefObject<BottomSheetModal | null>
     channelData: FrappeDoc<ChannelListItem> | undefined
 }
 

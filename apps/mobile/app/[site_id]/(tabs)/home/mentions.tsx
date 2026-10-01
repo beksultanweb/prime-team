@@ -5,7 +5,7 @@ import { Platform, Pressable, View } from 'react-native';
 import { Text } from '@components/nativewindui/Text';
 import { FrappeConfig, FrappeContext, useSWRInfinite } from 'frappe-react-sdk';
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator';
-import { LegendList } from '@legendapp/list';
+import { LegendList } from '@legendapp/list/react-native';
 import AtSignIcon from '@assets/icons/AtSignIcon.svg';
 import { useCallback, useContext, useMemo } from 'react';
 import { RavenChannel } from '@raven/types/RavenChannelManagement/RavenChannel';

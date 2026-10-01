@@ -17,7 +17,7 @@ import { ChannelListItem, DMChannelListItem } from '@raven/types/common/ChannelL
 import ChannelRowItem from '@components/common/CommonListItems/ChannelRowItem';
 import DMRowItem from '@components/common/CommonListItems/DMRowItem';
 import { Text } from '@components/nativewindui/Text';
-import { LegendList } from '@legendapp/list';
+import { LegendList } from '@legendapp/list/react-native';
 
 export default function QuickSearch() {
 

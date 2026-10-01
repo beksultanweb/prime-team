@@ -15,7 +15,7 @@ import { formatBytes, getFileName } from '@raven/lib/utils/operations';
 import UniversalFileIcon from '@components/common/UniversalFileIcon';
 import DotIcon from "@assets/icons/DotIcon.svg"
 import { formatDate } from '@raven/lib/utils/dateConversions';
-import { LegendList } from '@legendapp/list';
+import { LegendList } from '@legendapp/list/react-native';
 
 const PAGE_SIZE = 12
 

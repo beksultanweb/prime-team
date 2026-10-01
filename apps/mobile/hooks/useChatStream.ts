@@ -1,4 +1,4 @@
-import { LegendListRef } from '@legendapp/list'
+import { LegendListRef } from '@legendapp/list/react-native'
 import { Message } from '@raven/types/common/Message'
 import { useFrappeDocumentEventListener, useFrappeEventListener, useFrappeGetCall, useFrappePostCall } from 'frappe-react-sdk'
 import { useEffect, useMemo, useRef } from 'react'
@@ -39,7 +39,7 @@ export interface HeaderBlock {
 
 export type MessageDateBlock = Message | DateBlock | HeaderBlock
 
-const useChatStream = (channelID: string, listRef?: React.RefObject<LegendListRef>, isThread: boolean = false, pinnedMessagesString?: string) => {
+const useChatStream = (channelID: string, listRef?: React.RefObject<LegendListRef | null>, isThread: boolean = false, pinnedMessagesString?: string) => {
 
     const siteInformation = useSiteContext()
 

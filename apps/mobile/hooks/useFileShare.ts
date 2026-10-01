@@ -1,5 +1,5 @@
 import * as Sharing from 'expo-sharing'
-import * as FileSystem from 'expo-file-system'
+import * as FileSystem from 'expo-file-system/legacy'
 import { useState } from 'react'
 import useFileURL from './useFileURL'
 

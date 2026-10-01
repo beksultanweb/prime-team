@@ -57,7 +57,6 @@ const VideoPlayer = ({ uri }: { uri: string }) => {
 
     return (
         <VideoView player={player}
-            allowsFullscreen
             style={
                 {
                     width: '100%',

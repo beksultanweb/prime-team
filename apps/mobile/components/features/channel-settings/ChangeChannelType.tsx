@@ -45,7 +45,7 @@ export const ChangeChannelType = ({ channelData }: { channelData: FrappeDoc<Chan
 
 interface ChangeChannelTypeSheetProps {
     channelData: FrappeDoc<ChannelListItem> | undefined;
-    bottomSheetModalRef: React.RefObject<BottomSheetModal>;
+    bottomSheetModalRef: React.RefObject<BottomSheetModal | null>;
 }
 
 type ChannelType = 'Public' | 'Private' | 'Open';
@@ -122,7 +122,7 @@ const ChangeChannelTypeSheet = ({ channelData, bottomSheetModalRef }: ChangeChan
  * For current type Open - it would return Public and Private
  * For current type Public - it would return Private and Open
 */
-const getChangeChannelType = ({ channelData, bottomSheetModalRef, iconMap }: { channelData: ChannelListItem, bottomSheetModalRef: React.RefObject<BottomSheetModal>, iconMap: Record<string, React.ReactNode> }) => {
+const getChangeChannelType = ({ channelData, bottomSheetModalRef, iconMap }: { channelData: ChannelListItem, bottomSheetModalRef: React.RefObject<BottomSheetModal | null>, iconMap: Record<string, React.ReactNode> }) => {
 
     const channelType = channelData?.type as ChannelType
 
@@ -139,7 +139,9 @@ const getChangeChannelType = ({ channelData, bottomSheetModalRef, iconMap }: { c
             id: type,
             title: `Сделать ${channelTypeInstrumental(type)}`,
             onPress: () => {
-                bottomSheetModalRef.current?.present({
+                // The sheet reads the new type from the data passed to present()
+                const sheet = bottomSheetModalRef.current as BottomSheetModal<{ newChannelType: ChannelType }> | null
+                sheet?.present({
                     newChannelType: type,
                 })
             },

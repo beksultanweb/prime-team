@@ -55,7 +55,6 @@ const MemberList: React.FC<MemberListProps> = ({ filteredMembers, selectedMember
                 )
             }}
             keyExtractor={(item) => item.name}
-            estimatedItemSize={64}
             ItemSeparatorComponent={() => <Divider className='mx-0' />}
             bounces={false}
             showsVerticalScrollIndicator={false}

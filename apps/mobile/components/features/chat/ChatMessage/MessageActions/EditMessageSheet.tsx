@@ -56,7 +56,6 @@ const EditMessageSheet = ({ message, onClose }: EditMessageSheetProps) => {
                         borderWidth: 1,
                         borderRadius: 10,
                         borderColor: colors.grey4,
-                        overflowX: 'hidden',
                     },
                 }}
                 isDarkMode={isDarkColorScheme}

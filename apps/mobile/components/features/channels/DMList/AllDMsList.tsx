@@ -10,7 +10,7 @@ import { Divider } from "@components/layout/Divider"
 import SearchInput from "@components/common/SearchInput/SearchInput"
 import { useDebounce } from "@raven/lib/hooks/useDebounce"
 import { Text } from "@components/nativewindui/Text"
-import { LegendList } from "@legendapp/list"
+import { LegendList } from "@legendapp/list/react-native"
 
 const AllDMsList = () => {
 

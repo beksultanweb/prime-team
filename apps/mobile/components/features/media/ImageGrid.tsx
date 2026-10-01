@@ -3,7 +3,7 @@ import { FrappeConfig, FrappeContext, useSWRInfinite } from 'frappe-react-sdk';
 import { Dimensions, Platform, Pressable, View } from 'react-native'
 import { router, useLocalSearchParams } from 'expo-router';
 import { Image } from 'expo-image';
-import { LegendList } from '@legendapp/list';
+import { LegendList } from '@legendapp/list/react-native';
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator';
 import { useColorScheme } from '@hooks/useColorScheme';
 import { MediaInChannel } from './Media';

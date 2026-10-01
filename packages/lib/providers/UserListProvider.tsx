@@ -28,7 +28,7 @@ export const useUserListProvider = () => {
     const [newUpdatesAvailable, setNewUpdatesAvailable] = useState(false)
 
     useEffect(() => {
-        let timeout: NodeJS.Timeout | undefined
+        let timeout: ReturnType<typeof setTimeout> | undefined
         if (newUpdatesAvailable) {
             timeout = setTimeout(() => {
                 mutate()

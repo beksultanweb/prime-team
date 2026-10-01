@@ -77,7 +77,6 @@ const ChannelMembers = () => {
                         data={filteredMembers}
                         renderItem={({ item }) => <ChannelMemberRow member={item as Member} />}
                         keyExtractor={(item) => item.name}
-                        estimatedItemSize={64}
                         ItemSeparatorComponent={() => <Divider className='mx-0' />}
                         bounces={false}
                         showsVerticalScrollIndicator={false}

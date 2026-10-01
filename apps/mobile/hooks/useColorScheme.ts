@@ -1,4 +1,3 @@
-import * as NavigationBar from 'expo-navigation-bar';
 import { useColorScheme as useNativewindColorScheme } from 'nativewind';
 import { COLORS } from '@theme/colors';
 import { useAtom } from 'jotai';
@@ -33,10 +32,10 @@ function useColorScheme() {
 
 export { useColorScheme };
 
-export function setNavigationBar(colorScheme: 'light' | 'dark') {
-    return Promise.all([
-        NavigationBar.setButtonStyleAsync(colorScheme === 'dark' ? 'light' : 'dark'),
-        NavigationBar.setPositionAsync('absolute'),
-        NavigationBar.setBackgroundColorAsync(colorScheme === 'dark' ? '#00000030' : '#ffffff80'),
-    ]);
+/**
+ * Android is edge-to-edge since Expo SDK 54: the navigation bar is transparent
+ * and its default 'auto' style follows the app theme, so nothing to set here.
+ */
+export function setNavigationBar(_colorScheme: 'light' | 'dark') {
+    return Promise.resolve();
 }
