@@ -17,15 +17,15 @@ const ActionsDropdownMenu = ({ threadID, channelMember }: { threadID: string, ch
     const onLeaveThread = useLeaveThread(threadID)
     const showLeaveThreadAlert = () =>
         Alert.alert(
-            'Leave thread?',
-            `Are you sure you want to leave this thread?`,
+            'Покинуть тред?',
+            `Вы перестанете получать уведомления из этого треда.`,
             [
                 {
-                    text: 'Cancel',
+                    text: 'Отмена',
                     style: 'cancel',
                 },
                 {
-                    text: 'Leave',
+                    text: 'Покинуть',
                     style: 'destructive',
                     onPress: onLeaveThread
                 },
@@ -35,15 +35,15 @@ const ActionsDropdownMenu = ({ threadID, channelMember }: { threadID: string, ch
     const onDeleteThread = useDeleteThread(threadID)
     const showDeleteThreadAlert = () =>
         Alert.alert(
-            'Delete thread?',
-            `Are you sure you want to delete this thread?`,
+            'Удалить тред?',
+            `Тред удалится вместе со всеми ответами.`,
             [
                 {
-                    text: 'Cancel',
+                    text: 'Отмена',
                     style: 'cancel',
                 },
                 {
-                    text: 'Delete',
+                    text: 'Удалить',
                     style: 'destructive',
                     onPress: onDeleteThread
                 },
@@ -69,7 +69,7 @@ const ActionsDropdownMenu = ({ threadID, channelMember }: { threadID: string, ch
                         },
                     }} />
                     <DropdownMenu.ItemTitle>
-                        {channelMember?.allow_notifications ? 'Unmute' : 'Mute'}
+                        {channelMember?.allow_notifications ? 'Включить уведомления' : 'Выключить уведомления'}
                     </DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item key="leave-thread" onSelect={showLeaveThreadAlert}>
@@ -82,7 +82,7 @@ const ActionsDropdownMenu = ({ threadID, channelMember }: { threadID: string, ch
                             light: 'red',
                         },
                     }} />
-                    <DropdownMenu.ItemTitle >Leave</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemTitle >Покинуть</DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>
                 {/* Only admins can delete threads */}
                 {channelMember.is_admin && <DropdownMenu.Item key="delete-thread" onSelect={showDeleteThreadAlert}>
@@ -95,7 +95,7 @@ const ActionsDropdownMenu = ({ threadID, channelMember }: { threadID: string, ch
                             light: 'red',
                         },
                     }} />
-                    <DropdownMenu.ItemTitle>Delete</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemTitle>Удалить</DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>}
             </DropdownMenu.Content>
         </DropdownMenu.Root>
@@ -130,7 +130,7 @@ const useToggleThreadNotifications = (threadID: string, channelMember: Member) =
 
             toast.success(`Thread ${channelMember?.allow_notifications ? 'unmuted' : 'muted'}`)
         }).catch(() => {
-            toast.error('Could not toggle thread notifications', {
+            toast.error('Не удалось изменить уведомления треда', {
                 description: error?.httpStatusText
             })
         })
@@ -147,12 +147,12 @@ const useLeaveThread = (threadID: string) => {
     const onLeaveThread = async () => {
         return call({ channel_id: threadID })
             .then(() => {
-                toast.success(`You have left the thread`)
+                toast.success(`Вы покинули тред`)
                 router.back()
                 mutate(["channel_members", threadID])
             })
             .catch(() => {
-                toast.error('Could not leave thread', {
+                toast.error('Не удалось покинуть тред', {
                     description: error?.httpStatusText
                 })
             })
@@ -168,11 +168,11 @@ const useDeleteThread = (threadID: string) => {
     const onDeleteThread = async () => {
         return deleteDoc('Raven Channel', threadID)
             .then(() => {
-                toast.success(`Thread has been deleted.`)
+                toast.success(`Тред удалён.`)
                 router.back()
             })
             .catch(() => {
-                toast.error('Could not delete thread', {
+                toast.error('Не удалось удалить тред', {
                     description: error?.httpStatusText
                 })
             })

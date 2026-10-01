@@ -32,7 +32,7 @@ const GIFPickerButton = ({ onSelect }: GIFPickerButtonProps) => {
                 className='flex flex-row w-full items-center gap-2 p-2 rounded-lg ios:active:bg-linkColor'
                 android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
                 <GIFIcon height={20} width={20} fill={colors.icon} />
-                <Text className='text-base text-foreground'>Send GIF</Text>
+                <Text className='text-base text-foreground'>Отправить GIF</Text>
             </Pressable>
             <Sheet enableDynamicSizing={false} ref={gifSheetRef} snapPoints={['80']}>
                 <BottomSheetView className='pb-12'>

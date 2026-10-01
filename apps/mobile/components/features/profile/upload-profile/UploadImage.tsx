@@ -22,10 +22,10 @@ const UploadImage = ({ onSheetClose }: UploadImageProps) => {
                 await call({
                     user_image: file
                 })
-                toast.success("Image uploaded successfully.")
+                toast.success("Фото загружено.")
                 onSheetClose()
             } catch (error) {
-                toast.error('Error while uploading profile image')
+                toast.error('Не удалось загрузить фото профиля')
             }
         }
     }
@@ -48,7 +48,7 @@ const UploadImage = ({ onSheetClose }: UploadImageProps) => {
                 await uploadImage(res.file_url)
             } catch (error) {
                 console.error(error)
-                toast.error('Error uploading image')
+                toast.error('Ошибка загрузки фото')
             }
 
         }

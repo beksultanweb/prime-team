@@ -58,8 +58,8 @@ const ImagePickerButton = ({ allowsMultipleSelection, mediaTypes, onPick, isLarg
             }
         } catch (error) {
             console.error('Error picking images:', error)
-            toast.error("There was an error while selecting images", {
-                description: error instanceof Error ? error.message : "Unknown error"
+            toast.error("Не удалось выбрать изображения", {
+                description: error instanceof Error ? error.message : "Неизвестная ошибка"
             })
         }
     }
@@ -68,7 +68,7 @@ const ImagePickerButton = ({ allowsMultipleSelection, mediaTypes, onPick, isLarg
         isLarge ? (
             <ActionButtonLarge
                 icon={<ImageUpIcon height={20} width={20} color={colors.icon} />}
-                text="Gallery"
+                text="Галерея"
                 onPress={pickImage}
             />
         ) : (
@@ -77,7 +77,7 @@ const ImagePickerButton = ({ allowsMultipleSelection, mediaTypes, onPick, isLarg
                 className='flex flex-row w-full items-center gap-2 p-2 rounded-lg ios:active:bg-linkColor'
                 android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
                 <ImageUpIcon height={20} width={20} color={colors.icon} />
-                <Text className='text-base text-foreground'>Upload</Text>
+                <Text className='text-base text-foreground'>Загрузить</Text>
             </Pressable>
         )
     )

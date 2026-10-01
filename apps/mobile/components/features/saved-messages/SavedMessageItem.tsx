@@ -64,7 +64,7 @@ const SavedMessageItem = ({ message }: { message: Message & { workspace?: string
             </ContextMenu.Trigger>
             <ContextMenu.Content>
                 <ContextMenu.Item key="unsave" onSelect={save}>
-                    <ContextMenu.ItemTitle>Unsave message</ContextMenu.ItemTitle>
+                    <ContextMenu.ItemTitle>Убрать из сохранённых</ContextMenu.ItemTitle>
                     <ContextMenu.ItemIcon
                         ios={{
                             name: 'bookmark.slash',

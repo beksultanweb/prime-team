@@ -24,13 +24,13 @@ export const formatDate = (date: string) => {
     // Otherwise, return the date in the format "MMM Do, YYYY"
 
     if (parsedDate.isSame(today, 'date')) {
-        formattedDateString = "Today"
+        formattedDateString = "Сегодня"
     } else if (parsedDate.isSame(yesterday, 'date')) {
-        formattedDateString = "Yesterday"
+        formattedDateString = "Вчера"
     } else if (parsedDate.isSame(today, 'year')) {
-        formattedDateString = parsedDate.format('MMM Do')
+        formattedDateString = parsedDate.format('D MMMM')
     } else {
-        formattedDateString = parsedDate.format('MMM Do, YYYY')
+        formattedDateString = parsedDate.format('D MMMM YYYY')
     }
 
     return formattedDateString
@@ -47,8 +47,8 @@ export const formatDateAndTime = (date: string) => {
         return date
     }
 
-    const time = dateObj.format('hh:mm A')
-    const formattedDate = dateObj.format('MMM Do, YYYY')
+    const time = dateObj.format('HH:mm')
+    const formattedDate = dateObj.format('D MMMM YYYY')
     return `${formattedDate}, ${time}`
 }
 

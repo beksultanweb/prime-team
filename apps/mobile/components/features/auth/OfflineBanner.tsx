@@ -7,7 +7,7 @@ type Props = {}
 const OfflineBanner = (props: Props) => {
     return (
         <SafeAreaView edges={['top', 'left', 'right']} className='bg-card-foreground py-2'>
-            <Text className='text-sm text-center text-background'>The app is offline. Please check your internet connection.</Text>
+            <Text className='text-sm text-center text-background'>Нет подключения к интернету. Проверьте соединение.</Text>
         </SafeAreaView>
     )
 }

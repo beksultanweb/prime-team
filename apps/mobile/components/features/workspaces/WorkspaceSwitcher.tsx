@@ -65,7 +65,7 @@ const WorkSpaceSwitcherMenu = ({ selectedWorkspace, workspaces, setWorkspace }: 
                 <View className='flex-row items-center gap-2'>
                     <UserAvatar
                         key={logo}
-                        alt={selectedWorkspace?.workspace_name ?? 'Workspace Logo'}
+                        alt={selectedWorkspace?.workspace_name ?? 'Логотип пространства'}
                         src={logo}
                         avatarProps={{ className: 'h-10 w-10' }}
                     />
@@ -94,7 +94,7 @@ const WorkSpaceSwitcherMenu = ({ selectedWorkspace, workspaces, setWorkspace }: 
             <Sheet enableDynamicSizing ref={addSiteSheetRef}>
                 <BottomSheetView className='flex-1 pb-16'>
                     <View className='flex-1 gap-2 px-4'>
-                        <Text className='text-lg font-semibold'>Add a new site</Text>
+                        <Text className='text-lg font-semibold'>Добавить сайт</Text>
                         <AddSite useBottomSheet={true} />
                     </View>
                 </BottomSheetView>
@@ -143,11 +143,11 @@ const SelectWorkspaceSheet = ({ selectedWorkspace, workspaces, setWorkspace }: S
                 .then(() => Promise.all([mutate('workspaces_list'), mutate('channel_list')]))
                 .then(() => setWorkspace(workspaceName))
                 .then(() => {
-                    toast.success(`You have joined ${displayName}.`)
+                    toast.success(`Вы вступили в ${displayName}.`)
                 })
                 .catch((error: unknown) => {
                     toast.error(
-                        getErrorMessage(error as FrappeError) || 'Failed to join the workspace.'
+                        getErrorMessage(error as FrappeError) || 'Не удалось вступить в пространство.'
                     )
                 })
         },
@@ -183,7 +183,7 @@ const SelectWorkspaceSheet = ({ selectedWorkspace, workspaces, setWorkspace }: S
             </View>
             {otherWorkspaces.length > 0 &&
                 <View className='flex flex-col gap-2'>
-                    <Text className='text-sm font-medium text-muted-foreground'>Other workspaces</Text>
+                    <Text className='text-sm font-medium text-muted-foreground'>Другие пространства</Text>
                     <View className='flex flex-col gap-2 border border-border p-2 rounded-xl'>
                         {otherWorkspaces.map((workspace, index) => (
                             <WorkspaceRow key={workspace.name}

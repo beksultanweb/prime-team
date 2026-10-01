@@ -32,7 +32,7 @@ export type ThreadMessage = {
 const ThreadTabs = () => {
 
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const values = ['Participating', 'Other', 'AI Agents']
+    const values = ['Мои', 'Другие', 'ИИ-агенты']
 
     const handleIndexChange = (index: number) => {
         setSelectedIndex(index)

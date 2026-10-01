@@ -111,18 +111,18 @@ export function ForwardMessage({ message }: ForwardMessageProps) {
                 'forwarded_message': message,
             })
                 .then(() => {
-                    toast.success('Message forwarded successfully!')
+                    toast.success('Сообщение переслано!')
                     router.back();
                 })
                 .catch(() => {
-                    toast.error('Failed to forward message')
+                    toast.error('Не удалось переслать сообщение')
                 });
         }
     }, [selectedChannels, message, call]);
 
     useEffect(() => {
         navigation.setOptions({
-            headerTitle: "Forward Message",
+            headerTitle: "Переслать сообщение",
             headerStyle: {
                 backgroundColor: colors.background
             },

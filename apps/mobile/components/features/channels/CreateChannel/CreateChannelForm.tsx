@@ -1,3 +1,4 @@
+import { capitalize, channelTypeLabel } from '@lib/ru'
 import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { Controller, useFormContext } from 'react-hook-form';
 import { useCallback, useMemo } from "react";
@@ -27,18 +28,18 @@ const CreateChannelForm = () => {
         switch (channelType) {
             case 'Private':
                 return {
-                    header: 'Create a private channel',
-                    helperText: 'When a channel is set to private, it can only be viewed or joined by invitation.'
+                    header: 'Закрытый канал',
+                    helperText: 'Закрытый канал видят и вступают в него только по приглашению.'
                 }
             case 'Open':
                 return {
-                    header: 'Create an open channel',
-                    helperText: 'When a channel is set to open, everyone is a member.'
+                    header: 'Открытый канал',
+                    helperText: 'В открытом канале участники — все сотрудники.'
                 }
             default:
                 return {
-                    header: 'Create a public channel',
-                    helperText: 'When a channel is set to public, anyone can join the channel and read messages, but only members can post messages.'
+                    header: 'Публичный канал',
+                    helperText: 'В публичный канал может вступить и читать его любой сотрудник, а писать — только участники.'
                 }
         }
     }, [channelType])
@@ -55,31 +56,31 @@ const CreateChannelForm = () => {
                 <Text className="text-xl font-cal-sans">
                     {header}
                 </Text>
-                <Text className="text-sm">Channels are where your team communicates. They are best when organized around a topic - #development, for example.</Text>
+                <Text className="text-sm">В каналах общается команда. Лучше всего заводить их по темам, например #регистратура.</Text>
             </View>
 
             <View className="px-5 gap-6">
 
 
                 <View className="flex-col gap-2">
-                    <FormLabel isRequired>Name</FormLabel>
+                    <FormLabel isRequired>Название</FormLabel>
                     <Controller
                         name="channel_name"
                         control={control}
                         rules={{
-                            required: "Please add a channel name",
+                            required: "Введите название канала",
                             maxLength: {
                                 value: 50,
-                                message: "Channel name cannot be more than 50 characters.",
+                                message: "Название канала — не длиннее 50 символов.",
                             },
                             minLength: {
                                 value: 3,
-                                message: "Channel name cannot be less than 3 characters.",
+                                message: "Название канала — не короче 3 символов.",
                             },
                             pattern: {
                                 // no special characters allowed, cannot start with a space
                                 value: /^[a-zA-Z0-9][a-zA-Z0-9-]*$/,
-                                message: "Channel name can only contain letters, numbers and hyphens.",
+                                message: "В названии канала можно использовать только буквы, цифры и дефисы.",
                             },
                         }}
                         render={({ field: { onBlur, value }, fieldState: { error } }) => (
@@ -97,7 +98,7 @@ const CreateChannelForm = () => {
                                     onBlur={onBlur}
                                     onChangeText={handleNameChange}
                                     autoFocus
-                                    accessibilityHint={error ? "Channel name is invalid. Please check the error." : undefined}
+                                    accessibilityHint={error ? "Название канала не подходит. Проверьте ошибку." : undefined}
                                     aria-invalid={error ? "true" : "false"}
                                 />
                                 {/* Character counter */}
@@ -117,8 +118,8 @@ const CreateChannelForm = () => {
 
                 <View className="flex-col gap-2">
                     <View className="flex-row items-center gap-0">
-                        <FormLabel>Description</FormLabel>
-                        <Text className="text-sm">(optional)</Text>
+                        <FormLabel>Описание</FormLabel>
+                        <Text className="text-sm">(необязательно)</Text>
                     </View>
                     <Controller
                         control={control}
@@ -126,7 +127,7 @@ const CreateChannelForm = () => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 className="w-full border min-h-24 border-border rounded-lg px-3 pt-2 pb-2 text-[16px] leading-5 text-foreground"
-                                placeholder="Discuss the latest features and ideas and keep track of the deliverables"
+                                placeholder="Обсуждаем новости отдела и задачи"
                                 placeholderTextColor={colors.grey}
                                 placeholderClassName="leading-5"
                                 textAlignVertical="top"
@@ -138,14 +139,14 @@ const CreateChannelForm = () => {
                             />
                         )}
                     />
-                    <Text className="text-sm text-muted-foreground">What is this channel about?</Text>
+                    <Text className="text-sm text-muted-foreground">О чём этот канал?</Text>
                     {errors?.channel_description && (
                         <ErrorText>{errors.channel_description?.message}</ErrorText>
                     )}
                 </View>
 
                 <View className="flex-col gap-3">
-                    <FormLabel>Channel Type</FormLabel>
+                    <FormLabel>Тип канала</FormLabel>
                     <Controller
                         control={control}
                         name="type"
@@ -161,7 +162,7 @@ const CreateChannelForm = () => {
                                                         <View className="w-[8px] h-[8px] bg-primary rounded-full" />
                                                     )}
                                                 </View>
-                                                <Text className="text-sm">{option}</Text>
+                                                <Text className="text-sm">{capitalize(channelTypeLabel(option))}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     )

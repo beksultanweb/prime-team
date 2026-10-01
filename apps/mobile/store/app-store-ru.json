@@ -1,0 +1,28 @@
+{
+  "locale": "ru",
+  "appInfo": {
+    "name": "Prime Team",
+    "subtitle": "Чат сотрудников клиники",
+    "privacyPolicyUrl": "https://primegc.kz/politic/prime-team.html"
+  },
+  "version": {
+    "description": "Prime Team — рабочий чат сотрудников Prime Green Clinic.\n\nКаналы по отделениям и темам, личные сообщения и треды помогают быстро договориться о пациентах, сменах и задачах, не теряя важное в общих переписках.\n\nВозможности:\n• каналы — открытые, публичные и закрытые;\n• личные сообщения и треды для обсуждения отдельных вопросов;\n• отправка фото, видео, документов и GIF;\n• опросы, реакции, упоминания коллег;\n• закреплённые и сохранённые сообщения;\n• статусы доступности: в сети, отошёл, не беспокоить;\n• светлая и тёмная тема.\n\nПриложение предназначено только для сотрудников клиники: учётную запись выдаёт администратор. Вход выполняется через корпоративный сервер app.primegc.kz.\n\nPrime Team основан на свободном проекте Raven (The Commit Company) и распространяется по лицензии GNU AGPL-3.0.",
+    "keywords": "чат,мессенджер,сотрудники,клиника,команда,каналы,треды,рабочий чат,prime,green clinic",
+    "promotionalText": "Рабочий чат сотрудников Prime Green Clinic: каналы, личные сообщения и треды.",
+    "supportUrl": "https://primegc.kz/politic/prime-team.html#support",
+    "marketingUrl": "https://primegc.kz/"
+  },
+  "review": {
+    "contactFirstName": "",
+    "contactLastName": "",
+    "contactEmail": "",
+    "contactPhone": "",
+    "demoAccountName": "",
+    "demoAccountPassword": "",
+    "notes": "Prime Team is an internal messaging app for employees of Prime Green Clinic (Kazakhstan). Accounts are created by the clinic's administrator; there is no self sign-up.\n\nHow to sign in:\n1. Open the app — the site address app.primegc.kz is already filled in. Tap \"Продолжить\" (Continue).\n2. Tap \"Войти\" (Sign in). The company login page opens in a secure browser window.\n3. On the login page switch to the tab \"Логин и пароль\" (Login and password) — the first tab, \"ЭЦП\", is for Kazakhstan digital signatures — and enter the demo account credentials provided above.\n\nThe UI is in Russian.\n\nThe app is a modified version of the open-source project Raven (AGPL-3.0) by The Commit Company and is not affiliated with them.\n\nUser-generated content (Guideline 1.2): the app is not open to the public. Every account is a clinic employee created and managed by the clinic's administrator, who can remove messages, channels and users and disable accounts at any time. Employees can delete their own messages and leave channels. Concerns about content are handled by the clinic administration (info@primegc.kz)."
+  },
+  "categories": {
+    "primary": "BUSINESS",
+    "secondary": "PRODUCTIVITY"
+  }
+}

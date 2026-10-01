@@ -192,9 +192,9 @@ const Actions = ({ data, doctype, docname }: { data: Record<string, any>, doctyp
     const copyLink = useCallback(async () => {
         try {
             await Clipboard.setStringAsync(route);
-            toast.success('Link copied to clipboard');
+            toast.success('Ссылка скопирована');
         } catch (error) {
-            toast.error('Failed to copy link');
+            toast.error('Не удалось скопировать ссылку');
             console.error('Copy error:', error);
         }
     }, []);
@@ -206,10 +206,10 @@ const Actions = ({ data, doctype, docname }: { data: Record<string, any>, doctyp
             if (canOpen) {
                 await Linking.openURL(route);
             } else {
-                toast.error('Cannot open this URL');
+                toast.error('Не удаётся открыть ссылку');
             }
         } catch (error) {
-            toast.error('Failed to open link');
+            toast.error('Не удалось открыть ссылку');
             console.error('Open link error:', error);
         }
     }, []);
@@ -217,9 +217,9 @@ const Actions = ({ data, doctype, docname }: { data: Record<string, any>, doctyp
     const copyToClipboard = async (text: string) => {
         try {
             await Clipboard.setStringAsync(text);
-            toast.success(`Copied to clipboard`);
+            toast.success(`Скопировано`);
         } catch {
-            toast.error('Failed to copy');
+            toast.error('Не удалось скопировать');
         }
     };
 
@@ -243,7 +243,7 @@ const Actions = ({ data, doctype, docname }: { data: Record<string, any>, doctyp
             onPress={openLink}>
             <LinkExternalIcon fill={colors.icon} width={20} height={20} />
 
-            <Text className='text-foreground text-sm font-medium'>Open Document</Text>
+            <Text className='text-foreground text-sm font-medium'>Открыть документ</Text>
         </Pressable>
         <View className='flex flex-row gap-2'>
             <Pressable
@@ -278,8 +278,8 @@ const ImagePreview = ({ image }: { image: string }) => {
 }
 
 const DocTypeBadge = ({ doctype }: { doctype: string }) => {
-    return <View className='bg-[#0011EE0F] dark:bg-[#525BFF3B] rounded-sm px-1.5 py-0.5 self-start'>
-        <Text className='text-sm font-semibold text-primary dark:text-[#B1A9FF]'>
+    return <View className='bg-[#115F4D14] dark:bg-[#2680683B] rounded-sm px-1.5 py-0.5 self-start'>
+        <Text className='text-sm font-semibold text-primary dark:text-[#A5F5E2]'>
             {doctype}
         </Text>
     </View>
@@ -319,8 +319,8 @@ const DocTypeCardError = ({
         <View className="bg-background dark:bg-card-background/40 shadow-card border border-border dark:border-border/50 rounded-lg gap-1 p-2.5">
             {/* TODO: Insert Error Banner  here later*/}
             <View className='flex gap-1'>
-                <View className='bg-[#0011EE0F] dark:bg-[#525BFF3B] rounded-sm px-1.5 py-0.5 self-start'>
-                    <Text className='text-sm font-semibold text-primary dark:text-[#B1A9FF]'>
+                <View className='bg-[#115F4D14] dark:bg-[#2680683B] rounded-sm px-1.5 py-0.5 self-start'>
+                    <Text className='text-sm font-semibold text-primary dark:text-[#A5F5E2]'>
                         {doctype}
                     </Text>
                 </View>
@@ -329,7 +329,7 @@ const DocTypeCardError = ({
                 </Text>
             </View>
             <Text className='text-sm text-error-heading'>
-                There was an error loading preview data.
+                Не удалось загрузить предпросмотр.
             </Text>
         </View>
     )

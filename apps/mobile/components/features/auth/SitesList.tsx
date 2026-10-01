@@ -19,12 +19,12 @@ const SitesList = () => {
     return (
         <>
             <View className='flex w-full gap-2'>
-                <Text className='text-foreground text-base'>Select an existing site</Text>
+                <Text className='text-foreground text-base'>Выберите сайт</Text>
                 {Object.entries(sites).map(([siteName, siteInformation]) => (
                     <Pressable key={siteName} onPress={() => handleSitePress(siteName)} className='bg-card dark:bg-card rounded-lg px-2 py-2 active:bg-card-background/50 dark:active:bg-card/80'>
                         <View className='flex flex-row pr-2 items-center justify-between'>
                             <View className='flex-row items-center gap-2'>
-                                <Avatar alt="Site Logo">
+                                <Avatar alt="Логотип сайта">
                                     <AvatarImage source={{ uri: (siteInformation.url) + (siteInformation.logo) }} />
                                 </Avatar>
                                 <View>

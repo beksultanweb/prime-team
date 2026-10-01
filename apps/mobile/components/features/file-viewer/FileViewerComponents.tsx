@@ -76,7 +76,7 @@ const ImageViewer = ({ uri, handleShowHeader }: ImageViewerProps) => {
     const source = useFileURL(uri)
     if (!source) {
         return <View className="p-2">
-            <ErrorBanner message="Something went wrong" heading="Couldn't open image" />
+            <ErrorBanner message="Что-то пошло не так" heading="Не удалось открыть изображение" />
         </View>
     }
     return (

@@ -25,7 +25,7 @@ const HowToSetupMobile = () => {
         <View>
             <TouchableOpacity className='flex-row items-center gap-1' onPress={onPress}>
                 <InfoIcon height={16} width={16} fill={colors.icon} />
-                <Text className='text-sm text-muted-foreground'>How do I setup my site for Raven mobile?</Text>
+                <Text className='text-sm text-muted-foreground'>Как настроить сайт для Prime Team?</Text>
             </TouchableOpacity>
 
             <Sheet enableDynamicSizing ref={infoSheetRef}>
@@ -50,31 +50,31 @@ const HowToSetupMobileContent = ({ onDismiss }: { onDismiss: () => void }) => {
     }
 
     return <View className='p-4 flex gap-4'>
-        <Text className='text-lg text-foreground font-semibold'>Set up Raven mobile on your site</Text>
+        <Text className='text-lg text-foreground font-semibold'>Настройка сайта для Prime Team</Text>
         <View className='flex gap-2'>
             <Text className='text-base text-foreground'>
-                <StepNumber number={1} /> Open Raven on your desktop browser
+                <StepNumber number={1} /> Откройте Raven в браузере на компьютере и перейдите в <BoldText>Settings {">"} Mobile App</BoldText>
             </Text>
             <Text className='text-base text-foreground'>
-                <StepNumber number={2} /> Go to <BoldText>Settings {">"} Mobile App</BoldText>
+                <StepNumber number={2} /> Нажмите <BoldText>Configure OAuth Client</BoldText>, если клиента ещё нет
             </Text>
             <Text className='text-base text-foreground'>
-                <StepNumber number={3} /> Click on <BoldText>Configure OAuth Client</BoldText>
+                <StepNumber number={3} /> Откройте этот <BoldText>OAuth Client</BoldText> в рабочем столе Frappe и добавьте <BoldText>kz.primegc.team:</BoldText> в Redirect URIs
             </Text>
         </View>
 
         <View className='flex gap-2'>
             <Text className='text-base text-foreground'>
-                This will create an OAuth client that users can use to authenticate securely on the mobile app.
+                Через этот OAuth-клиент сотрудники безопасно входят в мобильное приложение.
             </Text>
 
             <Text className='text-base text-muted-foreground'>
-                PS: Only System Administrators can do this.
+                Это может сделать только системный администратор.
             </Text>
         </View>
 
         <Button onPress={onDismiss}>
-            <Text>Close</Text>
+            <Text>Закрыть</Text>
         </Button>
     </View>
 

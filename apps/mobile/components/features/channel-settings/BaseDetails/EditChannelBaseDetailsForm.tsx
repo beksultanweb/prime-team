@@ -43,24 +43,24 @@ const EditChannelBaseDetailsForm = () => {
             <Form className="p-4 pt-6">
 
                 <View className="flex-col gap-2">
-                    <FormLabel isRequired>Name</FormLabel>
+                    <FormLabel isRequired>Название</FormLabel>
                     <Controller
                         name="channel_name"
                         control={control}
                         rules={{
-                            required: "Please add a channel name",
+                            required: "Введите название канала",
                             maxLength: {
                                 value: 50,
-                                message: "Channel name cannot be more than 50 characters.",
+                                message: "Название канала — не длиннее 50 символов.",
                             },
                             minLength: {
                                 value: 3,
-                                message: "Channel name cannot be less than 3 characters.",
+                                message: "Название канала — не короче 3 символов.",
                             },
                             pattern: {
                                 // no special characters allowed, cannot start with a space
                                 value: /^[a-zA-Z0-9][a-zA-Z0-9-]*$/,
-                                message: "Channel name can only contain letters, numbers and hyphens.",
+                                message: "В названии канала можно использовать только буквы, цифры и дефисы.",
                             },
                         }}
                         render={({ field: { onBlur, value }, fieldState: { error } }) => (
@@ -78,7 +78,7 @@ const EditChannelBaseDetailsForm = () => {
                                     onBlur={onBlur}
                                     onChangeText={handleNameChange}
                                     autoFocus
-                                    accessibilityHint={error ? "Channel name is invalid. Please check the error." : undefined}
+                                    accessibilityHint={error ? "Название канала не подходит. Проверьте ошибку." : undefined}
                                     aria-invalid={error ? "true" : "false"}
                                 />
                                 {/* Character counter */}
@@ -98,8 +98,8 @@ const EditChannelBaseDetailsForm = () => {
 
                 <View className="flex-col gap-2">
                     <View className="flex-row items-center gap-0">
-                        <FormLabel>Description</FormLabel>
-                        <Text className="text-sm">(optional)</Text>
+                        <FormLabel>Описание</FormLabel>
+                        <Text className="text-sm">(необязательно)</Text>
                     </View>
                     <Controller
                         control={control}
@@ -107,7 +107,7 @@ const EditChannelBaseDetailsForm = () => {
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput
                                 className="w-full border min-h-24 border-border rounded-lg px-3 pt-2 pb-2 text-[16px] leading-5 text-foreground"
-                                placeholder="Discuss the latest features and ideas and keep track of the deliverables"
+                                placeholder="Обсуждаем новости отдела и задачи"
                                 placeholderTextColor={colors.grey}
                                 placeholderClassName="leading-5"
                                 textAlignVertical="top"
@@ -119,7 +119,7 @@ const EditChannelBaseDetailsForm = () => {
                             />
                         )}
                     />
-                    <Text className="text-sm text-muted-foreground">What is this channel about?</Text>
+                    <Text className="text-sm text-muted-foreground">О чём этот канал?</Text>
                     {errors?.channel_description && (
                         <ErrorText>{errors.channel_description?.message}</ErrorText>
                     )}

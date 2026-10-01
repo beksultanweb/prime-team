@@ -60,7 +60,7 @@ export default function PreferencesScreen() {
                             <HeaderBackButton />
                         )
                     },
-                    headerTitle: () => <Text className='ml-2 text-base font-semibold'>Preferences</Text>,
+                    headerTitle: () => <Text className='ml-2 text-base font-semibold'>Настройки</Text>,
                     headerStyle: { backgroundColor: colors.background },
                 }} />
             <KeyboardAwareScrollView
@@ -70,14 +70,14 @@ export default function PreferencesScreen() {
                 contentInsetAdjustmentBehavior="automatic"
                 contentContainerStyle={{ paddingBottom: insets.bottom }}>
                 <Form className="gap-5 px-4 pt-8">
-                    <FormSection footnote="Set your preferred emoji for reactions on double tap.">
+                    <FormSection footnote="Эмодзи, которое ставится двойным нажатием на сообщение.">
                         <FormItem className='py-0.5'>
                             <Pressable onPress={() => openEmojiPicker('doubleTapMessageEmoji')}
                                 hitSlop={10}
                                 className='bg-card dark:bg-card rounded-xl active:bg-muted/20'>
                                 <View className='flex flex-row py-2.5 px-4 justify-between'>
                                     <View className='flex-row items-center gap-2'>
-                                        <Text className='text-base'>React on Double Tap with</Text>
+                                        <Text className='text-base'>Реакция на двойное нажатие</Text>
                                     </View>
                                     <View>
                                         <Text className='text-base text-muted-foreground/80'>{doubleTapMessageEmoji}</Text>
@@ -87,10 +87,10 @@ export default function PreferencesScreen() {
                         </FormItem>
                     </FormSection>
 
-                    <FormSection footnote="Tap an emoji to set it as your preferred reaction.">
+                    <FormSection footnote="Нажмите на эмодзи, чтобы сделать его быстрой реакцией.">
                         <FormItem className='py-0.5'>
                             <View className='flex flex-col gap-2 px-2'>
-                                <Text className='text-base font-medium'>Preferred Emojis for Reactions</Text>
+                                <Text className='text-base font-medium'>Быстрые реакции</Text>
                                 <View className='flex flex-row gap-2 justify-around'>
                                     <Pressable
                                         onPress={() => openEmojiPicker('quickReactionEmojis-1')}

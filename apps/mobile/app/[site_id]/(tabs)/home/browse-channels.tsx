@@ -41,7 +41,7 @@ export default function BrowseChannels() {
 
     return <>
         <Stack.Screen options={{
-            title: 'Browse Channels',
+            title: 'Все каналы',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
                     <Link asChild href="../" relativeToDirectory>
@@ -74,7 +74,7 @@ export default function BrowseChannels() {
                         <Text className="text-base">{item.channel_name}</Text>
                         {item.is_archived ?
                             <View className='px-1 mt-0.5 py-0.5 rounded-sm bg-red-100 dark:bg-red-900/40'>
-                                <Text className="text-[11px] text-red-700 dark:text-red-300">Archived</Text>
+                                <Text className="text-[11px] text-red-700 dark:text-red-300">В архиве</Text>
                             </View> : null}
                     </Pressable>
                 )}
@@ -111,25 +111,25 @@ const ChannelFilter = ({ channel, setChannel }: { channel: string, setChannel: (
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
             <DropdownMenu.Item key="All" onSelect={() => setChannel('All')}>
-                <DropdownMenu.ItemTitle>Any Channel</DropdownMenu.ItemTitle>
+                <DropdownMenu.ItemTitle>Любой канал</DropdownMenu.ItemTitle>
             </DropdownMenu.Item>
             <DropdownMenu.Item
                 key="open"
-                textValue="Open"
+                textValue="Открытые"
                 onSelect={() => setChannel('Open')}>
-                <Text>Open</Text>
+                <Text>Открытые</Text>
             </DropdownMenu.Item>
             <DropdownMenu.Item
                 key="private"
-                textValue="Private"
+                textValue="Закрытые"
                 onSelect={() => setChannel('Private')}>
-                <Text>Private</Text>
+                <Text>Закрытые</Text>
             </DropdownMenu.Item>
             <DropdownMenu.Item
                 key="public"
-                textValue="Public"
+                textValue="Публичные"
                 onSelect={() => setChannel('Public')}>
-                <Text>Public</Text>
+                <Text>Публичные</Text>
             </DropdownMenu.Item>
         </DropdownMenu.Content>
     </DropdownMenu.Root>

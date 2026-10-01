@@ -28,11 +28,11 @@ export default function CustomStatusScreen() {
         call({
             custom_status: customStatus
         }).then(() => {
-            toast.success("Status updated")
+            toast.success("Статус обновлён")
             mutate()
             router.back()
         }).catch(() => {
-            toast.error("Failed to update status")
+            toast.error("Не удалось обновить статус")
         })
     }
 
@@ -47,7 +47,7 @@ export default function CustomStatusScreen() {
                             <HeaderBackButton />
                         )
                     },
-                    headerTitle: () => <Text className='ml-2 text-base font-semibold'>Custom Status</Text>,
+                    headerTitle: () => <Text className='ml-2 text-base font-semibold'>Статус</Text>,
                     headerRight() {
                         return (
                             <Button variant="plain" className="ios:px-0"
@@ -55,7 +55,7 @@ export default function CustomStatusScreen() {
                                 disabled={loading}>
                                 {loading ?
                                     <ActivityIndicator size="small" color={colors.primary} /> :
-                                    <Text className="text-primary dark:text-secondary">Save</Text>}
+                                    <Text className="text-primary dark:text-secondary">Сохранить</Text>}
                             </Button>
                         )
                     },
@@ -68,17 +68,17 @@ export default function CustomStatusScreen() {
                 contentInsetAdjustmentBehavior="automatic"
                 contentContainerStyle={{ paddingBottom: insets.bottom }}>
                 <Form className="gap-5 px-4 pt-8">
-                    <FormSection footnote="Share what you are up to.">
+                    <FormSection footnote="Расскажите, чем вы заняты.">
                         <FormItem>
                             <TextField
                                 autoFocus
                                 className="pl-0.5"
                                 leftView={
                                     <View className="w-36 justify-between flex-row items-center pl-2">
-                                        <Text className="font-medium">Custom Status</Text>
+                                        <Text className="font-medium">Статус</Text>
                                     </View>
                                 }
-                                placeholder="e.g. Out of Office"
+                                placeholder="Например: в отпуске"
                                 value={customStatus}
                                 onChangeText={setCustomStatus}
                             />

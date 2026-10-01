@@ -64,7 +64,7 @@ const TiptapEditor = ({
             //     lowlight: lowlight,
             // }),
             Placeholder.configure({
-                placeholder: 'Type a message...',
+                placeholder: 'Сообщение…',
             }),
         ],
         content: content,

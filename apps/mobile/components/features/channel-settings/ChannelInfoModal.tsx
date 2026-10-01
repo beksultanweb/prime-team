@@ -96,23 +96,23 @@ const ChannelInfoModal = ({ channel, isModalVisible, setModalVisible }: ChannelI
                     <ActionButton
                         onPress={handleGoToViewMembers}
                         icon={<MembersIcon height={20} width={20} color={colors.foreground} />}
-                        text='Members'
+                        text='Участники'
                         showChevron />
                     <ActionButton
                         onPress={handleGoToSettings}
                         icon={<SettingsIcon height={20} width={20} color={colors.foreground} />}
-                        text='Settings & Details'
+                        text='Настройки и сведения'
                         showChevron />
                     <ActionButton
                         onPress={handleGoToPins}
                         icon={<PinOutlineIcon height={20} width={20} color={colors.foreground} />}
-                        text='Pins'
+                        text='Закреплённые'
                         count={pinnedMessages}
                         showChevron />
                     <ActionButton
                         onPress={handleGoToSharedMedia}
                         icon={<HollowFilesIcon height={20} width={20} fill={colors.foreground} />}
-                        text='Images and Files'
+                        text='Изображения и файлы'
                         showChevron />
                 </Animated.View>
             </TouchableOpacity>

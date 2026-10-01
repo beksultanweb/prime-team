@@ -20,7 +20,7 @@ const UserFullName = () => {
             <View className='flex flex-row py-2.5 px-4 rounded-xl items-center justify-between bg-background dark:bg-card'>
                 <View className='flex-row items-center gap-2'>
                     <UserIcon height={18} width={18} fill={colors.icon} />
-                    <Text className='text-base'>Name</Text>
+                    <Text className='text-base'>Имя</Text>
                 </View>
                 <TouchableOpacity onPress={handleGoToFullNameUpdate}>
                     <Text className='text-base text-foreground'>{myProfile?.full_name}</Text>

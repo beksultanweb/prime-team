@@ -21,21 +21,21 @@ const LeaveChannel = ({ channel }: { channel: FrappeDoc<ChannelListItem> | undef
     const onLeaveChannel = async () => {
         return call({ channel_id: channel?.name })
             .then(() => {
-                toast.success(`You have left ${channel?.channel_name} channel`)
+                toast.success(`Вы покинули канал ${channel?.channel_name}`)
                 goToHome()
                 mutate()
             })
             .catch(() => {
-                toast.error('Could not leave channel', {
+                toast.error('Не удалось покинуть канал', {
                     description: error?.httpStatusText
                 })
             })
     }
 
     const onLeaveChannelPressed = () => {
-        Alert.alert('Leave channel?', `Are you sure you want to leave ${channel?.channel_name} channel?`, [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Leave', style: 'destructive', onPress: onLeaveChannel },
+        Alert.alert('Покинуть канал?', `Вы покинете канал ${channel?.channel_name}.`, [
+            { text: 'Отмена', style: 'cancel' },
+            { text: 'Покинуть', style: 'destructive', onPress: onLeaveChannel },
         ])
     }
 
@@ -45,7 +45,7 @@ const LeaveChannel = ({ channel }: { channel: FrappeDoc<ChannelListItem> | undef
             className='flex flex-row items-center py-3 px-4 rounded-xl gap-3 bg-background dark:bg-card ios:active:bg-red-50 dark:ios:active:bg-red-100/10'
             android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
             <LeaveIcon height={18} width={18} fill={colors.destructive} />
-            <Text className="text-base text-destructive">Leave Channel</Text>
+            <Text className="text-base text-destructive">Покинуть канал</Text>
         </Pressable>
     )
 }

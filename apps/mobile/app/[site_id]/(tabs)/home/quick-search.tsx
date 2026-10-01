@@ -38,7 +38,7 @@ export default function QuickSearch() {
 
     return <>
         <Stack.Screen options={{
-            title: 'Quick Search',
+            title: 'Быстрый поиск',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
                     <Link asChild href="../" relativeToDirectory>
@@ -61,19 +61,19 @@ export default function QuickSearch() {
                 <ActionButtonLarge
                     onPress={() => openMenuItemSheet('../home/browse-channels')}
                     icon={<HashIcon fill={colors.grey} height={20} width={20} />}
-                    text="View Channels"
+                    text="Все каналы"
                     textProps={{ className: 'text-sm text-muted-foreground' }}
                 />
                 <ActionButtonLarge
                     onPress={() => openMenuItemSheet('../home/create-dm')}
                     icon={<UserIcon fill={colors.grey} height={20} width={20} />}
-                    text="Create DM"
+                    text="Новое личное сообщение"
                     textProps={{ className: 'text-sm text-muted-foreground' }}
                 />
                 <ActionButtonLarge
                     onPress={() => openMenuItemSheet('../home/create-channel')}
                     icon={<PlusIcon fill={colors.grey} height={20} width={20} />}
-                    text="New Channel"
+                    text="Новый канал"
                     textProps={{ className: 'text-sm text-muted-foreground' }}
                 />
             </View>

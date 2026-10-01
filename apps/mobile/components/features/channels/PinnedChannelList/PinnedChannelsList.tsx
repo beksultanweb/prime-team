@@ -49,7 +49,7 @@ const PinnedChannelListUI = ({ channels }: { channels: ChannelListItem[] }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={toggleAccordion} style={styles.header} activeOpacity={0.7}>
-                <Text style={styles.headerText}>Favourites</Text>
+                <Text style={styles.headerText}>Избранное</Text>
                 {isExpanded ? <ChevronDownIcon fill={colors.icon} /> : <ChevronRightIcon fill={colors.icon} />}
             </TouchableOpacity>
             {isExpanded && <>

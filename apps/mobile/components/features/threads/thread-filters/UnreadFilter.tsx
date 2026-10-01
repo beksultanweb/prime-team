@@ -17,10 +17,10 @@ const UnreadFilter = ({ onlyShowUnread, setOnlyShowUnread }: { onlyShowUnread: b
                 </DropdownMenu.Trigger>
                 <DropdownMenu.Content side='bottom' align='end'>
                     <DropdownMenu.Item key="all" onSelect={() => setOnlyShowUnread(false)}>
-                        <DropdownMenu.ItemTitle>All</DropdownMenu.ItemTitle>
+                        <DropdownMenu.ItemTitle>Все</DropdownMenu.ItemTitle>
                     </DropdownMenu.Item>
                     <DropdownMenu.Item key="unread" onSelect={() => setOnlyShowUnread(true)}>
-                        <DropdownMenu.ItemTitle>Unread</DropdownMenu.ItemTitle>
+                        <DropdownMenu.ItemTitle>Непрочитанные</DropdownMenu.ItemTitle>
                     </DropdownMenu.Item>
                 </DropdownMenu.Content>
             </DropdownMenu.Root>

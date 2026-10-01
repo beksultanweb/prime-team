@@ -9,7 +9,7 @@ const ThreadsLayout = () => {
         <Stack screenOptions={{ headerStyle: { backgroundColor: colors.background } }}>
             <Stack.Screen name='index'
                 options={{
-                    title: 'Threads',
+                    title: 'Треды',
                     headerLargeTitle: true
                 }} />
         </Stack>

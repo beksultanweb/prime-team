@@ -34,7 +34,7 @@ export default function Media() {
     return (
         <>
             <Stack.Screen options={{
-                title: 'Images and Files',
+                title: 'Изображения и файлы',
                 headerLargeTitle: false,
                 headerStyle: { backgroundColor: colors.background },
                 headerLeft: () => <HeaderBackButton />,
@@ -44,7 +44,7 @@ export default function Media() {
                     <SearchInput
                         value={searchText}
                         onChangeText={setSearchText}
-                        placeholder="Search images and files"
+                        placeholder="Поиск по изображениям и файлам"
                     />
                 </View>
                 <MediaTabs searchQuery={debouncedText} />

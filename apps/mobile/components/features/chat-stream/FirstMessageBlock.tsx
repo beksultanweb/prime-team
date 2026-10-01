@@ -40,7 +40,7 @@ const ChannelHeader = ({ channelID }: { channelID: string }) => {
     }
 
     return <View className="pt-8 p-3">
-        <Text>You're at the beginning of this channel.</Text>
+        <Text>Это начало канала.</Text>
     </View>
 }
 
@@ -60,7 +60,7 @@ const ThreadHeader = ({ threadID }: { threadID: string }) => {
 
     return <View className="bg-card-background/30 py-2 rounded-lg">
         <View className='flex-1 flex-row items-center gap-2 pr-3 ml-3 py-2 border-b border-border/50'>
-            <Text className='text-base font-semibold text-foreground'>Start of Thread</Text>
+            <Text className='text-base font-semibold text-foreground'>Начало треда</Text>
         </View>
         <View className="pb-2">
             {threadMessage && <BaseMessageItem message={threadMessage} />}
@@ -102,19 +102,19 @@ const FirstMessageBlockForDM = ({ channelData }: { channelData: DMChannelListIte
                             <Text className="font-semibold">{userName}</Text>
                             <Text>
                                 {isBot ? <View className="bg-linkColor rounded-md px-2 py-0.5 opacity-70 dark:opacity-80">
-                                    <Text className="text-xs font-medium">Bot</Text>
+                                    <Text className="text-xs font-medium">Бот</Text>
                                 </View> : <Text className='text-sm text-muted-foreground'>{peer}</Text>}
                             </Text>
                         </View>
                     </View>
                     {channelData?.is_self_message == 1 ? (
-                        <Text className='text-[15px]'><Text className='text-[15px] font-semibold'>This space is all yours.</Text> Draft messages, list your to-dos, or keep links and files handy.</Text>
+                        <Text className='text-[15px]'><Text className='text-[15px] font-semibold'>Это ваше личное пространство.</Text> Пишите черновики, ведите список дел, храните ссылки и файлы под рукой.</Text>
                     ) : (
                         <View className="flex flex-row gap-2 items-center">
                             {peer || fullName ? (
-                                <Text className='text-[15px]'>This is a direct message channel between you and <Text className='text-[15px] font-semibold'>{fullName ?? peer}</Text>.</Text>
+                                <Text className='text-[15px]'>Это личный чат с пользователем <Text className='text-[15px] font-semibold'>{fullName ?? peer}</Text>.</Text>
                             ) : (
-                                <Text className='text-[15px]'>We could not find the user for this DM channel ({replaceCurrentUserFromDMChannelName(channelData.channel_name, currentUserInfo?.name ?? "")}).</Text>
+                                <Text className='text-[15px]'>Не удалось найти собеседника в этом личном чате ({replaceCurrentUserFromDMChannelName(channelData.channel_name, currentUserInfo?.name ?? "")}).</Text>
                             )}
                         </View>
                     )}
@@ -133,8 +133,8 @@ const FirstMessageBlockForChannel = ({ channelData }: { channelData: ChannelList
                     <ChannelIcon size={20} type={channelData?.type} fill={colors.foreground} />
                     <Text className="text-lg font-semibold">{channelData?.channel_name}</Text>
                 </View>
-                <Text className="text-[15px]">This is the very beginning of the <Text className="text-base font-semibold">{channelData?.channel_name}</Text> channel.</Text>
-                {channelData?.channel_description && <Text className="text-sm text-muted-foreground">Channel description: {channelData?.channel_description}</Text>}
+                <Text className="text-[15px]">Это самое начало канала <Text className="text-base font-semibold">{channelData?.channel_name}</Text>.</Text>
+                {channelData?.channel_description && <Text className="text-sm text-muted-foreground">Описание канала: {channelData?.channel_description}</Text>}
             </View>
         </View>
     )

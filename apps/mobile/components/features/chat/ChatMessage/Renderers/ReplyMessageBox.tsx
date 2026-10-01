@@ -101,7 +101,7 @@ const ImageFileReplyBlock = ({ file, messageType, owner }: { file: string, messa
             {messageType === 'Image' ? (
                 <Image
                     source={source}
-                    alt={`Image sent by ${owner}`}
+                    alt={`Изображение от ${owner}`}
                     style={{
                         width: 20,
                         height: 20,

@@ -38,7 +38,7 @@ export const ChannelListUI = ({ channels }: { channels: ChannelListItem[] }) => 
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={toggleAccordion} style={styles.header} activeOpacity={0.7}>
-                <Text style={styles.headerText}>Channels</Text>
+                <Text style={styles.headerText}>Каналы</Text>
                 <View className="flex-row items-center gap-1">
                     <Pressable
                         hitSlop={10}
@@ -54,7 +54,7 @@ export const ChannelListUI = ({ channels }: { channels: ChannelListItem[] }) => 
                 <Pressable style={styles.addChannelButton} className='ios:active:bg-linkColor'
                     onPress={() => router.push('../home/create-channel', { relativeToDirectory: true })}>
                     <PlusIcon fill={colors.icon} height={18} width={18} />
-                    <Text style={styles.addChannelText}>Add channel</Text>
+                    <Text style={styles.addChannelText}>Создать канал</Text>
                 </Pressable>
             </>}
         </View>

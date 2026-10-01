@@ -32,7 +32,7 @@ const ViewPollVotes = ({ poll }: ViewPollVotesProps) => {
                 onPress={() => bottomSheetRef.current?.present()}
                 activeOpacity={0.6}>
                 <Text className="text-center text-sm text-primary dark:text-secondary font-medium">
-                    View votes
+                    Посмотреть голоса
                 </Text>
             </TouchableOpacity>
 
@@ -73,7 +73,7 @@ const VotesBlock = ({ votesData, poll }: { votesData: PollVotesResponse; poll: P
     return (
         <View>
             <View className="flex-row justify-between items-baseline mb-4">
-                <Text className="text-xl font-cal-sans">Poll Votes</Text>
+                <Text className="text-xl font-cal-sans">Голоса</Text>
                 <Text className="text-sm text-muted-foreground">
                     {poll.poll.total_votes} vote{poll.poll.total_votes > 1 ? 's' : ''}
                 </Text>

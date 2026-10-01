@@ -133,7 +133,7 @@
 
 /* Active state for buttons */
 .bubble-menu button.is-active {
-  background-color: rgb(87, 83, 198);
+  background-color: rgb(17, 95, 77);
   color: rgb(255, 255, 255);
 }
 
@@ -146,7 +146,7 @@
 }
 
 .tiptap a {
-  color: rgb(87, 83, 198);
+  color: rgb(17, 95, 77);
 }
 
 .dark {
@@ -169,6 +169,6 @@
   }
 
   .bubble-menu button.is-active {
-    background-color: rgb(91, 91, 214);
+    background-color: rgb(38, 128, 104);
   }
 }

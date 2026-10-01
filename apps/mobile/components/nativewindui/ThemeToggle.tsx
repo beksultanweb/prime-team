@@ -54,7 +54,7 @@ export function ThemeToggle() {
                             light: 'gray',
                         },
                     }} />
-                    <DropdownMenu.ItemTitle>Light</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemTitle>Светлая</DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item key="dark" onSelect={() => setColorScheme('dark')}>
                     <DropdownMenu.ItemIcon ios={{
@@ -66,7 +66,7 @@ export function ThemeToggle() {
                             light: 'gray',
                         },
                     }} />
-                    <DropdownMenu.ItemTitle>Dark</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemTitle>Тёмная</DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>
                 <DropdownMenu.Item key="system" onSelect={() => setColorScheme('system')}>
                     <DropdownMenu.ItemIcon ios={{
@@ -78,7 +78,7 @@ export function ThemeToggle() {
                             light: 'gray',
                         },
                     }} />
-                    <DropdownMenu.ItemTitle>System</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemTitle>Как в системе</DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>
             </DropdownMenu.Content>
         </DropdownMenu.Root>

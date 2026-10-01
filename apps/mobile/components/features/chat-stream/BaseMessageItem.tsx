@@ -48,7 +48,7 @@ export const BaseMessageItem = ({ message }: { message: Message }) => {
                 {message.is_pinned === 1 &&
                     <View className='flex-row items-center gap-1'>
                         <PinIcon width={12} height={12} />
-                        <Text className='text-xs text-accent'>Pinned</Text>
+                        <Text className='text-xs text-accent'>Закреплено</Text>
                     </View>}
 
                 {linked_message && replied_message_details && <ReplyMessageBox message={message} />}
@@ -62,7 +62,7 @@ export const BaseMessageItem = ({ message }: { message: Message }) => {
                     <DocTypeLinkRenderer doctype={message.link_doctype} docname={message.link_document} />
                 </View>}
 
-                {message.is_edited === 1 && <Text className='text-xs text-muted-foreground'>(edited)</Text>}
+                {message.is_edited === 1 && <Text className='text-xs text-muted-foreground'>(изменено)</Text>}
                 {message.hide_link_preview === 0 && message.text && <MessageLinkRenderer message={message} />}
             </View>
         </View>

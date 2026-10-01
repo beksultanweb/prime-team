@@ -17,7 +17,7 @@ const UnreadChannelListMoreActions = ({ channelIDs }: { channelIDs: string[] }) 
         call({
             channel_ids: channelIDs
         }).then(() => {
-            toast.success('All messages marked as read')
+            toast.success('Все сообщения отмечены прочитанными')
             mutate('unread_channel_count', (d: { message: UnreadCountData } | undefined) => {
                 if (d?.message) {
                     // Update all channels with unread count as 0
@@ -39,7 +39,7 @@ const UnreadChannelListMoreActions = ({ channelIDs }: { channelIDs: string[] }) 
                 revalidate: false
             })
         }).catch(() => {
-            toast.error('Failed to mark all messages as read')
+            toast.error('Не удалось отметить сообщения прочитанными')
         })
     }
 
@@ -52,7 +52,7 @@ const UnreadChannelListMoreActions = ({ channelIDs }: { channelIDs: string[] }) 
             </DropdownMenu.Trigger>
             <DropdownMenu.Content>
                 <DropdownMenu.Item key="mark-all-unread-as-read" onSelect={handleMarkAllAsRead}>
-                    <DropdownMenu.ItemTitle>Mark all as read</DropdownMenu.ItemTitle>
+                    <DropdownMenu.ItemTitle>Отметить все прочитанными</DropdownMenu.ItemTitle>
                 </DropdownMenu.Item>
             </DropdownMenu.Content>
         </DropdownMenu.Root>

@@ -15,6 +15,12 @@ import { useColorScheme } from '@hooks/useColorScheme'
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator'
 import HowToSetupMobile from './HowToSetupMobile'
 
+/** Staff sign in to Prime's own Frappe site, so it is filled in by default */
+const DEFAULT_SITE_URL = 'app.primegc.kz'
+
+/** OAuth redirect; the site's OAuth Client must list it in Redirect URIs */
+export const OAUTH_REDIRECT_URI = makeRedirectUri({ native: 'kz.primegc.team:' })
+
 WebBrowser.maybeCompleteAuthSession();
 
 type Props = {
@@ -25,7 +31,7 @@ const AddSite = ({ useBottomSheet = false }: Props) => {
 
     const { colors } = useColorScheme()
 
-    const [siteURL, setSiteURL] = useState('')
+    const [siteURL, setSiteURL] = useState(DEFAULT_SITE_URL)
 
     const bottomSheetRef = useSheetRef()
 
@@ -63,12 +69,12 @@ const AddSite = ({ useBottomSheet = false }: Props) => {
                     bottomSheetRef.current?.present()
                 } else {
                     // TODO: Show error message/toast
-                    Alert.alert('Error', 'Failed to fetch site information / OAuth client not set for Raven Mobile')
+                    Alert.alert('Ошибка', 'Не удалось получить данные сайта или на нём не настроен OAuth-клиент для приложения')
                 }
             })
             .catch(err => {
                 // TODO: Show error message/toast
-                Alert.alert('Error', 'Failed to fetch site information. Please check the URL and try again.')
+                Alert.alert('Ошибка', 'Не удалось получить данные сайта. Проверьте адрес и попробуйте ещё раз.')
                 console.error(err)
             })
             .finally(() => {
@@ -84,7 +90,7 @@ const AddSite = ({ useBottomSheet = false }: Props) => {
         <View className='flex-1 gap-3'>
             <View className="flex-col gap-2">
                 <View className="flex-row items-center gap-0">
-                    <FormLabel className='text-base'>Site URL</FormLabel>
+                    <FormLabel className='text-base'>Адрес сайта</FormLabel>
                 </View>
                 {useBottomSheet ?
                     <BottomSheetTextInput
@@ -92,7 +98,7 @@ const AddSite = ({ useBottomSheet = false }: Props) => {
                         numberOfLines={1}
                         inputMode='url'
                         autoCapitalize='none'
-                        placeholder='raven.frappe.cloud'
+                        placeholder='app.primegc.kz'
                         placeholderTextColor={colors.grey2}
                         autoCorrect={false}
                         autoComplete='off'
@@ -105,7 +111,7 @@ const AddSite = ({ useBottomSheet = false }: Props) => {
                         numberOfLines={1}
                         inputMode='url'
                         autoCapitalize='none'
-                        placeholder='raven.frappe.cloud'
+                        placeholder='app.primegc.kz'
                         placeholderTextColor={colors.grey2}
                         autoCorrect={false}
                         autoComplete='off'
@@ -115,7 +121,7 @@ const AddSite = ({ useBottomSheet = false }: Props) => {
                 }
             </View>
             <Button onPress={handleAddSite} disabled={isLoading}>
-                <Text>Add Site</Text>
+                <Text>Продолжить</Text>
             </Button>
             <Sheet snapPoints={[400]} ref={bottomSheetRef} onDismiss={clearSiteInformation}>
                 <BottomSheetView className='pb-16'>
@@ -144,7 +150,7 @@ export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformat
         usePKCE: true,
         scopes: ['all', 'openid'],
         codeChallengeMethod: CodeChallengeMethod.S256,
-        redirectUri: makeRedirectUri({ native: 'raven.thecommit.company:' }),
+        redirectUri: OAUTH_REDIRECT_URI,
     }, discoveryWithURL)
 
     const onLoginClick = () => {
@@ -159,14 +165,14 @@ export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformat
                         extraParams: {
                             code_verifier: request?.codeVerifier ?? '',
                         },
-                        redirectUri: makeRedirectUri({ native: 'raven.thecommit.company:' }),
+                        redirectUri: OAUTH_REDIRECT_URI,
                     }, discoveryWithURL).then(data => {
                         onAccessTokenReceived(data)
                     }).catch(err => {
-                        Alert.alert("Authentication Error", err.message)
+                        Alert.alert("Ошибка входа", err.message)
                     })
                 } else if (res.type === "error") {
-                    Alert.alert("Authentication Error", res.error?.message ?? "Unknown error")
+                    Alert.alert("Ошибка входа", res.error?.message ?? "Неизвестная ошибка")
                 }
             })
             .finally(() => {
@@ -189,7 +195,7 @@ export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformat
 
     return <View className='flex gap-4 px-4'>
         <View className='flex-row items-center gap-2'>
-            <Avatar alt="Site Logo">
+            <Avatar alt="Логотип сайта">
                 <AvatarImage source={{ uri: (siteInformation.url) + (siteInformation.logo) }} width={100} height={100} />
             </Avatar>
             <View className='flex-1'>
@@ -200,7 +206,7 @@ export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformat
         <Button onPress={onLoginClick} style={{
             minHeight: 40
         }} disabled={!request || loading}>
-            {loading ? <ActivityIndicator color={"#FFFFFF"} /> : <Text>Login</Text>}
+            {loading ? <ActivityIndicator color={"#FFFFFF"} /> : <Text>Войти</Text>}
         </Button>
     </View>
 }

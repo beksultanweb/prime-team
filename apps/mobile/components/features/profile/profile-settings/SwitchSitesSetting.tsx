@@ -40,7 +40,7 @@ const SwitchSitesSetting = () => {
                 <View className='flex flex-row py-0 pl-4 pr-2 items-center justify-between'>
                     <View className='flex-row items-center gap-2 py-2.5'>
                         <ServerIcon height={18} width={18} color={colors.icon} />
-                        <Text className='text-base'>Current Site</Text>
+                        <Text className='text-base'>Текущий сайт</Text>
 
                     </View>
                     <View className='flex-row h-10 items-center'>
@@ -60,7 +60,7 @@ const SwitchSitesSetting = () => {
             <Sheet enableDynamicSizing ref={addSiteSheetRef}>
                 <BottomSheetView className='flex-1 pb-16'>
                     <View className='flex-1 gap-2 px-4'>
-                        <Text className='text-lg font-semibold'>Add a new site</Text>
+                        <Text className='text-lg font-semibold'>Добавить сайт</Text>
                         <AddSite useBottomSheet={true} />
                     </View>
                 </BottomSheetView>

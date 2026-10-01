@@ -13,7 +13,7 @@ const LogOutButton = () => {
     return (
         <Pressable onPress={onLogout}
             className="flex flex-row items-center py-3 px-4 rounded-xl justify-between bg-background dark:bg-card ios:active:bg-red-50 dark:ios:active:bg-red-100/10">
-            <Text className="font-medium text-destructive">Log Out</Text>
+            <Text className="font-medium text-destructive">Выйти</Text>
             <LogOutIcon height={16} width={16} color={colors.grey} />
         </Pressable>
     )

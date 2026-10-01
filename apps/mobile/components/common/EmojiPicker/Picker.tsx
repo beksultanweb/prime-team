@@ -130,7 +130,7 @@ const EmojiPicker = ({ customEmojis, onSelect, perLine, defaultCategory = "peopl
             />
             <View className='py-3'>
                 <SearchInput
-                    placeholder="Search"
+                    placeholder="Поиск"
                     onChangeText={setSearchText}
                     value={searchText}
                 />

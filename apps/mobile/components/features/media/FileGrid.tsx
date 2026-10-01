@@ -171,7 +171,7 @@ const EmptyStateForDocGrid = () => {
     return (
         <View className="flex flex-row items-center gap-2 py-6 px-3">
             <Text className="text-muted-foreground text-center w-full text-base font-medium">
-                No documents found
+                Документов нет
             </Text>
         </View>
     )

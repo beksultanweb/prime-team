@@ -43,13 +43,13 @@ const UserListProvider = ({ children }: PropsWithChildren) => {
 
     if (!hasData && error) {
         return <View className='bg-card px-2 gap-2 h-screen' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ErrorBanner error={error} heading='There was an error while loading the user list.' />
+            <ErrorBanner error={error} heading='Не удалось загрузить список пользователей.' />
             <View className='flex w-full gap-2 pt-8'>
                 <TouchableOpacity onPress={() => mutate()}
                     activeOpacity={0.8}
                     hitSlop={10}
                     className="flex flex-row items-center py-3 px-4 rounded-xl justify-between bg-background">
-                    <Text className="font-medium text-foreground">Reload App</Text>
+                    <Text className="font-medium text-foreground">Перезапустить</Text>
                     <RefreshIcon height={20} width={20} fill={colors.icon} />
                 </TouchableOpacity>
                 <LogOutButton />
@@ -80,13 +80,13 @@ const ChannelListProvider = ({ children }: PropsWithChildren) => {
 
     if (!channelListContextData.hasData && channelListContextData.error) {
         return <View className='bg-card px-2 gap-2 h-screen' style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <ErrorBanner error={channelListContextData.error} heading='There was an error while loading the channel list.' />
+            <ErrorBanner error={channelListContextData.error} heading='Не удалось загрузить список каналов.' />
             <View className='flex w-full gap-2 pt-8'>
                 <TouchableOpacity onPress={() => channelListContextData.mutate()}
                     activeOpacity={0.8}
                     hitSlop={10}
                     className="flex flex-row items-center py-3 px-4 rounded-xl justify-between bg-background">
-                    <Text className="font-medium text-foreground">Reload App</Text>
+                    <Text className="font-medium text-foreground">Перезапустить</Text>
                     <RefreshIcon height={20} width={20} fill={colors.icon} />
                 </TouchableOpacity>
                 <LogOutButton />

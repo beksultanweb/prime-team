@@ -19,12 +19,12 @@ export default function NotFoundScreen() {
     }
     return (
         <>
-            <Stack.Screen options={{ title: 'Oops!' }} />
+            <Stack.Screen options={{ title: 'Упс!' }} />
             <View className='flex-1 bg-background justify-center gap-3 items-center'>
-                <Text className='text-3xl text-foreground'>This screen doesn't exist.</Text>
+                <Text className='text-3xl text-foreground'>Такой страницы нет.</Text>
                 <View className='h-2' />
                 <Button onPress={handleGoHome}>
-                    <Text>Go Home</Text>
+                    <Text>На главную</Text>
                 </Button>
             </View>
         </>

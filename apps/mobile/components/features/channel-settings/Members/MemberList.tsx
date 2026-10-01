@@ -62,7 +62,7 @@ const MemberList: React.FC<MemberListProps> = ({ filteredMembers, selectedMember
             ListEmptyComponent={!debouncedText.length ? () => (
                 <View className="flex-1 items-center justify-center" style={{ height: Dimensions.get("screen").height - 200 }}>
                     <Text className="text-[15px] text-center text-muted-foreground">
-                        No channel members found.
+                        Участников канала нет.
                     </Text>
                 </View>
             ) : undefined}

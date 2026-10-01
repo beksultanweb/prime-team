@@ -26,7 +26,7 @@ export const PollCreateButton = ({ onPress, isCreating }: Props) => {
             disabled={isCreating}>
             {isCreating ?
                 <ActivityIndicator size="small" color={colors.primary} /> :
-                <Text className="text-primary font-medium dark:text-secondary">Create</Text>}
+                <Text className="text-primary font-medium dark:text-secondary">Создать</Text>}
         </TouchableOpacity>
     )
 }
@@ -82,11 +82,11 @@ export const useCreatePoll = (channelID: string) => {
             ...data,
             "channel_id": channelID
         }).then(() => {
-            toast.success("Poll created")
+            toast.success("Опрос создан")
             reset()
             router.back()
         }).catch((err) => {
-            toast.error("Error while creating poll")
+            toast.error("Не удалось создать опрос")
         })
     }
 

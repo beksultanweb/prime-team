@@ -70,11 +70,11 @@ const TAG_BASE_STYLES: TRenderEngineConfig['tagsStyles'] = {
 
 const lightThemeTagStyles = {
     'a': {
-        color: 'rgb(87, 83, 198)',
+        color: 'rgb(17, 95, 77)',
         borderBottomWidth: 0,
     },
     'blockquote': {
-        borderLeftColor: 'rgba(87, 83, 198, 0.5)',
+        borderLeftColor: 'rgba(17, 95, 77, 0.5)',
     },
     'pre': {
         backgroundColor: 'rgb(248, 248, 248)',
@@ -90,11 +90,11 @@ const lightThemeTagStyles = {
 
 const darkThemeTagStyles = {
     'a': {
-        color: '#B1A9FF',
+        color: '#A5F5E2',
         borderBottomWidth: 0,
     },
     'blockquote': {
-        borderLeftColor: '#6E6ADE',
+        borderLeftColor: '#2E8C74',
     },
     'pre': {
         backgroundColor: '#202020',
@@ -126,15 +126,15 @@ const renderers = {
 
 const classesStylesLight = {
     'mention': {
-        color: '#3A5BC7',
-        backgroundColor: '#EDF2FE',
+        color: '#115F4D',
+        backgroundColor: '#E3F1EC',
     }
 }
 
 const classesStylesDark = {
     'mention': {
-        color: '#8DA4EF',
-        backgroundColor: '#182449',
+        color: '#A5F5E2',
+        backgroundColor: '#0E3B31',
     }
 }
 

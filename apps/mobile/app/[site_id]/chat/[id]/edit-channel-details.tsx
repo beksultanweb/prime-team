@@ -37,17 +37,17 @@ export default function EditChannelDetails() {
             channel_name: data.channel_name ? data.channel_name : currentChannelName,
             channel_description: data.channel_description ? data.channel_description : currentChannelDescription,
         }).then(() => {
-            toast.success("Channel details updated")
+            toast.success("Данные канала обновлены")
             router.back()
         }).catch((err) => {
             console.error(err)
-            toast.error("Error while updating channel details")
+            toast.error("Не удалось обновить данные канала")
         })
     }
 
     return <>
         <Stack.Screen options={{
-            title: 'Edit Channel Details',
+            title: 'Изменить канал',
             headerStyle: { backgroundColor: colors.background },
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
@@ -65,7 +65,7 @@ export default function EditChannelDetails() {
                         disabled={updatingChannel}>
                         {updatingChannel ?
                             <ActivityIndicator size="small" color={colors.primary} /> :
-                            <Text className="text-primary font-medium dark:text-secondary">Save</Text>}
+                            <Text className="text-primary font-medium dark:text-secondary">Сохранить</Text>}
                     </TouchableOpacity>
                 )
             },

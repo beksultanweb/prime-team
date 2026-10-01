@@ -7,9 +7,7 @@ import { toast } from 'sonner-native';
 import { useSetAtom } from 'jotai';
 import { selectedWorkspaceFamily } from './useGetCurrentWorkspace';
 import useSiteContext from './useSiteContext';
-import { getMessaging } from '@react-native-firebase/messaging';
-
-const messaging = getMessaging()
+import { messaging } from '@lib/push';
 
 
 export const useLogout = () => {
@@ -23,7 +21,7 @@ export const useLogout = () => {
         // Revoke the token
         // Redirect to the landing page
         try {
-            messaging.getToken().then((token) => {
+            messaging?.getToken().then((token) => {
                 if (token) {
                     call.post('raven.api.notification.unsubscribe', {
                         fcm_token: token
@@ -43,7 +41,7 @@ export const useLogout = () => {
             })
             .catch((error) => {
                 console.error(error)
-                toast.error('Failed to log out')
+                toast.error('Не удалось выйти')
             })
             .then(() => {
                 revokeAsync({

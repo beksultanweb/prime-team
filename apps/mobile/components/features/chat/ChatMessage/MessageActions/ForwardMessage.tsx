@@ -24,7 +24,7 @@ const ForwardMessage = ({ message, onClose }: ForwardMessageProps) => {
     return (
         <ActionButtonLarge
             icon={<ForwardIcon width={18} height={18} color={colors.icon} />}
-            text="Forward"
+            text="Переслать"
             onPress={forwardMessage}
         />
     )

@@ -23,7 +23,7 @@ const CreatePollButton = ({ onSheetClose }: CreatePollButtonProps) => {
             className='flex flex-row w-full items-center gap-2 p-2 rounded-lg ios:active:bg-linkColor'
             android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
             <BarChart height={20} width={20} fill={colors.icon} />
-            <Text className='text-base text-foreground'>Create Poll</Text>
+            <Text className='text-base text-foreground'>Опрос</Text>
         </Pressable>
     )
 }

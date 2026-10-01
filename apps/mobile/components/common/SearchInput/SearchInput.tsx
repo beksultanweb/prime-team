@@ -21,7 +21,7 @@ interface SearchInputProps {
 const SearchInput: React.FC<SearchInputProps> = ({
   value,
   onChangeText,
-  placeholder = 'Search...',
+  placeholder = 'Поиск…',
   placeholderTextColor,
   className,
   inputClassName,

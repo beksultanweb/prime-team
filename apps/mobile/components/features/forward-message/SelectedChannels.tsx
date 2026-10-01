@@ -20,7 +20,7 @@ export const SelectedChannels = ({ selectedChannels, searchInput, setSearchInput
 
     return (
         <View className={`flex-row items-center gap-2.5 px-3 py-3`}>
-            <Text className="self-start text-base text-foreground">To:</Text>
+            <Text className="self-start text-base text-foreground">Кому:</Text>
             <View className="flex-1 flex-row flex-wrap items-center gap-2 mr-5">
                 {selectedChannels.map((channel: CombinedChannel) => {
                     const isDMChannel = channel.is_direct_message
@@ -60,7 +60,7 @@ export const SelectedChannels = ({ selectedChannels, searchInput, setSearchInput
                 <TextInput
                     autoFocus
                     className="flex-1"
-                    placeholder={selectedChannels.length === 0 ? "Add a channel or DM" : ""}
+                    placeholder={selectedChannels.length === 0 ? "Канал или собеседник" : ""}
                     value={searchInput}
                     onChangeText={setSearchInput}
                     onKeyPress={({ nativeEvent }) => {

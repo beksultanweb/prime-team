@@ -30,13 +30,13 @@ const TypingIndicator = ({ channel }: Props) => {
 
         if (validTypingUsers.length === 0) return ''
 
-        if (validTypingUsers.length === 1) return validTypingUsers[0] + ' is typing...'
+        if (validTypingUsers.length === 1) return validTypingUsers[0] + ' печатает…'
 
-        if (validTypingUsers.length === 2) return validTypingUsers[0] + ' and ' + validTypingUsers[1] + ' are typing...'
+        if (validTypingUsers.length === 2) return validTypingUsers[0] + ' и ' + validTypingUsers[1] + ' печатают…'
 
-        if (validTypingUsers.length === 3) return validTypingUsers[0] + ', ' + validTypingUsers[1] + ' and 1 other are typing...'
+        if (validTypingUsers.length === 3) return validTypingUsers[0] + ', ' + validTypingUsers[1] + ' и ещё 1 печатают…'
 
-        return validTypingUsers[0] + ', ' + validTypingUsers[1] + ' and ' + (validTypingUsers.length - 2) + ' others are typing...'
+        return validTypingUsers[0] + ', ' + validTypingUsers[1] + ' и ещё ' + (validTypingUsers.length - 2) + ' печатают…'
 
 
     }, [typingUsers, userRecords, currentUser?.name])

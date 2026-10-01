@@ -24,7 +24,7 @@ const CopyFileMessageLink = ({ message, onClose }: CopyFileMessageLinkProps) => 
         else {
             Clipboard.setStringAsync(siteData?.url + message.file.split('?')[0])
         }
-        toast.success('Link copied')
+        toast.success('Ссылка скопирована')
         onClose()
     }
 
@@ -32,7 +32,7 @@ const CopyFileMessageLink = ({ message, onClose }: CopyFileMessageLinkProps) => 
         <ActionButton
             onPress={copyLink}
             icon={<PaperClipIcon width={18} height={18} fill={colors.icon} />}
-            text='Copy file link'
+            text='Копировать ссылку на файл'
         />
     )
 }

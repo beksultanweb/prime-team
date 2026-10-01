@@ -36,7 +36,7 @@ const getErrorMessages = (error?: FrappeError | null): ParsedErrorMessage[] => {
             if (exception) {
                 eMessages = [{
                     message: exception,
-                    title: "Error"
+                    title: "Ошибка"
                 }]
             }
         }
@@ -44,7 +44,7 @@ const getErrorMessages = (error?: FrappeError | null): ParsedErrorMessage[] => {
         if (eMessages.length === 0) {
             eMessages = [{
                 message: error?.message,
-                title: "Error",
+                title: "Ошибка",
                 indicator: "red"
             }]
         }

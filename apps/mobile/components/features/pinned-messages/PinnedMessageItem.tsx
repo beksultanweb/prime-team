@@ -27,7 +27,7 @@ const PinnedMessageItem = ({ message }: { message: Message }) => {
             </ContextMenu.Trigger>
             <ContextMenu.Content>
                 <ContextMenu.Item key="unpin" onSelect={TogglePin}>
-                    <ContextMenu.ItemTitle>Unpin message</ContextMenu.ItemTitle>
+                    <ContextMenu.ItemTitle>Открепить сообщение</ContextMenu.ItemTitle>
                     <ContextMenu.ItemIcon
                         ios={{
                             name: 'pin.slash',

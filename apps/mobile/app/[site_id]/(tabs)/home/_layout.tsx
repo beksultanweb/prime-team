@@ -9,7 +9,7 @@ const HomeLayout = () => {
         <Stack initialRouteName='index'>
             <Stack.Screen name='index'
                 options={{
-                    title: 'Home',
+                    title: 'Главная',
                     headerShown: false,
                     headerShadowVisible: false,
                     headerStyle: { backgroundColor: colors.primary }

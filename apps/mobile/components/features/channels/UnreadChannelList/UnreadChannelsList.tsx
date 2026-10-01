@@ -68,7 +68,7 @@ const UnreadChannelListUI = ({ totalUnreadCount, unreadDMs, unreadChannels, chan
         <View style={styles.container}>
             <TouchableOpacity onPress={toggleAccordion} style={styles.header} activeOpacity={0.7}>
                 <View className="flex-row items-center gap-2">
-                    <Text style={styles.headerText}>Unread</Text>
+                    <Text style={styles.headerText}>Непрочитанные</Text>
                     {!isExpanded ? <UnreadCountBadge count={totalUnreadCount} /> : null}
                 </View>
                 <View className="flex-row items-center gap-1">

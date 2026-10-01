@@ -13,7 +13,7 @@ interface ArchivedChannelBoxProps {
 export const ArchivedChannelBox = ({ channelID, isMemberAdmin }: ArchivedChannelBoxProps) => {
     return (
         <View className="flex-col gap-2 items-center border-t border-l border-r border-border rounded-2xl px-4 py-4">
-            <Text className="text-sm text-muted-foreground">This channel has been archived.</Text>
+            <Text className="text-sm text-muted-foreground">Канал в архиве.</Text>
             {isMemberAdmin === 1 ? <UnArchiveButton channelID={channelID} /> : null}
         </View>
     )
@@ -28,7 +28,7 @@ const UnArchiveButton = ({ channelID }: { channelID: string }) => {
         return updateDoc('Raven Channel', channelID, {
             is_archived: 0
         }).then(() => {
-            toast.success('Channel restored.')
+            toast.success('Канал восстановлен.')
             mutate("channel_list")
         }).catch(err => {
             toast.error(err.message)
@@ -47,7 +47,7 @@ const UnArchiveButton = ({ channelID }: { channelID: string }) => {
             className="w-full rounded-full"
             disabled={loading}
         >
-            {loading ? <Text className="gap-1 text-center w-full font-semibold text-base">Restoring</Text> : <Text className="gap-1 text-center w-full font-semibold text-base">Restore Channel</Text>}
+            {loading ? <Text className="gap-1 text-center w-full font-semibold text-base">Восстанавливаем</Text> : <Text className="gap-1 text-center w-full font-semibold text-base">Восстановить канал</Text>}
         </Button>
     )
 }

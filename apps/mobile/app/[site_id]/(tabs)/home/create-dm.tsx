@@ -30,7 +30,7 @@ export default function CreateDM() {
 
     return <>
         <Stack.Screen options={{
-            title: 'Create DM',
+            title: 'Новое личное сообщение',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
                     <Link asChild href="../" relativeToDirectory>
@@ -72,7 +72,7 @@ const UserWithoutDMItem = ({ userID }: { userID: string }) => {
             router.back()
             router.push(`../../chat/${res?.message}`)
         }).catch(err => {
-            toast.error('Could not create a DM channel')
+            toast.error('Не удалось открыть личный чат')
         })
     }
 
@@ -93,7 +93,7 @@ const UserWithoutDMItem = ({ userID }: { userID: string }) => {
                 <Text className='text-base'>{user?.full_name}</Text>
                 {!user?.enabled ?
                     <View className='px-1 mt-0.5 py-0.5 rounded-sm bg-red-100'>
-                        <Text className="text-[11px] text-red-700">Disabled</Text>
+                        <Text className="text-[11px] text-red-700">Отключён</Text>
                     </View>
                     : null}
             </Pressable>
@@ -111,7 +111,7 @@ const EmptyState = ({ searchQuery }: { searchQuery: string }) => {
     }
     return (
         <Text className='p-2text-sm text-muted-foreground'>
-            There are no users that you do not already have a DM channel with
+            Личные чаты уже есть со всеми пользователями
         </Text>
     )
 }

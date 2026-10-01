@@ -141,18 +141,18 @@ const EmptyStateForThreads = ({ isFiltered = false, searchText }: { isFiltered?:
     const content = useMemo(() => {
         if (searchText && !isFiltered) {
             return {
-                title: "No results found",
+                title: "Ничего не найдено",
                 description: `No threads match your search for "${searchText}". Try a different search term.`
             }
         } else if (isFiltered) {
             return {
-                title: "You're all caught up",
-                description: 'There are no unread threads to show. Clear the filter to see all threads.'
+                title: "Всё прочитано",
+                description: 'Непрочитанных тредов нет. Сбросьте фильтр, чтобы увидеть все треды.'
             }
         } else {
             return {
-                title: 'No threads yet',
-                description: 'Threads help keep conversations organized. Reply to any message to start a new thread or use the thread icon on messages to join existing discussions.'
+                title: 'Тредов пока нет',
+                description: 'Треды помогают не терять нить разговора. Ответьте на любое сообщение, чтобы начать тред, или откройте значок треда у сообщения, чтобы присоединиться к обсуждению.'
             }
         }
     }, [isFiltered, searchText])

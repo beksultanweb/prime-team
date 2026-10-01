@@ -26,7 +26,7 @@ const DMListUI = ({ dms }: { dms: DMChannelListItem[] }) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={toggleAccordion} style={styles.header} activeOpacity={0.7}>
-                <Text style={styles.headerText}>Direct Messages</Text>
+                <Text style={styles.headerText}>Личные сообщения</Text>
                 {isExpanded ? <ChevronDownIcon fill={colors.icon} /> : <ChevronRightIcon fill={colors.icon} />}
             </TouchableOpacity>
             {isExpanded && <>

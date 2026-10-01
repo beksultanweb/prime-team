@@ -41,7 +41,7 @@ const ProfilePicture = () => {
             <Sheet ref={bottomSheetRef}>
                 <BottomSheetView className='pb-16'>
                     <View className="flex-col gap-3">
-                        <Text className="text-xl font-cal-sans px-5">Update profile picture</Text>
+                        <Text className="text-xl font-cal-sans px-5">Изменить фото профиля</Text>
                         <View className="flex-col justify-start items-start px-3 w-full">
                             <UploadImage onSheetClose={onSheetClose} />
                             {source ? <ViewImage uri={source?.uri ?? ""} onSheetClose={onSheetClose} /> : null}

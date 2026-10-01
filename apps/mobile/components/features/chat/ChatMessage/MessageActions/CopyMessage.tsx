@@ -19,7 +19,7 @@ const CopyMessage = ({ message, onClose }: CopyMessageProps) => {
         <ActionButton
             onPress={() => copy(onClose)}
             icon={<CopyIcon width={18} height={18} fill={colors.icon} />}
-            text='Copy'
+            text='Копировать'
         />
     )
 }
@@ -40,10 +40,10 @@ export const useMessageCopy = (message: Message) => {
 
             if (plainText) {
                 await Clipboard.setStringAsync(plainText)
-                toast.success('Text copied to clipboard')
+                toast.success('Текст скопирован')
                 onSuccess()
             } else {
-                toast.error('Could not copy text')
+                toast.error('Не удалось скопировать текст')
             }
 
         }

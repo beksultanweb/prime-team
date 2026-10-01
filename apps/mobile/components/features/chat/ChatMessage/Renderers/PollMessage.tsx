@@ -52,7 +52,7 @@ const PollMessageBox = ({ data, messageID }: { data: Poll; messageID: string }) 
     return (
         <View className="bg-card/80 rounded-xl p-3">
             <View className="flex-col gap-1 pb-3">
-                <Text className="text-base font-medium">{data.poll.question} {data.poll.is_anonymous ? <Text className="text-primary dark:text-secondary font-medium text-xs py-1 px-2">(Anonymous)</Text> : null}</Text>
+                <Text className="text-base font-medium">{data.poll.question} {data.poll.is_anonymous ? <Text className="text-primary dark:text-secondary font-medium text-xs py-1 px-2">(анонимный)</Text> : null}</Text>
             </View>
             {data.current_user_votes.length > 0 ? (
                 <PollResults data={data} />
@@ -67,7 +67,7 @@ const PollMessageBox = ({ data, messageID }: { data: Poll; messageID: string }) 
             )}
 
             {data.poll.is_disabled ? (
-                <Text className="text-muted-foreground text-xs">Poll is now closed</Text>
+                <Text className="text-muted-foreground text-xs">Опрос завершён</Text>
             ) : null}
 
             {data.current_user_votes.length ? <View>
@@ -152,9 +152,9 @@ const SingleChoicePoll = ({ data, messageID }: { data: Poll; messageID: string }
             'message_id': messageID,
             'option_id': option.name
         }).then(() => {
-            toast.success('Your vote has been submitted!')
+            toast.success('Ваш голос учтён!')
         }).catch((error) => {
-            toast.error("Could not submit your vote")
+            toast.error("Не удалось отправить голос")
         })
     }
 
@@ -204,9 +204,9 @@ const MultiChoicePoll = ({ data, messageID }: { data: Poll; messageID: string })
             'message_id': messageID,
             'option_id': selectedOptions
         }).then(() => {
-            toast.success('Your vote has been submitted!')
+            toast.success('Ваш голос учтён!')
         }).catch((error) => {
-            toast.error("Could not submit your vote")
+            toast.error("Не удалось отправить голос")
         })
     }
 

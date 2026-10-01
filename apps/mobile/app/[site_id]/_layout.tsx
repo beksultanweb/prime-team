@@ -107,7 +107,7 @@ export default function SiteLayout() {
                 } catch (error) {
                     console.error("Token refresh failed:", error);
                     if (isOnline) {
-                        toast.error("You have been logged out of the site. Please login again.")
+                        toast.error("Вы вышли из аккаунта на сайте. Войдите снова.")
                         router.replace('/landing');
                     }
                 }
@@ -156,7 +156,7 @@ export default function SiteLayout() {
 
                     // Show the user a toast saying that the site is not found
                     clearDefaultSite()
-                    toast.error("We could not find the site you were looking for. Please login again.")
+                    toast.error("Не удалось найти сайт. Войдите снова.")
 
                     return null
                 }
@@ -177,7 +177,7 @@ export default function SiteLayout() {
                     // Show the user a toast saying that the site is not found
                     clearDefaultSite()
 
-                    toast.error("We could not find the stored credentials for this site. Please try logging in again.")
+                    toast.error("Не найдены сохранённые данные входа для этого сайта. Войдите снова.")
 
                     return null
                 }
@@ -224,7 +224,7 @@ export default function SiteLayout() {
                     // Show the user a toast saying that the site is not found
                     clearDefaultSite()
 
-                    toast.error("We could not find the stored credentials for this site. Please try logging in again.")
+                    toast.error("Не найдены сохранённые данные входа для этого сайта. Войдите снова.")
 
                     return
                 }

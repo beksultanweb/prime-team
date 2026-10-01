@@ -17,7 +17,7 @@ const CameraButton = ({ onPick }: { onPick: (files: CustomFile[]) => void }) => 
                         mediaTypes: 'images',
                     })
                 } else {
-                    toast.error("Camera permission not granted")
+                    toast.error("Нет доступа к камере")
                     return null
                 }
             })
@@ -38,8 +38,8 @@ const CameraButton = ({ onPick }: { onPick: (files: CustomFile[]) => void }) => 
             }
         } catch (error) {
             console.error('Error taking picture:', error)
-            toast.error("There was an error while launching the camera", {
-                description: error instanceof Error ? error.message : "Unknown error"
+            toast.error("Не удалось открыть камеру", {
+                description: error instanceof Error ? error.message : "Неизвестная ошибка"
             })
         }
     }
@@ -47,7 +47,7 @@ const CameraButton = ({ onPick }: { onPick: (files: CustomFile[]) => void }) => 
     return (
         <ActionButtonLarge
             icon={<CameraIcon height={20} width={20} color={colors.icon} />}
-            text="Camera"
+            text="Камера"
             onPress={takePicture}
         />
     )

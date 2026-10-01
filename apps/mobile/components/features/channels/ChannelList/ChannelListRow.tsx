@@ -32,9 +32,9 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
             const workspace = channel.workspace ?? 'channels'
             const link = `${siteID}/raven/${encodeURIComponent(workspace)}/${encodeURIComponent(channel.name)}`
             await Clipboard.setStringAsync(link)
-            toast.success('Channel link copied to clipboard!')
+            toast.success('Ссылка на канал скопирована!')
         } catch (error) {
-            toast.error('Failed to copy channel link.')
+            toast.error('Не удалось скопировать ссылку на канал.')
         }
     }
 
@@ -42,15 +42,15 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
 
     const showAlert = () =>
         Alert.alert(
-            'Leave channel?',
-            `Are you sure you want to leave ${channel.channel_name} channel?`,
+            'Покинуть канал?',
+            `Вы покинете канал ${channel.channel_name}.`,
             [
                 {
-                    text: 'Cancel',
+                    text: 'Отмена',
                     style: 'cancel',
                 },
                 {
-                    text: 'Leave',
+                    text: 'Покинуть',
                     style: 'destructive',
                     onPress: onLeaveChannel
                 },
@@ -78,7 +78,7 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
 
             <ContextMenu.Content>
                 {/* <ContextMenu.Item key="mute" onSelect={handleMuteChannel}>
-                    <ContextMenu.ItemTitle>Mute channel</ContextMenu.ItemTitle>
+                    <ContextMenu.ItemTitle>Выключить уведомления</ContextMenu.ItemTitle>
                     <ContextMenu.ItemIcon
                         ios={{
                             name: 'bell.slash',
@@ -102,7 +102,7 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
                 </ContextMenu.Item> */}
 
                 <ContextMenu.Item key="star" onSelect={onMoveToStarred}>
-                    <ContextMenu.ItemTitle>{isStarred ? 'Remove from starred' : 'Move to starred'}</ContextMenu.ItemTitle>
+                    <ContextMenu.ItemTitle>{isStarred ? 'Убрать из избранного' : 'В избранное'}</ContextMenu.ItemTitle>
                     <ContextMenu.ItemIcon
                         ios={{
                             name: isStarred ? 'star.fill' : 'star',
@@ -126,7 +126,7 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
                 </ContextMenu.Item>
 
                 <ContextMenu.Item key="copy" onSelect={handleCopyLink}>
-                    <ContextMenu.ItemTitle>Copy link</ContextMenu.ItemTitle>
+                    <ContextMenu.ItemTitle>Копировать ссылку</ContextMenu.ItemTitle>
                     <ContextMenu.ItemIcon
                         ios={{
                             name: 'link',
@@ -150,7 +150,7 @@ export function ChannelListRow({ channel }: { channel: ChannelListItem }) {
                 </ContextMenu.Item>
 
                 {channel.member_id && <ContextMenu.Item key="leave" destructive onSelect={showAlert}>
-                    <ContextMenu.ItemTitle>Leave channel</ContextMenu.ItemTitle>
+                    <ContextMenu.ItemTitle>Покинуть канал</ContextMenu.ItemTitle>
                     <ContextMenu.ItemIcon
                         ios={{
                             name: 'rectangle.portrait.and.arrow.right',
@@ -187,11 +187,11 @@ const useLeaveChannel = (channel: ChannelListItem) => {
     const onLeaveChannel = async () => {
         return call({ channel_id: channel?.name })
             .then(() => {
-                toast.success(`You have left ${channel.channel_name} channel`)
+                toast.success(`Вы покинули канал ${channel.channel_name}`)
                 mutate()
             })
             .catch(() => {
-                toast.error('Could not leave channel', {
+                toast.error('Не удалось покинуть канал', {
                     description: error?.httpStatusText
                 })
             })
@@ -218,7 +218,7 @@ const useMoveToStarred = (channel: ChannelListItem) => {
         call.post('raven.api.raven_channel.toggle_pinned_channel', {
             channel_id: channel.name
         }).then((res: { message: RavenUser }) => {
-            toast.success(`${channel.channel_name} ${isStarred ? 'removed from favorites' : 'added to favorites'}`)
+            toast.success(`${channel.channel_name} ${isStarred ? 'убран из избранного' : 'добавлен в избранное'}`)
             if (res.message) {
                 mutate({ message: res.message }, { revalidate: false })
             }

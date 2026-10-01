@@ -23,16 +23,16 @@ const useSaveMessage = (message: Message, user?: string, saved = true) => {
             if (!response?.message) return
 
             if (isSaved) {
-                toast('Message unsaved')
+                toast('Сообщение убрано из сохранённых')
             } else {
-                toast.success('Message saved')
+                toast.success('Сообщение сохранено')
             }
 
             setIsSaved(!isSaved)
 
         }).catch((e: unknown) => {
             console.error(e)
-            toast.error('Could not perform the action')
+            toast.error('Не удалось выполнить действие')
         }).finally(() => {
             setIsLoading(false)
         })

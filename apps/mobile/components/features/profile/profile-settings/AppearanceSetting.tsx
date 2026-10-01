@@ -11,10 +11,10 @@ const AppearanceSetting = () => {
     const { themeValue, setColorScheme } = useColorScheme()
 
     const themeDisplay = useMemo(() => {
-        if (themeValue === 'light') return 'Light'
-        if (themeValue === 'dark') return 'Dark'
-        if (themeValue === 'system') return 'System'
-        return 'Light'
+        if (themeValue === 'light') return 'Светлая'
+        if (themeValue === 'dark') return 'Тёмная'
+        if (themeValue === 'system') return 'Как в системе'
+        return 'Светлая'
     }, [themeValue])
 
     return (
@@ -22,7 +22,7 @@ const AppearanceSetting = () => {
             <View className='flex flex-row py-2.5 px-4 rounded-xl justify-between bg-background dark:bg-card'>
                 <View className='flex-row items-center gap-2'>
                     <PaletteIcon height={18} width={18} color={colors.icon} />
-                    <Text className='text-base'>Appearance</Text>
+                    <Text className='text-base'>Тема</Text>
                 </View>
                 <DropdownMenu.Root>
                     <DropdownMenu.Trigger>
@@ -39,7 +39,7 @@ const AppearanceSetting = () => {
                                     light: 'gray',
                                 },
                             }} />
-                            <DropdownMenu.ItemTitle>Light</DropdownMenu.ItemTitle>
+                            <DropdownMenu.ItemTitle>Светлая</DropdownMenu.ItemTitle>
                         </DropdownMenu.Item>
                         <DropdownMenu.Item key="dark" onSelect={() => setColorScheme('dark')}>
                             <DropdownMenu.ItemIcon ios={{
@@ -51,7 +51,7 @@ const AppearanceSetting = () => {
                                     light: 'gray',
                                 },
                             }} />
-                            <DropdownMenu.ItemTitle>Dark</DropdownMenu.ItemTitle>
+                            <DropdownMenu.ItemTitle>Тёмная</DropdownMenu.ItemTitle>
                         </DropdownMenu.Item>
                         <DropdownMenu.Item key="system" onSelect={() => setColorScheme('system')}>
                             <DropdownMenu.ItemIcon ios={{
@@ -63,7 +63,7 @@ const AppearanceSetting = () => {
                                     light: 'gray',
                                 },
                             }} />
-                            <DropdownMenu.ItemTitle>System</DropdownMenu.ItemTitle>
+                            <DropdownMenu.ItemTitle>Как в системе</DropdownMenu.ItemTitle>
                         </DropdownMenu.Item>
                     </DropdownMenu.Content>
                 </DropdownMenu.Root>

@@ -12,7 +12,7 @@ const ChannelCreator = ({ channelData }: { channelData: FrappeDoc<ChannelListIte
     return (
         <View className='flex-row justify-center items-center gap-1 px-4'>
             {channelData?.owner && <Text className='text-sm font-medium'>{channelOwner?.full_name ?? channelData?.owner}</Text>}
-            {channelData?.creation && <Text className='text-muted-foreground text-sm'>created this on {formatDate(channelData?.creation)}.</Text>}
+            {channelData?.creation && <Text className='text-muted-foreground text-sm'>создал(а) канал: {formatDate(channelData?.creation)}</Text>}
         </View>
     )
 }

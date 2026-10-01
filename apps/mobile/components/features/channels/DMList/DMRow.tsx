@@ -87,7 +87,7 @@ const DMRow = ({ dm }: { dm: DMChannelWithUnreadCount }) => {
                             <View
                                 style={{ maxHeight: 30, maxWidth: dm.unread_count > 0 ? '90%' : '100%', }}
                                 className='flex flex-row items-center gap-1'>
-                                {isSentByUser ? <Text className='text-sm text-muted-foreground' style={{ fontWeight: isUnread ? '500' : '400' }}>You:</Text> : null}
+                                {isSentByUser ? <Text className='text-sm text-muted-foreground' style={{ fontWeight: isUnread ? '500' : '400' }}>Вы:</Text> : null}
                                 <Text className='text-sm text-muted-foreground line-clamp-1'
                                     style={{ fontWeight: isUnread ? '500' : '400' }}>{lastMessageContent}</Text>
                             </View>
@@ -125,7 +125,7 @@ const LastMessageTimestamp = ({ timestamp }: LastMessageTimestampProps) => {
         if (dateObj.isSame(today, 'day')) {
             // If the difference is less than 1 minute, show "Just now"
             if (Math.abs(dateObj.diff(today, 'minute')) < 1) {
-                return 'just now'
+                return 'только что'
             }
             if (Math.abs(dateObj.diff(today, 'hour')) < 1) {
                 return dateObj.fromNow()
@@ -134,7 +134,7 @@ const LastMessageTimestamp = ({ timestamp }: LastMessageTimestampProps) => {
         }
 
         if (dateObj.isSame(yesterday, 'day')) {
-            return 'Yesterday'
+            return 'Вчера'
         }
 
         if (dateObj.isSame(today, 'week')) {

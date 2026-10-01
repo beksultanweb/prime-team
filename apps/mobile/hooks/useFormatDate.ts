@@ -17,7 +17,7 @@ type DateFormatOptions = 'Do MMMM YYYY, hh:mm A' | 'Do MMMM [at] hh:mm A' | 'hh:
  * @param format - The format option to use
  * @returns The formatted date string
  */
-const useDateFormat = (timestamp: string, format: DateFormatOptions | string = 'Do MMMM YYYY, hh:mm A') => {
+const useDateFormat = (timestamp: string, format: DateFormatOptions | string = 'D MMMM YYYY, HH:mm') => {
 
   const siteInformation = useSiteContext()
 

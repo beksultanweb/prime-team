@@ -30,7 +30,7 @@ const CreateThread = ({ message, onClose }: CreateThreadProps) => {
         <ActionButton
             onPress={onPress}
             icon={<MessageIcon width={18} height={18} fill={colors.icon} />}
-            text='Create thread'
+            text='Создать тред'
         />
     )
 }
@@ -44,12 +44,12 @@ const useCreateThread = (message: Message) => {
     const handleCreateThread = () => {
         return call({ message_id: message?.name })
             .then((res) => {
-                toast.success("Thread created.")
+                toast.success("Тред создан.")
 
                 return res.message
             })
             .catch((error) => {
-                toast.error("Failed to create thread")
+                toast.error("Не удалось создать тред")
             })
     }
 

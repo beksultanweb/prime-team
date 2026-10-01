@@ -19,7 +19,7 @@ export default function CreatePollPage() {
             <Stack.Screen options={{
                 headerStyle: { backgroundColor: colors.background },
                 headerLeft: () => Platform.OS === 'ios' ? <CloseCreatePollButton /> : undefined,
-                headerTitle: "Create Poll",
+                headerTitle: "Новый опрос",
                 headerRight() {
                     return (
                         <PollCreateButton onPress={onPress} isCreating={creatingPoll} />

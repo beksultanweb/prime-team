@@ -18,7 +18,7 @@ export const useActiveSocketConnection = () => {
         onError: (error) => {
             // If the socket connection fails more than 2 times, then show an error message
             if (socketConnectionCount.current === 2) {
-                toast.error("Realtime events are not working.", {
+                toast.error("Обновления в реальном времени не работают.", {
                     duration: 5000
                 })
             } else {

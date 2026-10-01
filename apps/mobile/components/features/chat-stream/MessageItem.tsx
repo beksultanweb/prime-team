@@ -128,8 +128,8 @@ const MessageItem = memo(({ message }: Props) => {
                                 </View>}
                             {message.is_pinned === 1 &&
                                 <View className='flex-row items-center gap-1'>
-                                    <PinIcon width={12} height={12} fill={isDarkColorScheme ? '#5753C6' : '#787BE3'} />
-                                    <Text className='text-sm text-primary dark:text-secondary'>Pinned</Text>
+                                    <PinIcon width={12} height={12} fill={isDarkColorScheme ? '#268068' : '#2E8C74'} />
+                                    <Text className='text-sm text-primary dark:text-secondary'>Закреплено</Text>
                                 </View>}
 
                             {linked_message && replied_message_details && <ReplyMessageBox
@@ -148,7 +148,7 @@ const MessageItem = memo(({ message }: Props) => {
                                 <DocTypeLinkRenderer doctype={message.link_doctype} docname={message.link_document} />
                             </View>}
 
-                            {message.is_edited === 1 && <Text className='text-xs text-muted-foreground'>(edited)</Text>}
+                            {message.is_edited === 1 && <Text className='text-xs text-muted-foreground'>(изменено)</Text>}
                             {message.hide_link_preview === 0 && message.text && <MessageLinkRenderer message={message} />}
                             <MessageReactions message={message} longPressGesture={longPressGesture} />
                             {message.is_thread === 1 && <View className='flex self-start mt-1'><ViewThreadButton message={message} /></View>}

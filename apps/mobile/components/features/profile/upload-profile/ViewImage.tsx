@@ -27,7 +27,7 @@ const ViewImage = ({ uri, onSheetClose }: ViewImageProps) => {
             className='flex flex-row w-full items-center gap-2 p-2 rounded-lg ios:active:bg-linkColor'
             android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
             <EyeIcon height={20} width={20} color={colors.icon} />
-            <Text className='text-base text-foreground'>View Image</Text>
+            <Text className='text-base text-foreground'>Посмотреть фото</Text>
         </Pressable>
     )
 }

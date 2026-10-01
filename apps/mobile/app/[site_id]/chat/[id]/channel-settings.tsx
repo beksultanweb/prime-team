@@ -33,7 +33,7 @@ const ChannelSettings = () => {
             <Stack.Screen options={{
                 headerStyle: { backgroundColor: isDarkColorScheme ? colors.background : colors.card },
                 headerLeft: Platform.OS === 'ios' ? () => <HeaderBackButton /> : undefined,
-                headerTitle: () => <Text className='ml-2 text-base font-semibold'>Channel Info</Text>,
+                headerTitle: () => <Text className='ml-2 text-base font-semibold'>О канале</Text>,
                 // headerRight: () => (
                 //     <TouchableOpacity hitSlop={10}>
                 //         <ThreeHorizontalDots height={20} width={20} color={colors.foreground} />
@@ -49,12 +49,12 @@ const ChannelSettings = () => {
                     {isAllowed ?
                         <View className='flex flex-col gap-4 px-3'>
                             <View className='flex flex-col gap-0.5'>
-                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Settings</Text>
+                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Настройки</Text>
                                 <PushNotifications channelID={id as string} />
                                 <ChangeChannelType channelData={channelData} />
                             </View>
                             <View className='flex flex-col gap-0.5'>
-                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Danger Zone</Text>
+                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Опасная зона</Text>
                                 <ArchiveChannel channel={channelData} />
                                 <LeaveChannel channel={channelData} />
                                 <DeleteChannel channelData={channelData} />
@@ -63,11 +63,11 @@ const ChannelSettings = () => {
                         :
                         <View className='flex flex-col gap-4 px-3'>
                             <View className='flex flex-col gap-0.5'>
-                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Settings</Text>
+                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Настройки</Text>
                                 <PushNotifications channelID={id as string} />
                             </View>
                             {channelData?.type !== 'Open' && <View className='flex flex-col gap-0.5'>
-                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Danger Zone</Text>
+                                <Text className='pl-2 pb-1 text-xs text-muted-foreground/80'>Опасная зона</Text>
                                 <LeaveChannel channel={channelData} />
                             </View>}
                         </View>

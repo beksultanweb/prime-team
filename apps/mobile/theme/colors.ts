@@ -17,9 +17,9 @@ const IOS_SYSTEM_COLORS = {
         icon: '#1C2024',
         greyText: 'rgb(175, 176, 180)',
         destructive: 'rgb(255, 56, 43)',
-        primary: '#5753C6',
-        secondary: "#DBDAFE",
-        linkColor: '#F1F1F4'
+        primary: '#115F4D',
+        secondary: '#D6EBE4',
+        linkColor: '#F1F5FB'
     },
     dark: {
         grey6: 'rgb(21, 21, 24)',
@@ -35,8 +35,8 @@ const IOS_SYSTEM_COLORS = {
         icon: '#B9BBC6',
         greyText: 'rgb(175, 176, 180)',
         destructive: 'rgb(254, 67, 54)',
-        primary: '#5753C6',
-        secondary: "#DBDAFE",
+        primary: '#268068',
+        secondary: '#D6EBE4',
         linkColor: '#1A1A1A'
     },
 } as const;
@@ -58,9 +58,9 @@ const ANDROID_COLORS = {
         icon: '#1C2024',
         greyText: 'rgb(175, 176, 180)',
         destructive: 'rgb(255, 56, 43)',
-        primary: '#5753C6',
-        secondary: "#DBDAFE",
-        linkColor: '#F1F1F4'
+        primary: '#115F4D',
+        secondary: '#D6EBE4',
+        linkColor: '#F1F5FB'
     },
     dark: {
         grey6: 'rgb(21, 21, 24)',
@@ -76,8 +76,8 @@ const ANDROID_COLORS = {
         icon: '#B9BBC6',
         greyText: 'rgb(175, 176, 180)',
         destructive: 'rgb(254, 67, 54)',
-        primary: '#5753C6',
-        secondary: "#DBDAFE",
+        primary: '#268068',
+        secondary: '#D6EBE4',
         linkColor: '#1A1A1A'
     },
 } as const;

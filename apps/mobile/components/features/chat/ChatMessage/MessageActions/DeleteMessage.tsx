@@ -22,9 +22,9 @@ const DeleteMessage = ({ message, onClose }: DeleteMessageProps) => {
     }
 
     const onMessageDelete = useCallback(() => {
-        Alert.alert('Delete message?', 'Are you sure you want to delete this message? It will be deleted for all users.', [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Delete', style: 'destructive', onPress: onDelete },
+        Alert.alert('Удалить сообщение?', 'Сообщение удалится у всех участников.', [
+            { text: 'Отмена', style: 'cancel' },
+            { text: 'Удалить', style: 'destructive', onPress: onDelete },
         ])
     }, [])
 
@@ -34,7 +34,7 @@ const DeleteMessage = ({ message, onClose }: DeleteMessageProps) => {
         <ActionButton
             onPress={onMessageDelete}
             icon={<TrashIcon width={18} height={18} fill={isDarkColorScheme ? '#f87171' : '#dc2626'} />}
-            text='Delete message'
+            text='Удалить сообщение'
             isDestructive={true}
             disabled={loading}
         />
@@ -78,7 +78,7 @@ const useMessageDelete = (message: Message, onDelete: () => void) => {
             // This is because we can close the bottom sheet since we have optimistic updates anyway
             onDelete()
             return deleteDoc('Raven Message', messageID).then(() => {
-                toast.success('Message deleted', {
+                toast.success('Сообщение удалено', {
                     duration: 500,
                 })
             }).then(() => {
@@ -89,7 +89,7 @@ const useMessageDelete = (message: Message, onDelete: () => void) => {
             rollbackOnError: true,
             revalidate: false
         }).catch(() => {
-            toast.error("Failed to delete message.")
+            toast.error("Не удалось удалить сообщение.")
         })
     }
     return { deleteMessage, loading }

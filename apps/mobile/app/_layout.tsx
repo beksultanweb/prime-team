@@ -14,13 +14,14 @@ import { KeyboardProvider } from 'react-native-keyboard-controller';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { Toaster } from 'sonner-native';
 import { LogBox, Platform } from 'react-native';
-import { getMessaging } from '@react-native-firebase/messaging';
+import { messaging } from '@lib/push';
 import { setDefaultSite } from '@lib/auth';
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
 import advancedFormat from 'dayjs/plugin/advancedFormat'
 import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ru';
 import { useAtom } from 'jotai';
 import { useColorScheme } from 'nativewind';
 import * as SplashScreen from 'expo-splash-screen';
@@ -31,6 +32,7 @@ dayjs.extend(utc)
 dayjs.extend(timezone)
 dayjs.extend(advancedFormat)
 dayjs.extend(relativeTime)
+dayjs.locale('ru')
 
 /** Suppressing this for now - see https://github.com/meliorence/react-native-render-html/issues/661 */
 LogBox.ignoreLogs([
@@ -50,8 +52,6 @@ SplashScreen.setOptions({
     duration: 200,
     fade: true,
 });
-
-const messaging = getMessaging()
 
 export default function RootLayout() {
 
@@ -80,7 +80,7 @@ export default function RootLayout() {
             try {
                 // Get the defualt site from the async storage
                 // Also check if the app was started by a notification
-                const initialNotification = await messaging.getInitialNotification();
+                const initialNotification = await messaging?.getInitialNotification();
 
                 if (initialNotification) {
                     if (initialNotification.data?.channel_id && initialNotification.data?.sitename) {
@@ -117,7 +117,7 @@ export default function RootLayout() {
         }
 
         // Handle notification open when app is in background
-        const unsubscribeOnNotificationOpen = messaging.onNotificationOpenedApp(async (remoteMessage) => {
+        const unsubscribeOnNotificationOpen = messaging?.onNotificationOpenedApp(async (remoteMessage) => {
             // console.log('Notification opened app from background state:', remoteMessage);
             if (remoteMessage.data?.channel_id && remoteMessage.data?.sitename) {
                 setDefaultSite(remoteMessage.data.sitename as string)
@@ -134,7 +134,7 @@ export default function RootLayout() {
         onMount()
         // Cleanup function
         return () => {
-            unsubscribeOnNotificationOpen();
+            unsubscribeOnNotificationOpen?.();
         };
     }, []);
 

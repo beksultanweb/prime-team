@@ -24,7 +24,7 @@ const PinMessage = ({ message, onClose }: PinMessageProps) => {
         <ActionButton
             onPress={handlePin}
             icon={message.is_pinned === 1 ? <UnpinOutlineIcon height={18} width={18} stroke={colors.icon} /> : <PinOutlineIcon height={18} width={18} stroke={colors.icon} />}
-            text={message.is_pinned === 1 ? 'Unpin' : 'Pin'}
+            text={message.is_pinned === 1 ? 'Открепить' : 'Закрепить'}
         />
     )
 }

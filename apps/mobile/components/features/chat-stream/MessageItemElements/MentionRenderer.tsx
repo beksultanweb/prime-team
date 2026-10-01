@@ -40,7 +40,7 @@ const UserMentionRenderer = ({
         }).then((res) => {
             router.push(`../${res?.message}`, { relativeToDirectory: true })
         }).catch(err => {
-            toast.error('Could not create a DM channel')
+            toast.error('Не удалось открыть личный чат')
         })
     }, [userID])
 

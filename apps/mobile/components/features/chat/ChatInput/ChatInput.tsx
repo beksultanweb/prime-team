@@ -105,7 +105,7 @@ const ChatInput = ({ channelID, onSendMessage }: ChatInputProps) => {
                     value={content}
                     multiline
                     placeholderTextColor={colors.grey}
-                    placeholder="Type a message..."
+                    placeholder="Сообщение…"
                     onChange={onContentChange}
                     partTypes={[
                         {
@@ -148,7 +148,7 @@ const ChatInput = ({ channelID, onSendMessage }: ChatInputProps) => {
                     </ContextMenu.Trigger>
                     <ContextMenu.Content>
                         <ContextMenu.Item key="star" onSelect={() => onSend(true)}>
-                            <ContextMenu.ItemTitle>Send without notification</ContextMenu.ItemTitle>
+                            <ContextMenu.ItemTitle>Отправить без уведомления</ContextMenu.ItemTitle>
                             <ContextMenu.ItemIcon
                                 ios={{
                                     name: 'bell.slash',

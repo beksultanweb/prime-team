@@ -18,7 +18,7 @@ export default function SavedMessages() {
 
     return <>
         <Stack.Screen options={{
-            title: 'Saved Messages',
+            title: 'Сохранённые',
             headerStyle: { backgroundColor: colors.background },
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
@@ -73,13 +73,13 @@ const SavedMessagesEmptyState = () => {
         <View className="flex flex-col p-4 gap-2 bg-background">
             <View className="flex flex-row items-center gap-2">
                 <BookMarkIcon fill={colors.icon} height={20} width={20} />
-                <Text className="text-foreground text-base font-medium">Your saved messages will appear here</Text>
+                <Text className="text-foreground text-base font-medium">Здесь появятся сохранённые сообщения</Text>
             </View>
             <Text className="text-sm text-foreground/60">
-                Saved messages are a convenient way to keep track of important information or messages you want to refer back to later.
+                Сохраняйте важные сообщения, чтобы быстро вернуться к ним позже.
             </Text>
             <Text className="text-sm text-foreground/60">
-                You can save messages by simply clicking on the bookmark icon in message actions.
+                Чтобы сохранить сообщение, нажмите на значок закладки в действиях с сообщением.
             </Text>
         </View>
     )

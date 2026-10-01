@@ -9,7 +9,7 @@ const DirectMessagesLayout = () => {
         <Stack screenOptions={{ headerStyle: { backgroundColor: colors.background } }}>
             <Stack.Screen name='index'
                 options={{
-                    title: 'Direct Messages',
+                    title: 'Личные сообщения',
                     headerLargeTitle: false
                 }} />
         </Stack>

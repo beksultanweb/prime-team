@@ -79,11 +79,11 @@ const DMListEmptyState = ({ searchQuery }: { searchQuery?: string }) => {
             <View className="flex flex-row items-center gap-2">
                 <ChatOutlineIcon fill={colors.icon} height={20} width={20} />
                 <Text className="text-foreground text-base font-medium">
-                    {searchQuery ? `No DMs found with "${searchQuery}"` : 'No DMs found'}
+                    {searchQuery ? `Никого не найдено по запросу «${searchQuery}»` : 'Личных чатов нет'}
                 </Text>
             </View>
             <Text className="text-sm text-foreground/60">
-                {searchQuery ? 'Try searching for a different user name, or invite this userto Raven' : `Start a new conversation with someone to see it here`}
+                {searchQuery ? 'Попробуйте другое имя или пригласите сотрудника в Prime Team' : `Начните переписку, и она появится здесь`}
             </Text>
         </View>
     )

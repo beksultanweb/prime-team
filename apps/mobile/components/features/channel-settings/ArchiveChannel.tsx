@@ -22,20 +22,20 @@ const ArchiveChannel = ({ channel }: { channel: FrappeDoc<ChannelListItem> | und
         updateDoc('Raven Channel', channel?.name ?? '', {
             is_archived: 1
         }).then(() => {
-            toast.success(`Channel archived.`)
+            toast.success(`Канал в архиве.`)
             goToHome()
             mutate()
         }).catch(() => {
-            toast.error('Could not archive channel', {
+            toast.error('Не удалось архивировать канал', {
                 description: error?.httpStatusText
             })
         })
     };
 
     const onArchiveChannelPressed = () => {
-        Alert.alert('Archive channel?', `Are you sure you want to archive ${channel?.channel_name} channel?`, [
-            { text: 'Cancel', style: 'cancel' },
-            { text: 'Archive', style: 'destructive', onPress: onArchiveChannel },
+        Alert.alert('Архивировать канал?', `Канал ${channel?.channel_name} уйдёт в архив.`, [
+            { text: 'Отмена', style: 'cancel' },
+            { text: 'Архивировать', style: 'destructive', onPress: onArchiveChannel },
         ])
     }
 
@@ -45,7 +45,7 @@ const ArchiveChannel = ({ channel }: { channel: FrappeDoc<ChannelListItem> | und
             className='flex flex-row items-center py-3 px-4 rounded-xl gap-3 bg-background dark:bg-card active:bg-card-background/50 dark:active:bg-card/80'
             android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
             <ArchiveIcon height={18} width={18} fill={colors.icon} />
-            <Text className="text-base">{loading ? 'Archiving...' : 'Archive Channel'}</Text>
+            <Text className="text-base">{loading ? 'Архивируем…' : 'Архивировать канал'}</Text>
         </Pressable>
     )
 }

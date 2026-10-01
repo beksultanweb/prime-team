@@ -1,3 +1,4 @@
+import { channelTypeLabel, channelTypeInstrumental } from '@lib/ru'
 import { Sheet, useSheetRef } from "@components/nativewindui/Sheet";
 import { BottomSheetModal, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Pressable, View } from "react-native"
@@ -57,11 +58,11 @@ const ChangeChannelTypeSheet = ({ channelData, bottomSheetModalRef }: ChangeChan
     const getAlertSubMessage = (newChannelType: ChannelType) => {
         switch (newChannelType) {
             case 'Public':
-                return `Anyone from your organisation can join this channel and view its message history. If you make this channel private, it will be visible to anyone who has joined the channel up until that point.`;
+                return `Любой сотрудник сможет вступить в канал и увидеть историю сообщений. Если потом сделать канал закрытым, история останется видна тем, кто успел в него вступить.`;
             case 'Private':
-                return `No changes will be made to the channel's history or members. All files shared in this channel will become private and will be accessible only to the channel members.`;
+                return `История и участники канала не изменятся. Все файлы канала станут закрытыми и будут доступны только участникам.`;
             case 'Open':
-                return `Everyone from your organisation will become a channel member and will be able to view its message history. If you later intend to make this private you will have to manually remove members that should not have access to this channel.`;
+                return `Все сотрудники станут участниками канала и увидят историю сообщений. Если потом сделать канал закрытым, лишних участников придётся удалить вручную.`;
             default:
                 return '';
         }
@@ -72,7 +73,7 @@ const ChangeChannelTypeSheet = ({ channelData, bottomSheetModalRef }: ChangeChan
             type: newChannelType
         }).then(() => {
             mutate(["channel_members", channelData?.name])
-            toast.success("Channel changed to " + newChannelType.toLocaleLowerCase());
+            toast.success("Теперь канал " + channelTypeLabel(newChannelType));
             handleClose();
         });
     };
@@ -88,9 +89,9 @@ const ChangeChannelTypeSheet = ({ channelData, bottomSheetModalRef }: ChangeChan
                     <BottomSheetView {...props}>
                         <View className="flex-col px-4 gap-3 mt-2 mb-20">
                             <Text className="text-xl font-cal-sans">
-                                Convert to a{props.data?.newChannelType === 'Open' ? 'n' : ''} {props.data?.newChannelType.toLowerCase()} channel?
+                                Сделать канал {channelTypeInstrumental(props.data?.newChannelType)}?
                             </Text>
-                            <Text className="text-sm">Please understand that when you make <Text className="text-sm font-semibold">{channelData?.channel_name}</Text> {`a ${props.data?.newChannelType.toLowerCase()} channel:`}
+                            <Text className="text-sm">Если сделать канал <Text className="text-sm font-semibold">{channelData?.channel_name}</Text> {`${channelTypeInstrumental(props.data?.newChannelType)}:`}
                             </Text>
                             <Text className="text-sm">
                                 {getAlertSubMessage(props.data?.newChannelType)}
@@ -98,10 +99,10 @@ const ChangeChannelTypeSheet = ({ channelData, bottomSheetModalRef }: ChangeChan
                             <View className="flex-col gap-3 pt-1">
                                 <Button onPress={() => changeChannelType(props.data?.newChannelType)}
                                     disabled={updatingDoc}>
-                                    <Text>{updatingDoc ? 'Converting...' : 'Convert'}</Text>
+                                    <Text>{updatingDoc ? 'Меняем…' : 'Изменить'}</Text>
                                 </Button>
                                 <Button onPress={handleClose} variant="plain" className="border border-border">
-                                    <Text>Cancel</Text>
+                                    <Text>Отмена</Text>
                                 </Button>
                             </View>
                         </View>
@@ -136,7 +137,7 @@ const getChangeChannelType = ({ channelData, bottomSheetModalRef, iconMap }: { c
     const channelSettingsData = channelTypeList.map((type) => {
         return {
             id: type,
-            title: `Convert to a${type === 'Open' ? 'n' : ''} ${type.toLowerCase()} channel`,
+            title: `Сделать ${channelTypeInstrumental(type)}`,
             onPress: () => {
                 bottomSheetModalRef.current?.present({
                     newChannelType: type,

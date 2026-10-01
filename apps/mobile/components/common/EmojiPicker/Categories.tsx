@@ -14,15 +14,15 @@ import FlagsIcon from "@assets/icons/emoji-picker-icons/FlagsIcon.svg"
 import CustomIcon from "@assets/icons/emoji-picker-icons/CustomIcon.svg"
 
 export const CATEGORIES = [
-    { category: 'people', categoryIcon: PeopleIcon, title: "Smileys & People" },
-    { category: 'nature', categoryIcon: NatureIcon, title: "Animals & Nature" },
-    { category: 'foods', categoryIcon: FoodsIcon, title: "Food & Drink" },
-    { category: 'activity', categoryIcon: ActivityIcon, title: "Activity" },
-    { category: 'places', categoryIcon: PlacesIcon, title: "Travel & Places" },
-    { category: 'objects', categoryIcon: ObjectsIcon, title: "Objects" },
-    { category: 'symbols', categoryIcon: SymbolsIcon, title: "Symbols" },
-    { category: 'flags', categoryIcon: FlagsIcon, title: "Flags" },
-    { category: 'custom', categoryIcon: CustomIcon, title: "Custom" }
+    { category: 'people', categoryIcon: PeopleIcon, title: "Смайлы и люди" },
+    { category: 'nature', categoryIcon: NatureIcon, title: "Животные и природа" },
+    { category: 'foods', categoryIcon: FoodsIcon, title: "Еда и напитки" },
+    { category: 'activity', categoryIcon: ActivityIcon, title: "Занятия" },
+    { category: 'places', categoryIcon: PlacesIcon, title: "Путешествия и места" },
+    { category: 'objects', categoryIcon: ObjectsIcon, title: "Предметы" },
+    { category: 'symbols', categoryIcon: SymbolsIcon, title: "Символы" },
+    { category: 'flags', categoryIcon: FlagsIcon, title: "Флаги" },
+    { category: 'custom', categoryIcon: CustomIcon, title: "Свои" }
 ] as {
     category: CategoryType
     categoryIcon: (props: SVGProps<SVGSVGElement>) => JSX.Element;

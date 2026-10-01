@@ -51,10 +51,10 @@ const ChannelMembers = () => {
                         <ChevronLeftIcon stroke={colors.foreground} />
                     </TouchableOpacity>
                 ),
-                headerTitle: () => <Text className='ml-2 text-base text-foreground font-semibold'>Members</Text>,
+                headerTitle: () => <Text className='ml-2 text-base text-foreground font-semibold'>Участники</Text>,
                 headerRight: () => (
                     <TouchableOpacity onPress={() => router.push(`./add-members`)} hitSlop={10}>
-                        <Text className='text-base font-semibold text-primary dark:text-secondary'>Add</Text>
+                        <Text className='text-base font-semibold text-primary dark:text-secondary'>Добавить</Text>
                     </TouchableOpacity>
                 )
             }} />
@@ -85,7 +85,7 @@ const ChannelMembers = () => {
                             return (
                                 <View className="flex-1 items-center justify-center">
                                     <Text className="text-[15px] text-center text-muted-foreground">
-                                        No channel members found
+                                        Участников канала нет
                                     </Text>
                                 </View>
                             )

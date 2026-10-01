@@ -12,7 +12,7 @@ const ProfileLayout = () => {
         }}>
             <Stack.Screen name='index'
                 options={{
-                    title: 'Profile',
+                    title: 'Профиль',
                     headerShadowVisible: true,
                     contentStyle: { backgroundColor: isDarkColorScheme ? colors.background : colors.card }
                 }} />

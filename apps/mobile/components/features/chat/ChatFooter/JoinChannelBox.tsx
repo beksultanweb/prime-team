@@ -36,8 +36,8 @@ export const JoinChannelBox = ({ channelID, isThread, user }: JoinChannelBoxProp
                 className="w-full rounded-lg"
                 disabled={loading}
             >
-                {loading ? <Text className="gap-1 text-center w-full font-semibold text-base">Joining</Text> :
-                    <Text className="gap-1 text-center w-full font-semibold text-base">Join</Text>}
+                {loading ? <Text className="gap-1 text-center w-full font-semibold text-base">Вступаем</Text> :
+                    <Text className="gap-1 text-center w-full font-semibold text-base">Вступить</Text>}
             </Button>
         </View>
     )

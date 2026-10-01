@@ -72,7 +72,7 @@ const ImageMessageBlock = ({ message }: { message: ImageMessage }) => {
     return <View className="flex-row items-center gap-2">
         <UserAvatar
             src={message.file}
-            alt={`Image sent by ${message.owner}`}
+            alt={`Изображение от ${message.owner}`}
         />
         <TextMessageBlock text={getFileName(message.file)} />
     </View>

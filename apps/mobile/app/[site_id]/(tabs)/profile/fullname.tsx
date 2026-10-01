@@ -28,11 +28,11 @@ export default function FullNameScreen() {
         return updateDoc("Raven User", myProfile?.name ?? '', {
             full_name: fullName,
         }).then(() => {
-            toast.success("User name updated")
+            toast.success("Имя обновлено")
             mutate()
             router.back();
         }).catch(() => {
-            toast.error("Failed to update user name")
+            toast.error("Не удалось обновить имя")
         })
     }
 
@@ -47,7 +47,7 @@ export default function FullNameScreen() {
                             <HeaderBackButton />
                         )
                     },
-                    headerTitle: () => <Text className='ml-2 text-base font-semibold'>User Name</Text>,
+                    headerTitle: () => <Text className='ml-2 text-base font-semibold'>Имя</Text>,
                     headerRight() {
                         return (
                             <Button variant="plain" className="ios:px-0"
@@ -55,7 +55,7 @@ export default function FullNameScreen() {
                                 disabled={loading || !fullName.length}>
                                 {loading ?
                                     <ActivityIndicator size="small" color={colors.primary} /> :
-                                    <Text className="text-primary dark:text-secondary">Save</Text>}
+                                    <Text className="text-primary dark:text-secondary">Сохранить</Text>}
                             </Button>
                         )
                     },
@@ -68,17 +68,17 @@ export default function FullNameScreen() {
                 contentInsetAdjustmentBehavior="automatic"
                 contentContainerStyle={{ paddingBottom: insets.bottom }}>
                 <Form className="gap-5 px-4 pt-8">
-                    <FormSection footnote="This name will be used to identify you in the app.">
+                    <FormSection footnote="Под этим именем вас будут видеть в приложении.">
                         <FormItem>
                             <TextField
                                 autoFocus
                                 className="pl-0.5"
                                 leftView={
                                     <View className="w-36 justify-between flex-row items-center pl-2">
-                                        <Text className="font-medium">Full Name</Text>
+                                        <Text className="font-medium">Полное имя</Text>
                                     </View>
                                 }
-                                placeholder="Full Name"
+                                placeholder="Полное имя"
                                 value={fullName}
                                 onChangeText={setFullName}
                             />

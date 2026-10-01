@@ -89,7 +89,7 @@ export default function TabLayout() {
 
     return (
         <>
-            <Stack.Screen options={{ headerShown: false, title: 'Home' }} />
+            <Stack.Screen options={{ headerShown: false, title: 'Главная' }} />
             <Tabs
                 screenOptions={{
                     tabBarStyle,
@@ -100,7 +100,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="home"
                     options={{
-                        title: 'Home',
+                        title: 'Главная',
                         headerShown: false,
                         headerStyle,
                         tabBarBadge: hasUnreadMessages ? '' : undefined,
@@ -111,7 +111,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="direct-messages"
                     options={{
-                        title: 'DMs',
+                        title: 'Личные',
                         headerShown: false,
                         headerStyle,
                         tabBarBadge: hasUnreadDMs ? '' : undefined,
@@ -122,7 +122,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="threads"
                     options={{
-                        title: 'Threads',
+                        title: 'Треды',
                         headerShown: false,
                         headerStyle,
                         tabBarBadge: hasUnreadThreads ? '' : undefined,
@@ -133,7 +133,7 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="profile"
                     options={{
-                        title: 'Profile',
+                        title: 'Профиль',
                         headerShown: false,
                         headerStyle,
                         tabBarIcon: getTabBarIcon(ProfileIcon, ProfileOutlineIcon),

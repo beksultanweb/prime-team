@@ -28,7 +28,7 @@ const PinnedMessages = () => {
                     headerTitle: () => (
                         <View className='flex-row items-center'>
                             <PinOutlineIcon height={18} width={18} stroke={colors.foreground} />
-                            <Text className='ml-2 text-base font-semibold'>Pinned messages</Text>
+                            <Text className='ml-2 text-base font-semibold'>Закреплённые сообщения</Text>
                         </View>
                     ),
                 }} />

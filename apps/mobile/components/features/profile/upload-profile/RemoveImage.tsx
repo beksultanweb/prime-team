@@ -18,24 +18,24 @@ const RemoveImage = ({ onSheetClose }: RemoveImageProps) => {
             await call({
                 user_image: ''
             })
-            toast.success("Profile picture removed.")
+            toast.success("Фото профиля удалено.")
             onSheetClose()
         } catch (error) {
-            toast.error('Error removing profile picture')
+            toast.error('Не удалось удалить фото профиля')
         }
     }
 
     const deleteProfilePicAlert = () =>
         Alert.alert(
-            `Remove Image`,
-            `Are you sure you want to remove this image?`,
+            `Удалить фото`,
+            `Фото профиля будет удалено.`,
             [
                 {
-                    text: 'Cancel',
+                    text: 'Отмена',
                     style: 'cancel',
                 },
                 {
-                    text: 'Remove',
+                    text: 'Удалить',
                     style: 'destructive',
                     onPress: removeImage
                 },
@@ -50,7 +50,7 @@ const RemoveImage = ({ onSheetClose }: RemoveImageProps) => {
             className='flex flex-row w-full items-center gap-2 p-2 rounded-lg ios:active:bg-red-50 dark:ios:active:bg-red-900/30'
             android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
             <TrashIcon height={20} width={20} fill={isDarkColorScheme ? '#f87171' : '#dc2626'} />
-            <Text className='text-base text-red-600 dark:text-red-400'>Remove Image</Text>
+            <Text className='text-base text-red-600 dark:text-red-400'>Удалить фото</Text>
         </Pressable>
     )
 }

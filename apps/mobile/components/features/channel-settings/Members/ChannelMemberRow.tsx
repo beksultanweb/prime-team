@@ -35,7 +35,7 @@ const ChannelMemberRow = ({ member }: { member: Member }) => {
 
     const updateAdminStatus = async (admin: 1 | 0) => {
         if (isBot) {
-            toast.error("Bots cannot be made admins")
+            toast.error("Бота нельзя сделать администратором")
             return
         }
         return updateDoc("Raven Channel Member", memberInfo?.message.name ?? "", {
@@ -44,12 +44,12 @@ const ChannelMemberRow = ({ member }: { member: Member }) => {
             updateMembers()
             reset()
             if (admin === 1) {
-                toast.success(`${member.full_name} has been made an admin`)
+                toast.success(`${member.full_name} теперь администратор`)
             } else {
-                toast.warning(`${member.full_name} is no longer an admin`)
+                toast.warning(`${member.full_name} больше не администратор`)
             }
         }).catch((e) => {
-            toast.error("Failed to update member status")
+            toast.error("Не удалось изменить роль участника")
             reset()
         })
     }
@@ -68,21 +68,21 @@ const ChannelMemberRow = ({ member }: { member: Member }) => {
 
         const deleteMember = async () => {
             return deleteDoc('Raven Channel Member', member?.channel_member_name).then(() => {
-                toast.success(`Removed ${member.full_name} from the channel`)
+                toast.success(`${member.full_name} удалён из канала`)
                 mutate(["channel_members", channelId])
             })
         }
 
         const showAlert = () =>
             Alert.alert(
-                `Remove Member?`,
-                `${member.full_name} will no longer have access to ${channel?.channelData.channel_name} channel.`,
+                `Удалить участника?`,
+                `${member.full_name} потеряет доступ к каналу ${channel?.channelData.channel_name}.`,
                 [
                     {
-                        text: 'Cancel',
+                        text: 'Отмена',
                     },
                     {
-                        text: 'Remove',
+                        text: 'Удалить',
                         style: 'destructive',
                         onPress: deleteMember
                     },
@@ -102,7 +102,7 @@ const ChannelMemberRow = ({ member }: { member: Member }) => {
 
     const showActions = () => {
 
-        let options = ['Make channel admin', 'Dismiss channel admin', 'Cancel']
+        let options = ['Сделать администратором', 'Снять права администратора', 'Отмена']
         const isAdmin = channelMembers[member.name].is_admin
 
         if (isAllowed) {

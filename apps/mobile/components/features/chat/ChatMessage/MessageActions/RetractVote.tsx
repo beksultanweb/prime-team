@@ -22,7 +22,7 @@ const RetractVote = ({ message, onClose }: RetractVoteProps) => {
             <ActionButton
                 onPress={() => retractVote(onClose)}
                 icon={<ArrowBackRetractIcon width={18} height={18} fill={colors.icon} />}
-                text='Retract vote'
+                text='Отозвать голос'
             />
         )
 
@@ -51,10 +51,10 @@ const useRetractVote = (message: Message) => {
                 poll_id: message?.poll_id,
             })
             onSuccess()
-            toast.success('Vote retracted')
+            toast.success('Голос отозван')
             setIsLoading(false)
         } catch (e: unknown) {
-            toast.error('Could not retract vote')
+            toast.error('Не удалось отозвать голос')
         }
     }, [message])
 

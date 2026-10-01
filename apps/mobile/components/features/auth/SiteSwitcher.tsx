@@ -38,12 +38,12 @@ const SiteSwitcher = ({ openAddSiteSheet }: { openAddSiteSheet: () => void }) =>
     return (
         <>
             <View className='flex w-full gap-2'>
-                <Text className='text-muted-foreground text-sm font-medium'>Switch to Another Site</Text>
+                <Text className='text-muted-foreground text-sm font-medium'>Переключиться на другой сайт</Text>
                 {otherSites.map((siteInformation) => (
                     <Pressable key={siteInformation.sitename} onPress={() => handleSitePress(siteInformation.sitename)} className='bg-card dark:bg-card rounded-lg px-2 py-2 active:bg-card-background/50 dark:active:bg-card/80'>
                         <View className='flex flex-row pr-2 items-center justify-between'>
                             <View className='flex-row items-center gap-2'>
-                                <Avatar alt="Site Logo">
+                                <Avatar alt="Логотип сайта">
                                     <AvatarImage source={{ uri: (siteInformation.url) + (siteInformation.logo) }} />
                                 </Avatar>
                                 <View>
@@ -65,7 +65,7 @@ const SiteSwitcher = ({ openAddSiteSheet }: { openAddSiteSheet: () => void }) =>
                                 <ServerIcon height={22} width={22} color={colors.grey} />
                             </View>
 
-                            <Text className='text-base'>Add a new site</Text>
+                            <Text className='text-base'>Добавить сайт</Text>
                         </View>
                         <View className='flex-row h-10 items-center'>
                             <PlusIcon height={22} width={22} fill={colors.greyText} />
@@ -76,7 +76,7 @@ const SiteSwitcher = ({ openAddSiteSheet }: { openAddSiteSheet: () => void }) =>
                 <Pressable >
                     <View className='flex flex-row items-center gap-2'>
                         <PlusIcon height={18} width={18} color={colors.greyText} />
-                        <Text className='text-muted-foreground text-sm font-medium'>Add a new site</Text>
+                        <Text className='text-muted-foreground text-sm font-medium'>Добавить сайт</Text>
                     </View>
                 </Pressable> */}
 

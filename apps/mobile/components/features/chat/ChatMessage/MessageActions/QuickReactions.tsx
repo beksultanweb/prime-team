@@ -29,7 +29,7 @@ const QuickReactions = ({ message, onClose, quickReactionEmojis }: MessageReacti
                 emojiBottomSheetRef.current?.close({ duration: 450 })
                 onClose();
             }).catch(() => {
-                toast.error("Could not react to message.")
+                toast.error("Не удалось поставить реакцию.")
             })
         }
     }
@@ -43,7 +43,7 @@ const QuickReactions = ({ message, onClose, quickReactionEmojis }: MessageReacti
                         emojiBottomSheetRef.current?.close({ duration: 450 })
                         onClose();
                     }).catch(() => {
-                        toast.error("Could not react to message.")
+                        toast.error("Не удалось поставить реакцию.")
                     })
             } else {
                 saveReaction(message, emoji?.src ?? "", true, emoji.id)
@@ -51,7 +51,7 @@ const QuickReactions = ({ message, onClose, quickReactionEmojis }: MessageReacti
                         emojiBottomSheetRef.current?.close({ duration: 450 })
                         onClose();
                     }).catch(() => {
-                        toast.error("Could not react to message.")
+                        toast.error("Не удалось поставить реакцию.")
                     })
             }
         }

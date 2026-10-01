@@ -59,7 +59,7 @@ const ReactionAnalyticsContent = ({ reactions }: { reactions: ReactionObject[] }
                 }))
             }
         });
-        return [{ title: "All", is_custom: false, users: all_reacted_members }, ...reactionTabs];
+        return [{ title: "Все", is_custom: false, users: all_reacted_members }, ...reactionTabs];
     }, [reactions, all_reacted_members]);
 
     const handleTabPress = useCallback((index: number) => {

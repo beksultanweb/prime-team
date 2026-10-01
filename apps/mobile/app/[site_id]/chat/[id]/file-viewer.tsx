@@ -19,7 +19,7 @@ const FileViewer = () => {
         headerStyle: { backgroundColor: colors.background },
         headerLeft: Platform.OS === 'ios' ? () => <HeaderBackButton /> : undefined,
         headerTransparent: isImage,
-        title: 'File Viewer',
+        title: 'Просмотр файла',
         headerShown: showHeader,
         headerTitle: `${uri?.split('?')[0]?.split('/').pop()}`,
         headerRight: () => <ShareButton uri={uri} />

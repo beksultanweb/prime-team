@@ -40,20 +40,20 @@ export default function CreateChannel() {
             workspace: workspace
         }).then(result => {
             if (result) {
-                toast.success("Channel created", result)
+                toast.success("Канал создан", result)
                 // Navigate to channel
                 goToChannel(result.name, 'replace')
                 reset()
                 resetForm()
             }
         }).catch(err => {
-            toast.error("Failed to create channel", err)
+            toast.error("Не удалось создать канал", err)
         })
     }
 
     return <>
         <Stack.Screen options={{
-            title: 'Add Channel',
+            title: 'Новый канал',
             headerLeft: Platform.OS === 'ios' ? () => {
                 return (
                     <Link asChild href="../" relativeToDirectory>
@@ -70,7 +70,7 @@ export default function CreateChannel() {
                         disabled={creatingChannel}>
                         {creatingChannel ?
                             <ActivityIndicator size="small" color={colors.primary} /> :
-                            <Text className="text-primary font-medium dark:text-secondary">Add</Text>}
+                            <Text className="text-primary font-medium dark:text-secondary">Создать</Text>}
                     </TouchableOpacity>
                 )
             },

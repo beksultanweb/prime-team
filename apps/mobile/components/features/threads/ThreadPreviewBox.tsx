@@ -1,3 +1,4 @@
+import { repliesRu } from '@lib/ru'
 import { Pressable, View } from 'react-native'
 import { Text } from '@components/nativewindui/Text'
 import { ThreadMessage } from './ThreadTabs'
@@ -38,7 +39,7 @@ const ThreadPreviewBox = ({ thread, unreadCount }: { thread: ThreadMessage, unre
         } else {
             return {
                 channelIcon: '',
-                channelName: 'Deleted Channel'
+                channelName: 'Удалённый канал'
             }
         }
     }, [channelData, users])
@@ -73,7 +74,7 @@ const ThreadPreviewBox = ({ thread, unreadCount }: { thread: ThreadMessage, unre
                     <BaseMessageItem message={thread as unknown as Message} />
                     <View className='flex flex-row items-center gap-2 pl-16 pt-2'>
                         <ViewThreadParticipants participants={thread.participants ?? []} />
-                        <Text className={'text-sm font-medium text-primary dark:text-secondary'}>{thread.reply_count ?? 0} {thread.reply_count && thread.reply_count === 1 ? 'Reply' : 'Replies'}</Text>
+                        <Text className={'text-sm font-medium text-primary dark:text-secondary'}>{repliesRu(thread.reply_count ?? 0)}</Text>
                     </View>
                 </View>
             </Pressable>

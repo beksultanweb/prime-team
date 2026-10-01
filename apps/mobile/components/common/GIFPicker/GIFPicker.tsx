@@ -20,7 +20,7 @@ const GIFPicker = ({ onSelect }: GIFPickerProps) => {
                 <SearchInput
                     value={searchText}
                     onChangeText={setSearchText}
-                    placeholder="Search for a GIF"
+                    placeholder="Поиск GIF"
                 />
             </View>
 

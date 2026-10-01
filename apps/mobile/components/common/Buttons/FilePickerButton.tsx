@@ -34,8 +34,8 @@ const FilePickerButton = ({ onPick }: FilePickerButtonProps) => {
             }
         } catch (error) {
             console.error('Error picking documents:', error)
-            toast.error("There was an error while selecting documents", {
-                description: error instanceof Error ? error.message : "Unknown error"
+            toast.error("Не удалось выбрать документы", {
+                description: error instanceof Error ? error.message : "Неизвестная ошибка"
             })
         }
     }
@@ -47,7 +47,7 @@ const FilePickerButton = ({ onPick }: FilePickerButtonProps) => {
             className='flex flex-row w-full items-center gap-2 p-2 rounded-lg ios:active:bg-linkColor'
             android_ripple={{ color: 'rgba(0,0,0,0.1)', borderless: false }}>
             <AddFileIcon height={20} width={20} color={colors.icon} />
-            <Text className='text-base text-foreground'>Upload Document</Text>
+            <Text className='text-base text-foreground'>Документ</Text>
         </Pressable>
     )
 }

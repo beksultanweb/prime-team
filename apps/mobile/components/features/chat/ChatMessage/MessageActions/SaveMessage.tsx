@@ -25,7 +25,7 @@ const SaveMessage = ({ message, onClose }: SaveMessageProps) => {
     return (
         <ActionButtonLarge
             icon={isSaved ? <BookmarkFilledIcon width={18} height={18} fill={colors.icon} /> : <BookmarkIcon width={18} height={18} fill={colors.icon} />}
-            text={isSaved ? 'Unsave' : 'Save'}
+            text={isSaved ? 'Убрать из сохранённых' : 'Сохранить'}
             onPress={handleSaveMessage}
         />
     )

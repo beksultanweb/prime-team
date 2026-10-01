@@ -22,14 +22,14 @@ const ShareMessageFile = ({ message, onClose }: DownloadMessageFileProps) => {
                 onClose()
             })
             .catch((error) => {
-                toast.error('There was an error sharing the file. Please try again.')
+                toast.error('Не удалось поделиться файлом. Попробуйте ещё раз.')
             })
     }
 
     return (
         <ActionButton
             icon={<ShareIcon width={18} height={18} color={colors.icon} />}
-            text='Share'
+            text='Поделиться'
             onPress={downloadFile}
         />
     )

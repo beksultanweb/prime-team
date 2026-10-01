@@ -15,7 +15,7 @@ const Thread = () => {
             <Stack.Screen options={{
                 headerStyle: { backgroundColor: colors.background },
                 headerLeft: () => <HeaderBackButton />,
-                headerTitle: 'Thread',
+                headerTitle: 'Тред',
                 headerRight: () => <ThreadActions threadID={id as string} />
             }} />
             <ChatLayout channelID={id as string} isThread />
