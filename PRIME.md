@@ -25,6 +25,11 @@ the release that matches the server at `app.primegc.kz` (Raven 2.8.x).
   `react-native.config.js` leaves the native Firebase modules unlinked and
   `lib/push.ts` never loads them.
 - Raven's Apple team, EAS project and owner removed from the app config.
+- Sign in with eGov Mobile / eGov Business, the same as on the web version of
+  the site (the `frappe_signature` app on the server): identity consent,
+  opening eGov Mobile, waiting for the signature, then an OAuth token issued
+  through the Frappe session, without a browser (`lib/egov.ts`,
+  `components/features/auth/EgovLogin.tsx`).
 - Profile screen shows the AGPL notice, a link to Raven and to the source
   code of this fork: https://github.com/beksultanweb/prime-team
 
@@ -37,6 +42,13 @@ On the Frappe site, open the OAuth Client used by Raven Mobile
 (Raven Settings → Mobile App) and add `kz.primegc.team:` to its Redirect URIs.
 Pressing "Configure OAuth Client" in Raven Settings again resets the list, so
 the URI has to be added back after that.
+
+For the eGov Mobile sign-in, also add `https://<site>/prime-team-auth`
+(for Prime: `https://app.primegc.kz/prime-team-auth`) to the same Redirect URIs.
+There is no page at that address: the app only reads the OAuth code from it,
+because on iOS `fetch` cannot follow a redirect to `kz.primegc.team:`.
+The OAuth Client must have "Skip Authorization" on, so that no confirmation page
+is shown.
 
 ## Running locally
 

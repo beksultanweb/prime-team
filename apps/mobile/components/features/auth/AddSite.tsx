@@ -14,6 +14,7 @@ import { FormLabel } from '@components/layout/Form'
 import { useColorScheme } from '@hooks/useColorScheme'
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator'
 import HowToSetupMobile from './HowToSetupMobile'
+import EgovLogin from './EgovLogin'
 
 /** Staff sign in to Prime's own Frappe site, so it is filled in by default */
 const DEFAULT_SITE_URL = 'app.primegc.kz'
@@ -208,6 +209,7 @@ export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformat
         }} disabled={!request || loading}>
             {loading ? <ActivityIndicator color={"#FFFFFF"} /> : <Text>Войти</Text>}
         </Button>
+        <EgovLogin siteInformation={siteInformation} onTokenReceived={onAccessTokenReceived} />
     </View>
 }
 
