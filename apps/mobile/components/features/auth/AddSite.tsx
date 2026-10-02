@@ -204,12 +204,13 @@ export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformat
                 <Text className='text-sm text-muted-foreground'>{siteInformation?.url}</Text>
             </View>
         </View>
-        <Button onPress={onLoginClick} style={{
+        {/* Основной вход — eGov Mobile; по паролю — для сотрудников без ЭЦП РК и проверки в сторах */}
+        <EgovLogin siteInformation={siteInformation} onTokenReceived={onAccessTokenReceived} />
+        <Button variant='secondary' onPress={onLoginClick} style={{
             minHeight: 40
         }} disabled={!request || loading}>
-            {loading ? <ActivityIndicator color={"#FFFFFF"} /> : <Text>Войти</Text>}
+            {loading ? <ActivityIndicator /> : <Text>Войти по паролю</Text>}
         </Button>
-        <EgovLogin siteInformation={siteInformation} onTokenReceived={onAccessTokenReceived} />
     </View>
 }
 

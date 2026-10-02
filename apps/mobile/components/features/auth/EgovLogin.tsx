@@ -84,8 +84,8 @@ const EgovLogin = ({ siteInformation, onTokenReceived }: Props) => {
     }, [siteURL, siteInformation.client_id, onTokenReceived, close])
 
     return <>
-        <Button variant='secondary' onPress={onStart} style={{ minHeight: 40 }} disabled={loading}>
-            {loading && !step ? <ActivityIndicator /> : <Text>Войти через eGov Mobile</Text>}
+        <Button onPress={onStart} style={{ minHeight: 40 }} disabled={loading}>
+            {loading && !step ? <ActivityIndicator color='#FFFFFF' /> : <Text>Войти через eGov Mobile</Text>}
         </Button>
 
         <Modal
