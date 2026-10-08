@@ -12,6 +12,8 @@ import { toast } from "sonner-native";
 import { SiteContext } from "@hooks/useSiteContext";
 import { AppState } from "react-native";
 import OfflineBanner from "@components/features/auth/OfflineBanner";
+import LegalConsentGate from "@components/features/auth/LegalConsentGate";
+import { getLoginConfiguration } from "@lib/mobileLogin";
 
 export default function SiteLayout() {
 
@@ -25,6 +27,7 @@ export default function SiteLayout() {
     const [loading, setLoading] = useState(true)
     const [siteInfo, setSiteInfo] = useState<SiteInformation | null>(null)
     const accessTokenRef = useRef<TokenResponse | null>(null)
+    const refreshInFlight = useRef(false)
     const networkState = useNetworkState();
 
     // Constants for token refresh timing
@@ -57,7 +60,7 @@ export default function SiteLayout() {
         }
 
         const refreshTokenIfNeeded = async () => {
-            if (!accessTokenRef.current || !siteInfo) return;
+            if (!accessTokenRef.current || !siteInfo || refreshInFlight.current) return;
 
             const isOnline = networkState.isConnected && networkState.isInternetReachable;
             if (!isOnline) {
@@ -71,6 +74,7 @@ export default function SiteLayout() {
 
             // Check if token needs refresh based on our proactive threshold
             if (shouldRefreshToken(accessTokenRef.current)) {
+                refreshInFlight.current = true;
                 console.log("Proactively refreshing token");
                 try {
 
@@ -110,6 +114,8 @@ export default function SiteLayout() {
                         toast.error("Вы вышли из аккаунта на сайте. Войдите снова.")
                         router.replace('/landing');
                     }
+                } finally {
+                    refreshInFlight.current = false;
                 }
             }
         };
@@ -146,6 +152,9 @@ export default function SiteLayout() {
     }, [siteInfo, networkState]);
 
     useEffect(() => {
+
+        setLoading(true)
+        siteInfoRefreshedRef.current = false
 
         let site_info: SiteInformation | null = null
 
@@ -247,31 +256,31 @@ export default function SiteLayout() {
         // This is not a priority, so we can do it on the background
         if (!siteInfo || !site_id || siteInfoRefreshedRef.current) return
 
-        fetch(`${siteInfo.url}/api/method/raven.api.raven_mobile.get_client_id`)
-            .then(res => res.json())
+        getLoginConfiguration(siteInfo.url)
             .then(data => {
-                if (data.message && data.message.client_id) {
+                if (data.client_id) {
+                    // Never bind an existing token to a newly configured client.
+                    // A different client becomes active only after a fresh login.
+                    const updated = { ...siteInfo, ...data, client_id: siteInfo.client_id }
                     setSiteInfo({
-                        ...siteInfo,
-                        ...data.message
+                        ...updated,
                     })
 
-                    addSiteToStorage(site_id, {
-                        ...siteInfo,
-                        ...data.message
-                    })
+                    addSiteToStorage(site_id, updated)
                     siteInfoRefreshedRef.current = true
                 }
             })
+            .catch(() => { /* background metadata refresh must not break a valid token */ })
 
     }, [siteInfo, site_id])
 
     const isOffline = !networkState.isConnected || !networkState.isInternetReachable
 
     return <>
-        {loading ? <FullPageLoader /> :
+        {loading || !siteInfo ? <FullPageLoader /> :
             <SiteContext.Provider value={siteInfo}>
                 {isOffline ? <OfflineBanner /> : null}
+                <LegalConsentGate site={siteInfo} getToken={getToken}>
                 <FrappeNativeProvider siteInfo={siteInfo} getAccessToken={getToken}>
                     <Providers>
                         <BottomSheetModalProvider>
@@ -298,6 +307,7 @@ export default function SiteLayout() {
                         </BottomSheetModalProvider>
                     </Providers>
                 </FrappeNativeProvider>
+                </LegalConsentGate>
             </SiteContext.Provider>
         }
     </>
