@@ -1,4 +1,5 @@
 import 'expo-dev-client';
+import '@lib/locationTracking';
 import { router, Slot } from 'expo-router';
 import { ThemeProvider } from '@react-navigation/native';
 import "../global.css";

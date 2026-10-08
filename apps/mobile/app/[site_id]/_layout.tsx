@@ -14,6 +14,8 @@ import { AppState } from "react-native";
 import OfflineBanner from "@components/features/auth/OfflineBanner";
 import LegalConsentGate from "@components/features/auth/LegalConsentGate";
 import { getLoginConfiguration } from "@lib/mobileLogin";
+import LocationRuntime from '@components/features/profile/LocationRuntime';
+import { refreshStoredAccessToken, subscribeAccessToken } from '@lib/auth';
 
 export default function SiteLayout() {
 
@@ -28,6 +30,7 @@ export default function SiteLayout() {
     const [siteInfo, setSiteInfo] = useState<SiteInformation | null>(null)
     const accessTokenRef = useRef<TokenResponse | null>(null)
     const refreshInFlight = useRef(false)
+    useEffect(() => subscribeAccessToken(site_id, token => { accessTokenRef.current = token }), [site_id])
     const networkState = useNetworkState();
 
     // Constants for token refresh timing
@@ -79,14 +82,7 @@ export default function SiteLayout() {
                 try {
 
                     const oldToken = `${accessTokenRef.current.accessToken}`
-                    const newToken = await accessTokenRef.current.refreshAsync(
-                        {
-                            clientId: siteInfo.client_id,
-                        },
-                        {
-                            tokenEndpoint: getTokenEndpoint(siteInfo.url),
-                        }
-                    );
+                    const newToken = await refreshStoredAccessToken(siteInfo, oldToken);
                     await storeAccessToken(siteInfo.sitename, newToken);
 
                     // Store the new token in the ref before revoking the old token since some API calls might be in-flight
@@ -198,11 +194,7 @@ export default function SiteLayout() {
                     const oldToken = `${tokenResponse.accessToken}`
 
                     console.log("Refreshing token")
-                    return tokenResponse.refreshAsync({
-                        clientId: site_info?.client_id || '',
-                    }, {
-                        tokenEndpoint: getTokenEndpoint(site_info?.url || ''),
-                    }).then(async (tokenResponse) => {
+                    return refreshStoredAccessToken(site_info!, oldToken).then(async (tokenResponse) => {
                         await storeAccessToken(site_info?.sitename || '', tokenResponse)
 
                         // Revoke the old token
@@ -281,6 +273,7 @@ export default function SiteLayout() {
             <SiteContext.Provider value={siteInfo}>
                 {isOffline ? <OfflineBanner /> : null}
                 <LegalConsentGate site={siteInfo} getToken={getToken}>
+                <LocationRuntime />
                 <FrappeNativeProvider siteInfo={siteInfo} getAccessToken={getToken}>
                     <Providers>
                         <BottomSheetModalProvider>

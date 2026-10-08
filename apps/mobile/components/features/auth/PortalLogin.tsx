@@ -8,6 +8,7 @@ import { Text } from '@components/nativewindui/Text'
 import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator'
 import { useColorScheme } from '@hooks/useColorScheme'
 import { addSiteToStorage, setDefaultSite, storeAccessToken } from '@lib/auth'
+import { stopLocationLocally } from '@lib/locationTracking'
 import { callFrappe, createPKCE, exchangeMobileCode, getLoginConfiguration, LoginConfiguration, MobileLoginError, normalizeSiteURL, passwordLogin } from '@lib/mobileLogin'
 import EgovLogin from './EgovLogin'
 
@@ -31,6 +32,7 @@ export default function PortalLogin({ siteURL = 'https://app.primegc.kz', onDism
 
     const onTokenReceived = async (token: TokenResponse) => {
         if (!configuration || !alive.current) return
+        await stopLocationLocally()
         await storeAccessToken(configuration.sitename, token)
         await addSiteToStorage(configuration.sitename, configuration)
         await setDefaultSite(configuration.sitename)

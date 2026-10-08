@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useEffect, useState } from "react"
 import { useSheetRef } from "@components/nativewindui/Sheet"
 import { SiteInformation } from "types/SiteInformation"
-import { getAccessToken, getRevocationEndpoint, setDefaultSite, getSitesFromStorage, getTokenEndpoint, storeAccessToken } from "@lib/auth"
+import { getAccessToken, getRevocationEndpoint, setDefaultSite, getSitesFromStorage, refreshStoredAccessToken, storeAccessToken } from "@lib/auth"
 import { revokeAsync, TokenResponse } from "expo-auth-session"
 import { router } from "expo-router"
 
@@ -50,11 +50,7 @@ export const useSiteSwitcher = () => {
         if (tokenResponse.shouldRefresh()) {
 
             const url = siteInfo?.url ?? ''
-            tokenResponse.refreshAsync({
-                clientId: siteInfo?.client_id || '',
-            }, {
-                tokenEndpoint: getTokenEndpoint(url),
-            }).then(async (tokenResponse) => {
+            refreshStoredAccessToken(siteInfo, accessToken.accessToken).then(async (tokenResponse) => {
                 await storeAccessToken(siteName, tokenResponse)
 
                 // Revoke the old token

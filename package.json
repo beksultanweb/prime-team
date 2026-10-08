@@ -10,6 +10,7 @@
   "main": "index.js",
   "scripts": {
     "test:auth": "node --test apps/mobile/tests/native-login.test.cjs",
+    "test:location": "node --test apps/mobile/tests/location.test.cjs",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "cd frontend && yarn dev",
     "build": "cd frontend && yarn build",
