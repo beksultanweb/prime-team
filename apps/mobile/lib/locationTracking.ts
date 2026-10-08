@@ -1,6 +1,8 @@
 import * as Location from 'expo-location'
 import * as TaskManager from 'expo-task-manager'
 import * as SecureStore from 'expo-secure-store'
+import * as Crypto from 'expo-crypto'
+import * as Device from 'expo-device'
 import { AppState, Platform } from 'react-native'
 import { getAccessToken, getDefaultSite, refreshStoredAccessToken } from './auth'
 import { callFrappe, MobileLoginError } from './mobileLogin'
@@ -10,11 +12,13 @@ import { isLocationWindow, LOCATION_INTERVAL, locationPoint, locationSlot, Locat
 export const LOCATION_TASK = 'prime-team-location-v1'
 const CONFIG_KEY = 'prime-team-location-config-v1'
 const QUEUE_KEY = 'prime-team-location-queue-v1'
+const DEVICE_KEY = 'prime-team-installation-v1'
 const API = '/api/method/prime_core.mobile_location.'
-type Config = { site: SiteInformation, user: string, notice_hash: string, last_slot: number, last_capture: number, presence?: string }
+type Attendance = { status: string, action?: string, last_action?: string, confirming?: boolean }
+type Config = { site: SiteInformation, user: string, notice_hash: string, last_slot: number, last_capture: number, presence?: string, attendance?: Attendance }
 export type LocationStatus = { available: boolean, consented: boolean, user: string, notice: string, notice_hash: string,
-    in_window: boolean, timezone: string, interval_ms: number, start_hour: number, end_hour: number }
-export type LocalLocationState = { enabled: boolean, last_capture: number, pending: number, error: string, background: boolean, presence: string }
+    in_window: boolean, timezone: string, interval_ms: number, start_hour: number, end_hour: number, gps_attendance?: boolean }
+export type LocalLocationState = { enabled: boolean, last_capture: number, pending: number, error: string, background: boolean, presence: string, attendance?: Attendance }
 let sequence: Promise<unknown> = Promise.resolve()
 let errorMessage = ''
 const listeners = new Set<() => void>()
@@ -43,6 +47,15 @@ async function queue(): Promise<LocationPoint[]> {
     try { return pendingPoints(JSON.parse(value || '[]')) } catch { return [] }
 }
 const saveConfig = (value: Config) => SecureStore.setItemAsync(CONFIG_KEY, JSON.stringify(value))
+async function deviceMetadata() {
+    let id = await SecureStore.getItemAsync(DEVICE_KEY)
+    if (!id) {
+        id = Crypto.randomUUID()
+        await SecureStore.setItemAsync(DEVICE_KEY, id)
+    }
+    // App installation, not IMEI/MAC/advertising ID; client claims are not attestation.
+    return { id, platform: Platform.OS, model: (Device.modelName || '').slice(0, 100) }
+}
 async function stopNative() {
     if (Platform.OS !== 'web' && await Location.hasStartedLocationUpdatesAsync(LOCATION_TASK)) {
         await Location.stopLocationUpdatesAsync(LOCATION_TASK)
@@ -61,7 +74,8 @@ export async function getLocalLocationState(site: SiteInformation): Promise<Loca
     const same = value?.site.url === site.url && value.site.sitename === site.sitename
     return { enabled: !!same, last_capture: same ? value.last_capture : 0,
         pending: same ? (await queue()).length : 0, error: errorMessage, background: backgroundPermission,
-        presence: same ? value.presence || 'UNKNOWN' : 'UNKNOWN' }
+        presence: same && Date.now() - value.last_capture <= 10 * 60 * 1000 ? value.presence || 'UNKNOWN' : 'UNKNOWN',
+        attendance: same ? value.attendance : undefined }
 }
 export async function getLocationStatus(site: SiteInformation): Promise<LocationStatus> {
     const token = await refreshStoredAccessToken(site)
@@ -154,8 +168,8 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
             errorMessage = 'Отслеживание остановлено. Войдите снова и проверьте согласие.'
             await clearLocal(); return
         }
-        // Offline locations remain encrypted and bounded to the last hour / 12 points.
-        errorMessage = 'Нет связи: геопозиции временно хранятся на телефоне.'
+        // Only the latest fix is retained, encrypted; no offline route/history.
+        errorMessage = 'Нет связи: на телефоне временно сохранена только последняя геопозиция.'
     }
     if (signal.aborted) return
     if (!isLocationWindow()) { await stopNative(); return }
@@ -187,11 +201,13 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
     await saveConfig(value) // persist before upload; failed acknowledgement retries exactly the same slots
     if (pending.length && token) {
         try {
-            const result = await callFrappe<{ presence: string }>(value.site.url + API + 'record_points', {
-                token: token.accessToken, signal, params: { notice_hash: value.notice_hash, points: JSON.stringify(pending) },
+            const result = await callFrappe<{ presence: string, attendance?: Attendance }>(value.site.url + API + 'record_points', {
+                token: token.accessToken, signal, params: { notice_hash: value.notice_hash,
+                    points: JSON.stringify(pending), device: JSON.stringify(await deviceMetadata()) },
             })
             if (signal.aborted) return
             value.presence = ['IN', 'OUT'].includes(result.presence) ? result.presence : 'UNKNOWN'
+            if (result.attendance) value.attendance = result.attendance
             await saveConfig(value)
             await SecureStore.deleteItemAsync(QUEUE_KEY)
             errorMessage = ''

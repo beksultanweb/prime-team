@@ -1,7 +1,7 @@
 // Timezone is a business policy, never the device's local timezone.
 export const LOCATION_TIMEZONE = 'Asia/Almaty'
 export const LOCATION_INTERVAL = 5 * 60 * 1000
-export const MAX_PENDING_POINTS = 12
+export const MAX_PENDING_POINTS = 1
 export type LocationPoint = { timestamp: number, latitude: number, longitude: number, accuracy: number }
 
 export function isLocationWindow(timestamp = Date.now()): boolean {
@@ -30,7 +30,7 @@ export function pendingPoints(points: LocationPoint[], now = Date.now()): Locati
     const seen = new Set<number>()
     return [...points].sort((a, b) => a.timestamp - b.timestamp).filter(point => {
         const slot = locationSlot(point.timestamp)
-        if (!isLocationWindow(point.timestamp) || point.timestamp < now - 60 * 60 * 1000 ||
+        if (!isLocationWindow(point.timestamp) || point.timestamp < now - 10 * 60 * 1000 ||
             point.timestamp > now + 30_000 || seen.has(slot)) return false
         seen.add(slot)
         return true

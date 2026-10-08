@@ -13,7 +13,6 @@ import { UserListContext } from "@raven/lib/providers/UserListProvider"
 import { SelectedChannels } from "./SelectedChannels"
 import { FilteredChannels } from "./FilteredChannels"
 import clsx from "clsx"
-import { Message } from "@raven/types/common/Message"
 import { UserFields } from "@raven/types/common/UserFields"
 import ForwardMessageIcon from '@assets/icons/HollowSendIcon.svg'
 import { Divider } from "@components/layout/Divider"
@@ -27,7 +26,9 @@ export type CombinedChannel = {
 }
 
 interface ForwardMessageProps {
-    message: Message
+    // This screen receives Expo Router's serialized query parameters, not an
+    // in-memory Message (numeric/boolean fields have already become strings).
+    message: Record<string, string | string[] | undefined>
 }
 
 export function ForwardMessage({ message }: ForwardMessageProps) {
@@ -163,4 +164,4 @@ export function ForwardMessage({ message }: ForwardMessageProps) {
             </View>
         </KeyboardAvoidingView>
     )
-} 
+}

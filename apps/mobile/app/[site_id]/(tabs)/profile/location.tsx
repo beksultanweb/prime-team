@@ -49,6 +49,15 @@ export default function LocationScreen() {
         finally { setBusy(false) }
     }
     const currentWindow = isLocationWindow(now)
+    const attendanceMessages: Record<string, string> = {
+        observed: 'Подтверждаем переход по двум измерениям GPS.',
+        legal_consent_required: 'Для учёта времени примите юридические документы.',
+        egov_identity_required: 'Для учёта времени войдите через eGov Mobile.',
+        employee_mapping_required: 'Учёт времени не настроен: обратитесь к кадровому специалисту.',
+        previous_day_unclosed: 'Вчерашний выход не зафиксирован. Нужна кадровая корректировка.',
+        attendance_conflict: 'Есть другая отметка времени. Обратитесь к кадровому специалисту.',
+        other_device: 'Сегодняшние отметки связаны с другой установкой приложения.',
+    }
     return <>
         <Stack.Screen options={{ headerTitle: 'Геопозиция', headerLeft: () => <HeaderBackButton />,
             headerStyle: { backgroundColor: colors.background } }} />
@@ -66,7 +75,12 @@ export default function LocationScreen() {
                 timeZone: 'Asia/Almaty', dateStyle: 'short', timeStyle: 'short',
             }).format(new Date(local.last_capture))}</Text>}
             {!!local?.last_capture && <Text className='text-sm'>Последний подтверждённый статус геозоны: {local.presence === 'IN' ? 'IN — внутри' : local.presence === 'OUT' ? 'OUT — снаружи' : 'Не определено'}</Text>}
-            {!!local?.pending && <Text className='text-sm'>Ожидают отправки: {local.pending}. На телефоне хранятся только последние 12 точек за час.</Text>}
+            {!!local?.pending && <Text className='text-sm'>Ожидает отправки последняя геопозиция. История маршрута не хранится.</Text>}
+            {status?.gps_attendance && <Text className='text-sm'>Учёт времени: {local?.attendance?.status === 'recorded'
+                ? local.attendance.action === 'IN' ? 'Вход отмечен в HRMS.' : 'Выход отмечен в HRMS.'
+                : local?.attendance?.status === 'observed' && !local.attendance.confirming && local.attendance.last_action
+                    ? local.attendance.last_action === 'IN' ? 'Рабочий день открыт.' : 'Рабочий день закрыт.'
+                    : attendanceMessages[local?.attendance?.status || ''] || 'После подтверждённого перехода отметка появится в HRMS.'}</Text>}
             {status && !status.available && <Text className='text-sm text-muted-foreground'>Геопозиция ещё не включена администратором платформы.</Text>}
             {status?.available && !local?.enabled && <>
                 <Text className='text-sm'>{status.notice}</Text>

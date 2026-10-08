@@ -44,6 +44,8 @@ function fixture() {
             getCurrentPositionAsync: async () => { native.reads++; return point() },
         },
         'expo-task-manager': { isAvailableAsync: async () => true, isTaskDefined: () => false, defineTask: () => {} },
+        'expo-crypto': { randomUUID: () => '550e8400-e29b-41d4-a716-446655440000' },
+        'expo-device': { modelName: 'Synthetic Phone' },
         'expo-secure-store': {
             getItemAsync: async key => storage.get(key) || null,
             setItemAsync: async (key, value) => storage.set(key, value),
@@ -93,13 +95,13 @@ test('fresh zero coordinates work; stale, outside-hours, mocked and invalid fixe
         { ...good, coords: { ...good.coords, latitude: NaN } },
         { ...good, coords: { ...good.coords, longitude: 181 } }]) assert.equal(policy.locationPoint(bad, now), null)
 })
-test('bounded offline queue deduplicates slots and expires after one hour', () => {
+test('offline stores only the latest point, expires after ten minutes and does not retain a route', () => {
     const now = stamp('12:00:00')
     const points = Array.from({ length: 40 }, (_, n) => ({ timestamp: now - n * 300000, latitude: 0, longitude: 0, accuracy: 1 }))
     const output = policy.pendingPoints([...points, ...points], now)
-    assert.equal(output.length, 12)
-    assert.equal(new Set(output.map(point => policy.locationSlot(point.timestamp))).size, 12)
-    assert.ok(output.every(point => now - point.timestamp <= 3600000))
+    assert.equal(output.length, 1)
+    assert.equal(output[0].timestamp, now)
+    assert.equal(policy.pendingPoints([points[3]], now).length, 0)
 })
 test('disabled tracking never acquires location or writes server points', async () => {
     const f = fixture(); await f.tracking.locationTick()
@@ -139,6 +141,17 @@ test('offline encrypted queue is retried and cleared, without duplicating captur
     f.state.offline = false; await f.tracking.locationTick()
     assert.equal(f.native.reads, 1)
     assert.equal((await f.tracking.getLocalLocationState(site)).pending, 0)
+})
+test('newer offline fix replaces old position and uploads installation metadata, not a hardware ID', async () => {
+    const f = fixture(); await f.tracking.enableLocationTracking(site, status)
+    f.state.offline = true; await f.tracking.locationTick()
+    f.now('07:05:10'); await f.tracking.locationTick()
+    assert.equal((await f.tracking.getLocalLocationState(site)).pending, 1)
+    f.state.offline = false; await f.tracking.locationTick()
+    const request = f.uploads().at(-1).options.params
+    const points = JSON.parse(request.points)
+    assert.equal(points.length, 1); assert.equal(points[0].timestamp, stamp('07:05:10'))
+    assert.deepEqual(JSON.parse(request.device), { id: '550e8400-e29b-41d4-a716-446655440000', platform: 'ios', model: 'Synthetic Phone' })
 })
 test('disable during an in-flight request cancels before location acquisition', async () => {
     const f = fixture(); await f.tracking.enableLocationTracking(site, status)
