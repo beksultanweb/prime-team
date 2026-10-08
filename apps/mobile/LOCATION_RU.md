@@ -14,4 +14,4 @@ DEV build: `EXPO_PUBLIC_PRIME_SITE_URL=https://dev.primegc.kz`. Backend долж
 
 В SecureStore хранится не более 12 ещё не отправленных точек за последний час. Старые/ночные точки и очередь при logout/выключении удаляются; это не обещание доставки без потерь. Не принимать GPS как доверенное доказательство присутствия.
 
-Проверки: `yarn test:location`, `yarn test:auth`; сервер `tests/release/test_prime_team_location.py`. Перед публикацией/PROD нужны DEV миграция, реальный iOS/Android UAT, фон/границы окна/permissions/offline/auth expiry и проверка доступа к чужим данным.
+Проверки: `yarn test:location`, `yarn test:auth`; сервер `tests/release/test_prime_team_location.py`. Перед включением пилота/PROD нужны DEV миграция, реальный iOS/Android UAT, фон/границы окна/permissions/offline/auth expiry и проверка доступа к чужим данным. Публикация исходников сама по себе не обновляет сервер и установленное приложение.
