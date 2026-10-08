@@ -1,217 +1,39 @@
-import { Avatar, AvatarImage } from '@components/nativewindui/Avatar'
-import { Button } from '@components/nativewindui/Button'
+import { useState } from 'react'
+import { Alert, TextInput, View } from 'react-native'
+import { BottomSheetView } from '@gorhom/bottom-sheet'
 import { Sheet, useSheetRef } from '@components/nativewindui/Sheet'
+import { Button } from '@components/nativewindui/Button'
 import { Text } from '@components/nativewindui/Text'
-import { BottomSheetTextInput, BottomSheetView } from '@gorhom/bottom-sheet'
-import { useCallback, useState } from 'react'
-import { Alert, Keyboard, TextInput, View } from 'react-native'
-import * as WebBrowser from 'expo-web-browser'
-import { CodeChallengeMethod, exchangeCodeAsync, makeRedirectUri, ResponseType, TokenResponse, useAuthRequest } from 'expo-auth-session';
-import { router } from 'expo-router'
-import { SiteInformation } from '../../../types/SiteInformation'
-import { addSiteToStorage, discovery, setDefaultSite, storeAccessToken } from '@lib/auth'
-import { FormLabel } from '@components/layout/Form'
 import { useColorScheme } from '@hooks/useColorScheme'
-import { ActivityIndicator } from '@components/nativewindui/ActivityIndicator'
-import HowToSetupMobile from './HowToSetupMobile'
-import EgovLogin from './EgovLogin'
+import { SiteInformation } from '../../../types/SiteInformation'
+import { getLoginConfiguration, MobileLoginError, normalizeSiteURL } from '@lib/mobileLogin'
+import PortalLogin from './PortalLogin'
 
-/** Staff sign in to Prime's own Frappe site, so it is filled in by default */
-const DEFAULT_SITE_URL = 'app.primegc.kz'
-
-/** OAuth redirect; the site's OAuth Client must list it in Redirect URIs */
-export const OAUTH_REDIRECT_URI = makeRedirectUri({ native: 'kz.primegc.team:' })
-
-WebBrowser.maybeCompleteAuthSession();
-
-type Props = {
-    useBottomSheet?: boolean
-}
-
-const AddSite = ({ useBottomSheet = false }: Props) => {
-
+export default function AddSite({ useBottomSheet = false }: { useBottomSheet?: boolean }) {
+    const [siteURL, setSiteURL] = useState('app.primegc.kz')
+    const [site, setSite] = useState<SiteInformation | null>(null)
+    const [busy, setBusy] = useState(false)
+    const sheet = useSheetRef()
     const { colors } = useColorScheme()
-
-    const [siteURL, setSiteURL] = useState(DEFAULT_SITE_URL)
-
-    const bottomSheetRef = useSheetRef()
-
-    const [isLoading, setIsLoading] = useState(false)
-
-    const [siteInformation, setSiteInformation] = useState<SiteInformation | null>(null)
-
-    const handleAddSite = () => {
-        /**
-         * When a user adds a site, we need to do the following:
-         * 
-         * 1. Check if the site starts with https://. If not, add it.
-         * 2. Lowercase the site URL
-         * 3. TODO: Check if this site is already added (this will be done later)
-         * 4. Fetch the site information from the server and prompt the user to login
-         */
-
-        // Dismiss the keyboard
-        Keyboard.dismiss()
-        let url = siteURL.toLowerCase()
-        if (!url.startsWith('https://') && !url.startsWith('http://')) {
-            url = 'https://' + url
-        }
-
-        setIsLoading(true)
-
-        fetch(`${url}/api/method/raven.api.raven_mobile.get_client_id`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.message && data.message.client_id) {
-                    setSiteInformation({
-                        url,
-                        ...data.message
-                    })
-                    bottomSheetRef.current?.present()
-                } else {
-                    // TODO: Show error message/toast
-                    Alert.alert('Ошибка', 'Не удалось получить данные сайта или на нём не настроен OAuth-клиент для приложения')
-                }
-            })
-            .catch(err => {
-                // TODO: Show error message/toast
-                Alert.alert('Ошибка', 'Не удалось получить данные сайта. Проверьте адрес и попробуйте ещё раз.')
-                console.error(err)
-            })
-            .finally(() => {
-                setIsLoading(false)
-            })
+    const add = async () => {
+        setBusy(true)
+        try {
+            setSite(await getLoginConfiguration(normalizeSiteURL(siteURL)))
+            sheet.current?.present()
+        } catch (error) { Alert.alert('Ошибка', error instanceof MobileLoginError ? error.message : 'Не удалось подключиться к сайту.') }
+        finally { setBusy(false) }
     }
-
-    const clearSiteInformation = useCallback(() => {
-        setSiteInformation(null)
-    }, [])
-
-    return (
-        <View className='flex-1 gap-3'>
-            <View className="flex-col gap-2">
-                <View className="flex-row items-center gap-0">
-                    <FormLabel className='text-base'>Адрес сайта</FormLabel>
-                </View>
-                {useBottomSheet ?
-                    <BottomSheetTextInput
-                        className="w-full border py-3 text-[16px] border-border rounded-lg px-3 text-foreground"
-                        numberOfLines={1}
-                        inputMode='url'
-                        autoCapitalize='none'
-                        placeholder='app.primegc.kz'
-                        placeholderTextColor={colors.grey2}
-                        autoCorrect={false}
-                        autoComplete='off'
-                        onChangeText={setSiteURL}
-                        value={siteURL}
-                    />
-                    :
-                    <TextInput
-                        className="w-full border py-3 text-[16px] border-border rounded-lg px-3 text-foreground"
-                        numberOfLines={1}
-                        inputMode='url'
-                        autoCapitalize='none'
-                        placeholder='app.primegc.kz'
-                        placeholderTextColor={colors.grey2}
-                        autoCorrect={false}
-                        autoComplete='off'
-                        onChangeText={setSiteURL}
-                        value={siteURL}
-                    />
-                }
-            </View>
-            <Button onPress={handleAddSite} disabled={isLoading}>
-                <Text>Продолжить</Text>
-            </Button>
-            <Sheet snapPoints={[400]} ref={bottomSheetRef} onDismiss={clearSiteInformation}>
-                <BottomSheetView className='pb-16'>
-                    {siteInformation && <SiteAuthFlowSheet siteInformation={siteInformation} onDismiss={clearSiteInformation} />}
-                </BottomSheetView>
-            </Sheet>
-
-            <HowToSetupMobile />
-        </View>
-    )
-}
-
-export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformation: SiteInformation, onDismiss: () => void }) => {
-
-    const discoveryWithURL = {
-        authorizationEndpoint: siteInformation.url + discovery.authorizationEndpoint,
-        tokenEndpoint: siteInformation.url + discovery.tokenEndpoint,
-        revocationEndpoint: siteInformation.url + discovery.revocationEndpoint,
-    }
-
-    const [loading, setLoading] = useState(false)
-
-    const [request, response, promptAsync] = useAuthRequest({
-        responseType: ResponseType.Code,
-        clientId: siteInformation.client_id,
-        usePKCE: true,
-        scopes: ['all', 'openid'],
-        codeChallengeMethod: CodeChallengeMethod.S256,
-        redirectUri: OAUTH_REDIRECT_URI,
-    }, discoveryWithURL)
-
-    const onLoginClick = () => {
-        // If the user clicks the login button, we need to initiate the OAuth flow
-        setLoading(true)
-        promptAsync()
-            .then(res => {
-                if (res.type === 'success') {
-                    exchangeCodeAsync({
-                        clientId: siteInformation.client_id,
-                        code: res.params.code,
-                        extraParams: {
-                            code_verifier: request?.codeVerifier ?? '',
-                        },
-                        redirectUri: OAUTH_REDIRECT_URI,
-                    }, discoveryWithURL).then(data => {
-                        onAccessTokenReceived(data)
-                    }).catch(err => {
-                        Alert.alert("Ошибка входа", err.message)
-                    })
-                } else if (res.type === "error") {
-                    Alert.alert("Ошибка входа", res.error?.message ?? "Неизвестная ошибка")
-                }
-            })
-            .finally(() => {
-                setLoading(false)
-            })
-    }
-
-    const onAccessTokenReceived = (token: TokenResponse) => {
-        // Once we get the access token and refresh token, we need to store the following:
-        // 1. In Secure Store, store the TokenResponse with the sitename as the key
-        // 2. In Async Storage, store the site information with the sitename as the key
-        // 3. Redirect the user to the /[sitename] route
-
-        storeAccessToken(siteInformation.sitename, token)
-            .then(() => addSiteToStorage(siteInformation.sitename, siteInformation))
-            .then(() => setDefaultSite(siteInformation.sitename))
-            .then(() => router.replace(`/${siteInformation.sitename}`))
-            .then(() => onDismiss())
-    }
-
-    return <View className='flex gap-4 px-4'>
-        <View className='flex-row items-center gap-2'>
-            <Avatar alt="Логотип сайта">
-                <AvatarImage source={{ uri: (siteInformation.url) + (siteInformation.logo) }} width={100} height={100} />
-            </Avatar>
-            <View className='flex-1'>
-                <Text className='text-base font-medium'>{siteInformation?.app_name}</Text>
-                <Text className='text-sm text-muted-foreground'>{siteInformation?.url}</Text>
-            </View>
-        </View>
-        {/* Основной вход — eGov Mobile; по паролю — для сотрудников без ЭЦП РК и проверки в сторах */}
-        <EgovLogin siteInformation={siteInformation} onTokenReceived={onAccessTokenReceived} />
-        <Button variant='secondary' onPress={onLoginClick} style={{
-            minHeight: 40
-        }} disabled={!request || loading}>
-            {loading ? <ActivityIndicator /> : <Text>Войти по паролю</Text>}
-        </Button>
+    return <View className='gap-3'>
+        <Text className='text-sm'>Адрес сайта</Text>
+        <TextInput accessibilityLabel='Адрес сайта' autoCapitalize='none' autoCorrect={false} keyboardType='url'
+            placeholder='app.primegc.kz' placeholderTextColor={colors.grey2} value={siteURL} onChangeText={setSiteURL}
+            className='border border-border rounded-lg px-3 py-3 text-foreground' />
+        <Button disabled={busy} onPress={add}><Text>{busy ? 'Подключаемся…' : 'Продолжить'}</Text></Button>
+        <Sheet snapPoints={['90%']} ref={sheet} onDismiss={() => setSite(null)}>
+            <BottomSheetView style={{ flex: 1 }}>{site && <SiteAuthFlowSheet siteInformation={site} onDismiss={() => sheet.current?.dismiss()} />}</BottomSheetView>
+        </Sheet>
     </View>
 }
 
-export default AddSite
+export const SiteAuthFlowSheet = ({ siteInformation, onDismiss }: { siteInformation: SiteInformation, onDismiss: () => void }) =>
+    <PortalLogin siteURL={siteInformation.url} onDismiss={onDismiss} />

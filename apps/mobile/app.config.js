@@ -25,7 +25,7 @@ module.exports = {
             },
             ...(firebaseEnabled && { googleServicesFile: IOS_FIREBASE_FILE }),
             infoPlist: {
-                UIBackgroundModes: ['remote-notification', 'fetch'],
+                UIBackgroundModes: ['remote-notification', 'fetch', 'location'],
                 // The UI is in Russian; system texts follow it
                 CFBundleDevelopmentRegion: 'ru',
                 CFBundleLocalizations: ['ru'],
@@ -65,6 +65,13 @@ module.exports = {
                 },
             ],
             ['expo-secure-store'],
+            ['expo-location', {
+                locationWhenInUsePermission: 'Prime Team сохраняет вашу геопозицию каждые 5 минут с 07:00 до 21:00 по времени Казахстана, только после вашего согласия.',
+                locationAlwaysAndWhenInUsePermission: 'Разрешите геопозицию в фоне для записи местоположения с 07:00 до 21:00 по времени Казахстана. Отслеживание можно выключить в профиле.',
+                isIosBackgroundLocationEnabled: true,
+                isAndroidBackgroundLocationEnabled: true,
+                isAndroidForegroundServiceEnabled: true,
+            }],
             [
                 'expo-font',
                 {

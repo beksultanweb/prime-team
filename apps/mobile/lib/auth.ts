@@ -61,8 +61,11 @@ export const getRevocationEndpoint = (siteURL: string) => `${siteURL}${discovery
  * @param token - The access token
  */
 export const storeAccessToken = (siteName: string, token: TokenResponse) => {
+    tokenGeneration.set(siteName, (tokenGeneration.get(siteName) || 0) + 1)
     const tokenWithoutIDToken = { ...token, idToken: undefined }
-    return SecureStore.setItemAsync(getAccessTokenKey(siteName), JSON.stringify(tokenWithoutIDToken))
+    return SecureStore.setItemAsync(getAccessTokenKey(siteName), JSON.stringify(tokenWithoutIDToken)).then(() => {
+        tokenListeners.get(siteName)?.forEach(listener => listener(token))
+    })
 }
 
 /** 
@@ -70,7 +73,9 @@ export const storeAccessToken = (siteName: string, token: TokenResponse) => {
  * 
  * @param siteName - The name of the site
  */
-export const deleteAccessToken = (siteName: string) => {
+export const deleteAccessToken = async (siteName: string) => {
+    tokenGeneration.set(siteName, (tokenGeneration.get(siteName) || 0) + 1)
+    await (await import('./locationTracking')).stopLocationLocally(siteName)
     return SecureStore.deleteItemAsync(getAccessTokenKey(siteName))
 }
 
@@ -140,15 +145,65 @@ export const removeSiteFromStorage = async (siteName: string) => {
  * 
  * @param siteName - The name of the site
  */
-export const setDefaultSite = (siteName: string) => {
+export const setDefaultSite = async (siteName: string) => {
+    const previous = await getDefaultSite()
+    if (previous && previous !== siteName) await (await import('./locationTracking')).stopLocationLocally(previous)
     return AsyncStorage.setItem(DEFAULT_SITE_KEY, siteName)
 }
 
 /** 
  * Function to clear the default site from AsyncStorage
  */
-export const clearDefaultSite = () => {
+export const clearDefaultSite = async () => {
+    await (await import('./locationTracking')).stopLocationLocally()
     return AsyncStorage.removeItem(DEFAULT_SITE_KEY)
+}
+
+const tokenListeners = new Map<string, Set<(token: TokenResponse) => void>>()
+const tokenGeneration = new Map<string, number>()
+export const subscribeAccessToken = (siteName: string, listener: (token: TokenResponse) => void) => {
+    const listeners = tokenListeners.get(siteName) || new Set()
+    listeners.add(listener); tokenListeners.set(siteName, listeners)
+    return () => { listeners.delete(listener); if (!listeners.size) tokenListeners.delete(siteName) }
+}
+const refreshes = new Map<string, Promise<TokenResponse>>()
+/** One refresh shared by UI, site switching and headless location tasks. */
+export async function refreshStoredAccessToken(site: SiteInformation, expected?: string, signal?: AbortSignal): Promise<TokenResponse> {
+    const key = site.url + '|' + site.sitename
+    const existing = refreshes.get(key)
+    const version = tokenGeneration.get(site.sitename) || 0
+    const work = existing || (async () => {
+        const stored = await getAccessToken(site.sitename)
+        if (!stored) throw new Error('Необходимо войти снова.')
+        const token = new TokenResponse(stored)
+        if (expected && token.accessToken !== expected) return token
+        if (!expected && !token.shouldRefresh()) return token
+        let timer: ReturnType<typeof setTimeout> | undefined
+        let fresh: TokenResponse
+        try {
+            fresh = await Promise.race([
+                token.refreshAsync({ clientId: site.client_id }, { tokenEndpoint: getTokenEndpoint(site.url) }),
+                new Promise<never>((_, reject) => { timer = setTimeout(() => reject(new Error('Не удалось обновить вход: нет ответа сервера.')), 25_000) }),
+            ])
+        } finally { if (timer) clearTimeout(timer) }
+        if (version !== (tokenGeneration.get(site.sitename) || 0)) throw new Error('Учётная запись изменилась во время обновления входа.')
+        await storeAccessToken(site.sitename, fresh)
+        return fresh
+    })()
+    if (!existing) {
+        refreshes.set(key, work)
+        const clear = () => { if (refreshes.get(key) === work) refreshes.delete(key) }
+        work.then(clear, clear)
+    }
+    if (!signal) return work
+    let abort: (() => void) | undefined
+    try {
+        return await Promise.race([work, new Promise<never>((_, reject) => {
+            abort = () => reject(new Error('Операция отменена.'))
+            if (signal.aborted) abort()
+            else signal.addEventListener('abort', abort, { once: true })
+        })])
+    } finally { if (abort) signal.removeEventListener('abort', abort) }
 }
 
 

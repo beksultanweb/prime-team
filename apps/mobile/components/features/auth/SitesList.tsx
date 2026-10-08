@@ -40,12 +40,12 @@ const SitesList = () => {
                 ))}
                 <View className='w-full flex-row items-center gap-2 pt-4'>
                     <Divider className='flex-1' />
-                    <Text className='text-muted-foreground text-base'>or</Text>
+                    <Text className='text-muted-foreground text-base'>или</Text>
                     <Divider className='flex-1' />
                 </View>
             </View>
-            <Sheet ref={bottomSheetRef} snapPoints={[400]} onDismiss={clearSiteInformation}>
-                <BottomSheetView className='pb-16'>
+            <Sheet ref={bottomSheetRef} snapPoints={['90%']} onDismiss={clearSiteInformation}>
+                <BottomSheetView style={{ flex: 1 }}>
                     {siteInformation && <SiteAuthFlowSheet siteInformation={siteInformation} onDismiss={clearSiteInformation} />}
                 </BottomSheetView>
             </Sheet>

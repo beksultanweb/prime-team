@@ -13,6 +13,7 @@ import AboutApp from '@components/features/profile/AboutApp';
 import Preferences from '@components/features/profile/profile-settings/Preferences';
 import SwitchSitesSetting from '@components/features/profile/profile-settings/SwitchSitesSetting';
 import CommonErrorBoundary from '@components/common/CommonErrorBoundary';
+import LocationSetting from '@components/features/profile/profile-settings/LocationSetting';
 
 const SCREEN_OPTIONS = {
     title: 'Профиль',
@@ -45,6 +46,7 @@ export default function Profile() {
                             <NotificationSetting />
                             <AppearanceSetting />
                             <Preferences />
+                            <LocationSetting />
                             <SwitchSitesSetting />
                         </View>
                         <LogOutButton />
