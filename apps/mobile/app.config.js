@@ -19,7 +19,7 @@ module.exports = {
             supportsTablet: false,
             appleTeamId: '6MQP332Q55',
             bundleIdentifier: APP_ID,
-            buildNumber: '3',
+            buildNumber: '4',
             config: {
                 usesNonExemptEncryption: false,
             },
@@ -43,7 +43,7 @@ module.exports = {
             },
             softwareKeyboardLayoutMode: 'pan',
             package: APP_ID,
-            versionCode: 3,
+            versionCode: 4,
             ...(firebaseEnabled && { googleServicesFile: ANDROID_FIREBASE_FILE }),
         },
         web: {
@@ -68,6 +68,7 @@ module.exports = {
             ['expo-location', {
                 locationWhenInUsePermission: 'Prime Team сохраняет вашу геопозицию каждые 5 минут с 07:00 до 21:00 по времени Казахстана, только после вашего согласия.',
                 locationAlwaysAndWhenInUsePermission: 'Разрешите геопозицию в фоне для записи местоположения с 07:00 до 21:00 по времени Казахстана. Отслеживание можно выключить в профиле.',
+                locationAlwaysPermission: 'Разрешите геопозицию в фоне для записи местоположения с 07:00 до 21:00 по времени Казахстана. Отслеживание можно выключить в профиле.',
                 isIosBackgroundLocationEnabled: true,
                 isAndroidBackgroundLocationEnabled: true,
                 isAndroidForegroundServiceEnabled: true,
