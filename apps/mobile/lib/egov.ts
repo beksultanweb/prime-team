@@ -28,7 +28,9 @@ export const beginEgovLogin = async (site: SiteInformation, consent: IdentityCon
             params: { client_id: site.client_id, code_challenge: pkce.challenge, code_challenge_method: 'S256',
                 identity_consent: '1', identity_consent_hash: consent.sha256 },
         })
-    const flow = { ...response, client_id: site.client_id, verifier: pkce.verifier }
+    // QR-код в приложении не нужен, а в SecureStore запись с ним больше 2 КБ (iOS/Android могут не сохранить)
+    const { qr_code: _qr, ...stored } = response as typeof response & { qr_code?: string }
+    const flow = { ...stored, client_id: site.client_id, verifier: pkce.verifier }
     await SecureStore.setItemAsync(flowKey(site.url), JSON.stringify(flow))
     return flow
 }

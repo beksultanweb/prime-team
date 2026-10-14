@@ -17,6 +17,7 @@ import { Toaster } from 'sonner-native';
 import { LogBox, Platform } from 'react-native';
 import { push } from '@lib/push';
 import { setDefaultSite } from '@lib/auth';
+import { markInitialRouteResolved } from '@lib/appBoot';
 import dayjs from 'dayjs'
 import utc from 'dayjs/plugin/utc'
 import timezone from 'dayjs/plugin/timezone'
@@ -112,6 +113,7 @@ export default function RootLayout() {
                 router.replace('/landing');
             } finally {
                 // mark app as ready regardless of success or failure
+                markInitialRouteResolved();
                 setAppIsReady(true);
             }
 
