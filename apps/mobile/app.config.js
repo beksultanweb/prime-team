@@ -19,7 +19,7 @@ module.exports = {
             supportsTablet: false,
             appleTeamId: '6MQP332Q55',
             bundleIdentifier: APP_ID,
-            buildNumber: '4',
+            buildNumber: '5',
             config: {
                 usesNonExemptEncryption: false,
             },
@@ -43,7 +43,7 @@ module.exports = {
             },
             softwareKeyboardLayoutMode: 'pan',
             package: APP_ID,
-            versionCode: 4,
+            versionCode: 5,
             ...(firebaseEnabled && { googleServicesFile: ANDROID_FIREBASE_FILE }),
         },
         web: {
@@ -85,6 +85,15 @@ module.exports = {
                 {
                     ios: {
                         useFrameworks: 'static',
+                    },
+                    // R8: сжатие и обфускация кода release-сборки. Google Play требует
+                    // оптимизацию DEX не ниже 25 % (без неё — 1 %), заодно меньше размер.
+                    android: {
+                        enableMinifyInReleaseBuilds: true,
+                        enableShrinkResourcesInReleaseBuilds: true,
+                        // Загрузчик фоновых задач (expo-task-manager: геопозиция при закрытом
+                        // приложении) ищется по имени класса — R8 иначе его удаляет.
+                        extraProguardRules: '-keep class expo.modules.adapters.react.apploader.** { *; }',
                     },
                 },
             ],
