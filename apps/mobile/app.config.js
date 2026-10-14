@@ -19,7 +19,7 @@ module.exports = {
             supportsTablet: false,
             appleTeamId: '6MQP332Q55',
             bundleIdentifier: APP_ID,
-            buildNumber: '5',
+            buildNumber: '6',
             config: {
                 usesNonExemptEncryption: false,
             },
@@ -43,7 +43,7 @@ module.exports = {
             },
             softwareKeyboardLayoutMode: 'pan',
             package: APP_ID,
-            versionCode: 5,
+            versionCode: 6,
             ...(firebaseEnabled && { googleServicesFile: ANDROID_FIREBASE_FILE }),
         },
         web: {
