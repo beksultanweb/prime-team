@@ -44,6 +44,9 @@ module.exports = {
             softwareKeyboardLayoutMode: 'pan',
             package: APP_ID,
             versionCode: 6,
+            // Данные приложения не попадают в облачную копию Google (Auto Backup):
+            // рабочие данные клиники не должны уходить в личный аккаунт сотрудника.
+            allowBackup: false,
             ...(firebaseEnabled && { googleServicesFile: ANDROID_FIREBASE_FILE }),
         },
         web: {
