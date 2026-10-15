@@ -11,6 +11,8 @@ import { disableLocationTracking, enableLocationTracking, getLocalLocationState,
     LocalLocationState, LocationStatus, locationTick, subscribeLocation } from '@lib/locationTracking'
 import { isLocationWindow } from '@lib/locationPolicy'
 
+const LOAD_ERROR = 'Не удалось загрузить условия геопозиции. Проверьте подключение и повторите.'
+
 export default function LocationScreen() {
     const site = useSiteContext()
     const { colors } = useColorScheme()
@@ -22,8 +24,9 @@ export default function LocationScreen() {
     const refresh = useCallback(async () => {
         if (!site) return
         setLocal(await getLocalLocationState(site)); setNow(Date.now())
-        try { setStatus(await getLocationStatus(site)); setError('') }
-        catch { setError('Не удалось загрузить условия геопозиции. Проверьте подключение и повторите.') }
+        // Clears only its own load error: an error from switching on/off must stay visible after returning to the app
+        try { setStatus(await getLocationStatus(site)); setError(e => e === LOAD_ERROR ? '' : e) }
+        catch { setError(LOAD_ERROR) }
     }, [site])
     useEffect(() => {
         let active = true

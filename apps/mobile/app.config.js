@@ -19,7 +19,7 @@ module.exports = {
             supportsTablet: false,
             appleTeamId: '6MQP332Q55',
             bundleIdentifier: APP_ID,
-            buildNumber: '6',
+            buildNumber: '7',
             config: {
                 usesNonExemptEncryption: false,
             },
@@ -43,7 +43,7 @@ module.exports = {
             },
             softwareKeyboardLayoutMode: 'pan',
             package: APP_ID,
-            versionCode: 6,
+            versionCode: 7,
             // Данные приложения не попадают в облачную копию Google (Auto Backup):
             // рабочие данные клиники не должны уходить в личный аккаунт сотрудника.
             allowBackup: false,

@@ -82,6 +82,12 @@ export async function getLocationStatus(site: SiteInformation): Promise<Location
     return callFrappe<LocationStatus>(site.url + API + 'get_status', { token: token.accessToken })
 }
 
+const waitForActive = () => AppState.currentState === 'active' ? Promise.resolve() : new Promise<void>(resolve => {
+    const subscription = AppState.addEventListener('change', state => {
+        if (state === 'active') { subscription.remove(); setTimeout(resolve, 300) }
+    })
+})
+
 async function ensureNative() {
     if (!isLocationWindow()) { await stopNative(); return }
     backgroundPermission = false
@@ -105,10 +111,22 @@ export const enableLocationTracking = (site: SiteInformation, status: LocationSt
     const foreground = await Location.requestForegroundPermissionsAsync()
     if (!foreground.granted) throw new Error('Разрешите геопозицию в настройках телефона. Вход и чаты доступны без неё.')
     await Location.requestBackgroundPermissionsAsync() // denial leaves a working foreground mode
-    const token = await refreshStoredAccessToken(site)
-    const accepted = await callFrappe<LocationStatus>(site.url + API + 'enable_tracking', {
-        token: token.accessToken, params: { accept: '1', notice_hash: status.notice_hash },
-    })
+    // Android resolves the background request from the settings screen before the app is resumed;
+    // a request sent at that moment can fail, so wait for the foreground and retry once.
+    await waitForActive()
+    const enable = async () => {
+        const token = await refreshStoredAccessToken(site)
+        return callFrappe<LocationStatus>(site.url + API + 'enable_tracking', {
+            token: token.accessToken, params: { accept: '1', notice_hash: status.notice_hash },
+        })
+    }
+    let accepted: LocationStatus
+    try { accepted = await enable() }
+    catch (e) {
+        if (e instanceof MobileLoginError && [401, 403, 417].includes(e.status)) throw e
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        accepted = await enable()
+    }
     await clearLocal()
     await saveConfig({ site, user: accepted.user, notice_hash: accepted.notice_hash, last_slot: -1, last_capture: 0 })
     errorMessage = ''
