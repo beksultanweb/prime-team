@@ -3,7 +3,6 @@ import { AppState, Linking, Platform, ScrollView, Switch, View } from 'react-nat
 import { Stack } from 'expo-router'
 import { Text } from '@components/nativewindui/Text'
 import { Button } from '@components/nativewindui/Button'
-import { Checkbox } from '@components/nativewindui/Checkbox'
 import HeaderBackButton from '@components/common/Buttons/HeaderBackButton'
 import useSiteContext from '@hooks/useSiteContext'
 import { useColorScheme } from '@hooks/useColorScheme'
@@ -18,9 +17,9 @@ export default function LocationScreen() {
     const { colors } = useColorScheme()
     const [status, setStatus] = useState<LocationStatus | null>(null)
     const [local, setLocal] = useState<LocalLocationState | null>(null)
-    const [busy, setBusy] = useState(false), [error, setError] = useState(''), [accept, setAccept] = useState(false)
+    const [busy, setBusy] = useState(false), [error, setError] = useState('')
+    const [disclosureExpanded, setDisclosureExpanded] = useState(false)
     const [now, setNow] = useState(Date.now())
-    useEffect(() => { setAccept(false) }, [status?.notice_hash])
     const refresh = useCallback(async () => {
         if (!site) return
         setLocal(await getLocalLocationState(site)); setNow(Date.now())
@@ -40,13 +39,16 @@ export default function LocationScreen() {
         const interval = setInterval(() => { setNow(Date.now()) }, 30_000)
         return () => { active = false; unsubscribe(); focus.remove(); clearInterval(interval) }
     }, [refresh, site])
+    const attendance = status?.attendance ?? local?.attendance
+    const legalConsentRequired = attendance?.status === 'legal_consent_required'
     const toggle = async (on: boolean) => {
         if (!site || busy) return
-        if (on && (!status || !accept)) { setError('Ознакомьтесь с условиями и отметьте согласие.'); return }
+        if (on && legalConsentRequired) { setError('Для учёта времени примите юридические документы.'); return }
+        if (on && !status?.available) { setError(LOAD_ERROR); return }
         setBusy(true); setError('')
         try {
             if (on && status) { await enableLocationTracking(site, status); await locationTick() }
-            else { await disableLocationTracking(site); setAccept(false) }
+            else { await disableLocationTracking(site) }
             await refresh()
         } catch (e) { setError(e instanceof Error ? e.message : 'Не удалось изменить настройку.') }
         finally { setBusy(false) }
@@ -54,7 +56,6 @@ export default function LocationScreen() {
     const currentWindow = isLocationWindow(now)
     const attendanceMessages: Record<string, string> = {
         observed: 'Подтверждаем переход по двум измерениям GPS.',
-        legal_consent_required: 'Для учёта времени примите юридические документы.',
         egov_identity_required: 'Для учёта времени войдите через eGov Mobile.',
         employee_mapping_required: 'Учёт времени не настроен: обратитесь к кадровому специалисту.',
         previous_day_unclosed: 'Вчерашний выход не зафиксирован. Нужна кадровая корректировка.',
@@ -68,7 +69,7 @@ export default function LocationScreen() {
             <View className='flex-row justify-between items-center gap-4'>
                 <Text className='text-lg font-semibold flex-1'>Геопозиция</Text>
                 <Switch accessibilityLabel='Включить геопозицию' value={!!local?.enabled}
-                    disabled={busy || Platform.OS === 'web' || (!local?.enabled && (!status?.available || !accept))}
+                    disabled={busy || Platform.OS === 'web' || (!local?.enabled && (!status?.available || legalConsentRequired))}
                     onValueChange={toggle} />
             </View>
             <Text className='text-sm'>Ежедневно 07:00–21:00 по времени Казахстана. Целевой интервал — 5 минут.</Text>
@@ -84,15 +85,23 @@ export default function LocationScreen() {
                 : local?.attendance?.status === 'observed' && !local.attendance.confirming && local.attendance.last_action
                     ? local.attendance.last_action === 'IN' ? 'Рабочий день открыт.' : 'Рабочий день закрыт.'
                     : attendanceMessages[local?.attendance?.status || ''] || 'После подтверждённого перехода отметка появится в HRMS.'}</Text>}
-            {status && !status.available && <Text className='text-sm text-muted-foreground'>Геопозиция ещё не включена администратором платформы.</Text>}
-            {status?.available && !local?.enabled && <>
-                <Text className='text-sm'>{status.notice}</Text>
-                <View className='flex-row items-start gap-3'>
-                    <Checkbox accessibilityLabel='Согласие на сохранение геопозиции' checked={accept}
-                        onCheckedChange={setAccept} disabled={busy} />
-                    <Text className='text-sm flex-1'>Я разрешаю сохранение геопозиции на этих условиях.</Text>
-                </View>
+            {legalConsentRequired && <>
+                <Text className='text-sm'>Для учёта времени примите юридические документы.</Text>
+                <Button variant='plain' accessibilityRole='link' onPress={() => {
+                    if (site) Linking.openURL(new URL('/legal-consent', site.url).href)
+                        .catch(() => setError('Не удалось открыть документы. Повторите попытку.'))
+                }}><Text>Открыть юридические документы платформы</Text></Button>
             </>}
+            {status && !status.available && <Text className='text-sm text-muted-foreground'>Геопозиция ещё не включена администратором платформы.</Text>}
+            {status?.notice && <View className='gap-3'>
+                <Button variant='plain' accessibilityRole='button' accessibilityLabel='Условия геопозиции'
+                    accessibilityState={{ expanded: disclosureExpanded }}
+                    onPress={() => setDisclosureExpanded(value => !value)}>
+                    <Text>Условия геопозиции {disclosureExpanded ? '−' : '+'}</Text>
+                </Button>
+                {disclosureExpanded && <Text className='text-sm'>{status.notice}</Text>}
+                <Text className='text-sm text-muted-foreground'>Включая переключатель, я разрешаю сохранение геопозиции на этих условиях.</Text>
+            </View>}
             <Text className='text-sm text-muted-foreground'>В фоне ОС может задерживать обновления. После принудительного закрытия откройте приложение снова. Если оно не работает в 07:00, сбор возобновится при следующем открытии. Вне окна координаты не сохраняются.</Text>
             <Text className='text-sm text-muted-foreground'>Отслеживание не блокирует вход и чаты. Выключение не удаляет ранее сохранённые записи.</Text>
             {!!(error || local?.error) && <Text accessibilityRole='alert' className='text-sm text-destructive'>{error || local?.error}</Text>}

@@ -62,7 +62,7 @@ function fixture() {
                 if (state.pendingStatus) await state.pendingStatus
                 if (!state.authenticated) throw new MobileLoginError('denied', 401)
                 if (state.offline) throw new Error('offline')
-                return { ...status, user: state.user, consented: state.consented }
+                return { ...status, user: state.user, consented: state.consented, notice_hash: state.notice_hash || status.notice_hash }
             }
             if (url.endsWith('enable_tracking')) return status
             if (url.endsWith('disable_tracking')) return { disabled: true }
@@ -134,6 +134,21 @@ test('server withdrawal, wrong user and unauthorized session fail closed before 
         assert.equal((await f.tracking.getLocalLocationState(site)).enabled, false)
     }
 })
+test('changed notice hash stops before acquisition and asks for disclosure review plus explicit switch opt-in', async () => {
+    const f = fixture(); await f.tracking.enableLocationTracking(site, status)
+    f.state.notice_hash = 'changed-hash'
+    await f.tracking.locationTick()
+    const local = await f.tracking.getLocalLocationState(site)
+    assert.equal(local.enabled, false)
+    assert.equal(f.native.reads, 0)
+    assert.equal(f.uploads().length, 0)
+    assert.match(local.error, /условия.*переключатель/i)
+    assert.doesNotMatch(local.error, /флажок|чекбокс|отметьте/i)
+    await f.tracking.locationTick()
+    assert.equal(f.requests.filter(item => item.url.endsWith('enable_tracking')).length, 1)
+    assert.equal(f.requests.find(item => item.url.endsWith('enable_tracking')).options.params.notice_hash, status.notice_hash)
+})
+
 test('offline encrypted queue is retried and cleared, without duplicating capture', async () => {
     const f = fixture(); await f.tracking.enableLocationTracking(site, status)
     f.state.offline = true; await f.tracking.locationTick()

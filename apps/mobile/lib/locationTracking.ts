@@ -17,7 +17,7 @@ const API = '/api/method/prime_core.mobile_location.'
 type Attendance = { status: string, action?: string, last_action?: string, confirming?: boolean }
 type Config = { site: SiteInformation, user: string, notice_hash: string, last_slot: number, last_capture: number, presence?: string, attendance?: Attendance }
 export type LocationStatus = { available: boolean, consented: boolean, user: string, notice: string, notice_hash: string,
-    in_window: boolean, timezone: string, interval_ms: number, start_hour: number, end_hour: number, gps_attendance?: boolean }
+    in_window: boolean, timezone: string, interval_ms: number, start_hour: number, end_hour: number, gps_attendance?: boolean, attendance?: Attendance }
 export type LocalLocationState = { enabled: boolean, last_capture: number, pending: number, error: string, background: boolean, presence: string, attendance?: Attendance }
 let sequence: Promise<unknown> = Promise.resolve()
 let errorMessage = ''
@@ -107,7 +107,7 @@ async function ensureNative() {
 
 export const enableLocationTracking = (site: SiteInformation, status: LocationStatus) => serialize(async () => {
     if (Platform.OS === 'web' || !status.available) throw new Error('Геопозиция недоступна.')
-    // This method is called only after the user accepts the visible disclosure.
+    // Called only by an explicit switch-on action for this disclosure; never on refresh/hash changes.
     const foreground = await Location.requestForegroundPermissionsAsync()
     if (!foreground.granted) throw new Error('Разрешите геопозицию в настройках телефона. Вход и чаты доступны без неё.')
     await Location.requestBackgroundPermissionsAsync() // denial leaves a working foreground mode
@@ -177,7 +177,9 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
         const status = await callFrappe<LocationStatus>(value.site.url + API + 'get_status', { token: token.accessToken, signal })
         if (signal.aborted) return
         if (!status.available || !status.consented || status.user !== value.user || status.notice_hash !== value.notice_hash) {
-            errorMessage = 'Отслеживание остановлено: проверьте согласие и настройки в профиле.'
+            errorMessage = status.notice_hash !== value.notice_hash
+                ? 'Отслеживание остановлено: условия геопозиции изменились. Откройте условия в профиле, ознакомьтесь с ними и включите переключатель геопозиции снова.'
+                : 'Отслеживание остановлено: проверьте согласие и настройки в профиле.'
             await clearLocal(); return
         }
     } catch (e) {
