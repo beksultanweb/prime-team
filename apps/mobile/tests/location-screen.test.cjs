@@ -38,7 +38,7 @@ async function fixture(t, options = {}) {
                 local = { ...local, enabled: true }; status = { ...status, consented: true }
             },
             disableLocationTracking: async target => { calls.push(['disable', target]); local = { ...local, enabled: false } },
-            locationTick: async () => { calls.push(['tick']) },
+            locationTick: async (...args) => { calls.push(['tick', ...args]) },
         },
     }
     const source = fs.readFileSync(path.join(__dirname, '../app/[site_id]/(tabs)/profile/location.tsx'), 'utf8')
@@ -62,6 +62,15 @@ async function fixture(t, options = {}) {
         },
     }
 }
+
+test('manual refresh offers bounded foreground recovery and explains energy-saving best-effort cadence', async t => {
+    const f = await fixture(t, { local: { enabled: true, pending: 1 } })
+    assert.match(f.text(), /экономии энергии/i)
+    assert.match(f.text(), /ОС.*задерживать/i)
+    await f.refresh({})
+    assert.equal(f.calls.at(-1)[0], 'tick')
+    assert.equal(f.calls.at(-1)[2].recover, true)
+})
 
 test('one explicit switch replaces checkbox; full server disclosure is collapsed and accessible', async t => {
     const f = await fixture(t)

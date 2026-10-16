@@ -15,7 +15,7 @@ const QUEUE_KEY = 'prime-team-location-queue-v1'
 const DEVICE_KEY = 'prime-team-installation-v1'
 const API = '/api/method/prime_core.mobile_location.'
 type Attendance = { status: string, action?: string, last_action?: string, confirming?: boolean }
-type Config = { site: SiteInformation, user: string, notice_hash: string, last_slot: number, last_capture: number, presence?: string, attendance?: Attendance }
+type Config = { site: SiteInformation, user: string, notice_hash: string, last_slot: number, last_capture: number, last_attempt?: number, failures?: number, next_attempt?: number, last_recovery?: number, presence?: string, attendance?: Attendance }
 export type LocationStatus = { available: boolean, consented: boolean, user: string, notice: string, notice_hash: string,
     in_window: boolean, timezone: string, interval_ms: number, start_hour: number, end_hour: number, gps_attendance?: boolean, attendance?: Attendance }
 export type LocalLocationState = { enabled: boolean, last_capture: number, pending: number, error: string, background: boolean, presence: string, attendance?: Attendance }
@@ -95,11 +95,16 @@ async function ensureNative() {
     if (!(await Location.hasStartedLocationUpdatesAsync(LOCATION_TASK))) {
         await Location.startLocationUpdatesAsync(LOCATION_TASK, {
             accuracy: Location.Accuracy.Balanced,
-            timeInterval: LOCATION_INTERVAL, distanceInterval: 0,
+            distanceInterval: 0,
             deferredUpdatesInterval: LOCATION_INTERVAL, deferredUpdatesDistance: 0,
-            pausesUpdatesAutomatically: false, showsBackgroundLocationIndicator: true,
-            foregroundService: { notificationTitle: 'Prime Team: геопозиция',
-                notificationBody: 'Запись с 07:00 до 21:00. Выключить можно в профиле.', killServiceOnDestroy: true },
+            // Keep stationary fixes eligible for the second attendance observation.
+            ...(Platform.OS === 'ios' ? {
+                pausesUpdatesAutomatically: false, showsBackgroundLocationIndicator: true,
+            } : {
+                timeInterval: LOCATION_INTERVAL,
+                foregroundService: { notificationTitle: 'Prime Team: геопозиция',
+                    notificationBody: 'Запись с 07:00 до 21:00. Выключить можно в профиле.', killServiceOnDestroy: true },
+            }),
         })
     }
     backgroundPermission = true
@@ -159,7 +164,7 @@ export const stopLocationLocally = (siteName?: string) => {
     })
 }
 
-async function tick(locations: Location.LocationObject[] | undefined, signal: AbortSignal) {
+async function tick(locations: Location.LocationObject[] | undefined, signal: AbortSignal, recover: boolean) {
     const value = await config()
     if (!value) { await stopNative(); return }
     if ((await getDefaultSite()) !== value.site.sitename) { await clearLocal(); return }
@@ -167,16 +172,42 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
     if (!isLocationWindow()) {
         await stopNative(); await SecureStore.deleteItemAsync(QUEUE_KEY); emit(); return
     }
+    // Idle JS timers/empty native callbacks do not need another OS permission/service query.
+    // A real due attempt (or explicit recovery) still checks permission before acquisition/upload.
+    if (!locations?.length && !recover && value.last_attempt &&
+        Date.now() < (value.next_attempt || value.last_attempt + LOCATION_INTERVAL)) return
     const foreground = await Location.getForegroundPermissionsAsync()
     if (!foreground.granted) { errorMessage = 'Разрешение на геопозицию отозвано.'; await clearLocal(); return }
     const queued = await queue()
-    if (!queued.length && locationSlot(Date.now()) <= value.last_slot) { await ensureNative(); return }
+    // Coalesce first: an older deferred fix must not consume the newest fix's interval.
+    const newest = (locations || []).map(location => locationPoint(location))
+        .filter((point): point is LocationPoint => !!point)
+        .sort((a, b) => b.timestamp - a.timestamp)[0]
+    if (newest && (!value.last_capture || newest.timestamp - value.last_capture >= LOCATION_INTERVAL ||
+        (queued.length > 0 && newest.timestamp > queued[0].timestamp))) {
+        queued.push(newest)
+        value.last_capture = newest.timestamp; value.last_slot = locationSlot(newest.timestamp)
+        await SecureStore.setItemAsync(QUEUE_KEY, JSON.stringify(pendingPoints(queued)))
+        await saveConfig(value)
+    }
+    const acquire = locations === undefined && AppState.currentState === 'active' &&
+        (!value.last_capture || Date.now() - value.last_capture >= LOCATION_INTERVAL)
+    if (!pendingPoints(queued).length && !acquire) return
+    const recovery = recover && AppState.currentState === 'active' && !!value.failures &&
+        (!value.last_recovery || Date.now() - value.last_recovery >= LOCATION_INTERVAL)
+    if (!recovery && value.last_attempt && Date.now() < (value.next_attempt || value.last_attempt + LOCATION_INTERVAL)) return
+    if (recovery) value.last_recovery = Date.now()
+    value.last_attempt = Date.now()
+    value.next_attempt = Date.now() + LOCATION_INTERVAL
+    await saveConfig(value) // Reserve before any network, including failed authentication/status requests.
     let token
+    let failed = false
     try {
         token = await refreshStoredAccessToken(value.site, undefined, signal)
         const status = await callFrappe<LocationStatus>(value.site.url + API + 'get_status', { token: token.accessToken, signal })
         if (signal.aborted) return
-        if (!status.available || !status.consented || status.user !== value.user || status.notice_hash !== value.notice_hash) {
+        if (!status.available || !status.consented || status.user !== value.user || status.notice_hash !== value.notice_hash ||
+            status.attendance?.status === 'legal_consent_required') {
             errorMessage = status.notice_hash !== value.notice_hash
                 ? 'Отслеживание остановлено: условия геопозиции изменились. Откройте условия в профиле, ознакомьтесь с ними и включите переключатель геопозиции снова.'
                 : 'Отслеживание остановлено: проверьте согласие и настройки в профиле.'
@@ -189,12 +220,14 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
             await clearLocal(); return
         }
         // Only the latest fix is retained, encrypted; no offline route/history.
+        failed = true
+        token = undefined // A refresh alone is not authorization to upload without a successful status check.
         errorMessage = 'Нет связи: на телефоне временно сохранена только последняя геопозиция.'
     }
     if (signal.aborted) return
     if (!isLocationWindow()) { await stopNative(); return }
     if (await Location.hasServicesEnabledAsync()) {
-        if (!locations && AppState.currentState === 'active' && locationSlot(Date.now()) > value.last_slot) {
+        if (acquire) {
             // No stale last-known fix and no parallel acquisition. Native callback may arrive later.
             let timer: ReturnType<typeof setTimeout> | undefined
             try {
@@ -204,12 +237,15 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
                 ])
                 locations = current ? [current] : []
                 if (!current) errorMessage = 'Не удалось получить свежую геопозицию. Повторим позже.'
+            } catch {
+                locations = []
+                errorMessage = 'Не удалось получить свежую геопозицию. Повторим позже.'
             } finally { if (timer) clearTimeout(timer) }
         }
         if (isLocationWindow()) {
             for (const location of [...(locations || [])].sort((a, b) => a.timestamp - b.timestamp)) {
                 const point = locationPoint(location)
-                if (!point || locationSlot(point.timestamp) <= value.last_slot) continue
+                if (!point || (value.last_capture && point.timestamp - value.last_capture < LOCATION_INTERVAL)) continue
                 queued.push(point)
                 value.last_slot = locationSlot(point.timestamp); value.last_capture = point.timestamp
             }
@@ -218,7 +254,7 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
     if (signal.aborted) return
     const pending = pendingPoints(queued)
     await SecureStore.setItemAsync(QUEUE_KEY, JSON.stringify(pending))
-    await saveConfig(value) // persist before upload; failed acknowledgement retries exactly the same slots
+    await saveConfig(value) // Persist before upload; a newer native fix may replace an unacknowledged point.
     if (pending.length && token) {
         try {
             const result = await callFrappe<{ presence: string, attendance?: Attendance }>(value.site.url + API + 'record_points', {
@@ -237,20 +273,24 @@ async function tick(locations: Location.LocationObject[] | undefined, signal: Ab
                 errorMessage = 'Отслеживание остановлено: сервер отклонил геопозицию. Проверьте время, вход и согласие.'
                 await clearLocal(); return
             }
+            failed = true
             errorMessage = 'Не удалось отправить геопозиции. Повторим при восстановлении связи.'
         }
     }
+    value.failures = failed ? Math.min((value.failures || 0) + 1, 3) : 0
+    value.next_attempt = value.last_attempt! + (failed ? Math.min(LOCATION_INTERVAL * 2 ** (value.failures - 1), 15 * 60_000) : LOCATION_INTERVAL)
+    await saveConfig(value)
     await ensureNative()
     emit()
 }
 
-export const locationTick = (locations?: Location.LocationObject[]) => {
+export const locationTick = (locations?: Location.LocationObject[], options: { recover?: boolean } = {}) => {
     const requestedGeneration = generation
     return serialize(async () => {
         if (requestedGeneration !== generation) return
         const controller = new AbortController()
         activeTick = controller
-        try { await tick(locations, controller.signal) }
+        try { await tick(locations, controller.signal, !!options.recover) }
         catch { if (!controller.signal.aborted) { errorMessage = 'Не удалось обновить геопозицию. Проверьте разрешения и подключение.'; emit() } }
         finally { if (activeTick === controller) activeTick = null }
     })

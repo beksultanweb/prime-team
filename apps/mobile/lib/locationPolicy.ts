@@ -27,12 +27,7 @@ export function locationPoint(location: {
 }
 
 export function pendingPoints(points: LocationPoint[], now = Date.now()): LocationPoint[] {
-    const seen = new Set<number>()
-    return [...points].sort((a, b) => a.timestamp - b.timestamp).filter(point => {
-        const slot = locationSlot(point.timestamp)
-        if (!isLocationWindow(point.timestamp) || point.timestamp < now - 10 * 60 * 1000 ||
-            point.timestamp > now + 30_000 || seen.has(slot)) return false
-        seen.add(slot)
-        return true
-    }).slice(-MAX_PENDING_POINTS)
+    return [...points].filter(point => isLocationWindow(point.timestamp) &&
+        point.timestamp >= now - 10 * 60 * 1000 && point.timestamp <= now + 30_000)
+        .sort((a, b) => b.timestamp - a.timestamp).slice(0, MAX_PENDING_POINTS)
 }

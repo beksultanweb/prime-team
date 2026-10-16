@@ -72,7 +72,7 @@ export default function LocationScreen() {
                     disabled={busy || Platform.OS === 'web' || (!local?.enabled && (!status?.available || legalConsentRequired))}
                     onValueChange={toggle} />
             </View>
-            <Text className='text-sm'>Ежедневно 07:00–21:00 по времени Казахстана. Целевой интервал — 5 минут.</Text>
+            <Text className='text-sm'>Ежедневно 07:00–21:00 по времени Казахстана. Целевой интервал — около 5 минут. Для экономии энергии и трафика частые обновления объединяются; без связи попытки отправки реже — до 15 минут.</Text>
             <Text className='text-sm font-medium'>{busy ? 'Обновляем…' : !local?.enabled ? 'Выключено' :
                 !currentWindow ? 'Пауза вне расписания' : local.background ? 'Включено, в том числе в фоне' : 'Включено при открытом приложении'}</Text>
             {!!local?.last_capture && <Text className='text-sm'>Последняя геопозиция: {new Intl.DateTimeFormat('ru-RU', {
@@ -105,7 +105,10 @@ export default function LocationScreen() {
             <Text className='text-sm text-muted-foreground'>В фоне ОС может задерживать обновления. После принудительного закрытия откройте приложение снова. Если оно не работает в 07:00, сбор возобновится при следующем открытии. Вне окна координаты не сохраняются.</Text>
             <Text className='text-sm text-muted-foreground'>Отслеживание не блокирует вход и чаты. Выключение не удаляет ранее сохранённые записи.</Text>
             {!!(error || local?.error) && <Text accessibilityRole='alert' className='text-sm text-destructive'>{error || local?.error}</Text>}
-            <Button variant='secondary' disabled={busy} onPress={refresh}><Text>Обновить состояние</Text></Button>
+            <Button variant='secondary' disabled={busy} onPress={async () => {
+                if (local?.enabled && !legalConsentRequired && Platform.OS !== 'web') await locationTick(undefined, { recover: true })
+                await refresh()
+            }}><Text>Обновить состояние</Text></Button>
             {Platform.OS !== 'web' && <Button variant='plain' onPress={() => Linking.openSettings()}><Text>Разрешения телефона</Text></Button>}
             {status?.consented && !local?.enabled && <Button variant='plain' disabled={busy} onPress={() => toggle(false)}><Text>Отозвать согласие на других устройствах</Text></Button>}
         </ScrollView>
